@@ -108,6 +108,14 @@
                         </div>
                         <div class="row form-group form-group-sm">
                             <div class="col-lg-12 d-lg-flex">
+                                 <div style="width: 100%;" class="form-floating mx-1">
+                                    <input type="text" id="inputdescripcion" name="inputdescripcion" class="form-control form-control-md" disabled>
+                                    <label>Código de requisici&oacute;n</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group form-group-sm">
+                            <div class="col-lg-12 d-lg-flex">
                                 <div style="width: 100%;" class="form-floating mx-1">
                                     <select class="form-control form-group-md" id="selectcategoria" name="selectcategoria">
                                         <option selected="selected" value="0">[Seleccione una opción..]</option>
