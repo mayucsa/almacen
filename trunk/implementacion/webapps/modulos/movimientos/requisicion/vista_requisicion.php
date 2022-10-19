@@ -1,6 +1,7 @@
 <?php
     include_once "../../superior.php";
     include_once "../../../dbconexion/conexion.php";
+    include_once "modelo_requisicion.php";
 ?>
          <head>
             <!-- <title>Grupos</title> -->
@@ -86,27 +87,6 @@
         </ul>
       </div>
 
-<!--             <section class="content">
-                <div class="row">
-                    <div class="col-lg-5 col-xs-12">
-                        <div class="box box-success">
-                            <div class="box-header with-border"></div>
-                                <div class="box-body">
-                                    <div class="box">
-                                        <div class="form-group">
-                                          <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-
-                                            <input type="text" class="form-control" id="nuevoVendedor" name="nuevoVendedor" value="<?php //echo $nombre." ".$apellido?>" readonly>
-                                          </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-            </section> -->
-
     <div class="row">
         <div class="col-md-6">
             <div class="tile">
@@ -124,6 +104,31 @@
                             <div class="col-lg-12 d-lg-flex">
                                 <span id="spanusuario" name="spanusuario" class="form-control form-control-sm" style="background-color: #E9ECEF;"><?php echo $id?></span>
                                 <span id="spanusuario" name="spanusuario" class="form-control form-control-sm" style="background-color: #E9ECEF;"><?php echo $nombre." ".$apellido?></span>
+                            </div>
+                        </div>
+                        <div class="row form-group form-group-sm">
+                            <div class="col-lg-12 d-lg-flex">
+                                <div style="width: 100%;" class="form-floating mx-1">
+                                    <select class="form-control form-group-md" id="selectcategoria" name="selectcategoria">
+                                        <option selected="selected" value="0">[Seleccione una opción..]</option>
+                                        <?php   
+                                            $sql        = ModeloReq::showUserAutoriza();
+
+                                                foreach ($sql as $value) {
+                                                echo '<option value="'.$value["cve_usuario"].'">'.$value["nombre"]." ".$value["apellido"].'</option>';
+                                                }
+                                            ?>
+                                    </select>
+                                    <label>Quien Autoriza</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group form-group-sm">
+                            <div class="col-lg-12 d-lg-flex">
+                                 <div style="width: 100%;" class="form-floating mx-1">
+                                    <input type="text" id="inputdescripcion" name="inputdescripcion" class="form-control form-control-md UpperCase">
+                                    <label>Comentarios</label>
+                                </div>
                             </div>
                         </div>
                         <div class="row form-group form-group-sm border-top">
