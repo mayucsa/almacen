@@ -1,0 +1,61 @@
+/* CSS Document */
+.modal-primary {
+	background-color:#286090;
+	color:#FFF !important;
+	height:35px;
+}	
+.modal-warning {
+	background-color:#e0a205;
+	color:#FFF !important;
+	height:35px;
+}	
+.modal-success {
+	background-color:#7BB73F;
+	color:#FFF !important;
+	height:35px;
+}
+.modal-confirmacion {
+	background-color:#66665E;
+	color:#FFF !important;
+	height:35px;
+}	
+.modal-danger {
+	background-color:#C9302C;
+	color:#FFF !important;
+	height:35px;
+}
+.modal-info {
+	background-color:#D9EDF7;
+	color:#337AB7 !important;
+	height:35px;
+}
+.bg-contenido-footer {
+	background-color:#F5F5F5;
+}	
+.title-modal{
+	font-family: sans-serif;
+	font-size:12px;
+	font-weight:900;
+}
+
+.requerido-validacion
+{
+	background:url(../imagenes/asterisco.gif) no-repeat right;
+}
+.degradado 
+{
+	background: -webkit-radial-gradient(left top, #FFFFFF , #F2DEDE); /* For Safari 5.1 to 6.0 */
+	background: -o-radial-gradient(bottom right, #FFFFFF , #F2DEDE); /* For Opera 11.1 to 12.0 */
+	background: -moz-radial-gradient(bottom right, #FFFFFF , #F2DEDE); /* For Firefox 3.6 to 15 */
+	background: radial-gradient(to bottom right, #FFFFFF , #F2DEDE); /* Standard syntax */
+}
+.message_centrado
+{
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  width: 80%;
+  height: 400px;
+  margin-top: -20%;
+  margin-left: -40%;
+}
