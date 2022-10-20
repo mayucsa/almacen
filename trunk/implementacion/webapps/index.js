@@ -31,15 +31,21 @@ function validacionDatos(pusuario,ppassword){
     $.post('modulos/seguridad/login/ctrl_operaciones.php', { 
         usuario: pusuario, 
         contrasenia: ppassword
-    },function (data) {
+    }).then(function (data) {
+        console.log('data', data);
+        data = JSON.parse(data);
         if(data.success){
             $('#myLoading').modal('show');
             setTimeout(function(){location.href='modulos/dashboard/dashboard/dashboard.php';},2000);
             // setTimeout(function(){location.href='modulos/inventario/bloquera/inventario_bloquera.php';},2000);
         } else {
+            console.log('error');
             $('#encabezadoModal').html('Validación de datos');
-            $('#cuerpoModal').html('El usuario y/o la contraseña son incorrrectos');
+            // $('#cuerpoModal').html('El usuario y/o la contraseña son incorrrectos');
+            $('#cuerpoModal').html(data.message);
             $('#modalMensajes').modal('toggle');
         }
-    },'json');
+    }, function(error){
+        console.log('Error en controlador', error);
+    });
 }
