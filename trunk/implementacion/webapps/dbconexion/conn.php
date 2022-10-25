@@ -36,9 +36,9 @@ class MysqlConn{
 	        break;
 	        case 'DO':
 	        	if (!mysqli_query($conn, $qry)) {
-			        return 'error qry';
+			        return false;
 			    }else{
-			        return 'ok';
+			        return true;
 			    }
 	    	break;
 	    }

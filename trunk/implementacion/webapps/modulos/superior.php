@@ -1,6 +1,6 @@
 <?php   
-    session_start();
-    set_time_limit(0); ?>
+session_start();
+set_time_limit(0); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
