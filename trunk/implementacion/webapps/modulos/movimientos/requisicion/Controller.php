@@ -6,6 +6,44 @@ function dd($var){
         die($var);
     }
 }
+function envioCorreo($dbcon, $folio){
+	include_once "../../../correo/EnvioSMTP.php";
+	$envioSMTP = new EnvioSMTP;
+	$sql = "SELECT u.nombre_usuario FROM requisicion r INNER JOIN cat_usuarios u ON u.cve_usuario = r.cve_usuario WHERE cve_req = ".$folio;
+	$requisicion = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
+	$title = 'Prueba';
+	$Subject = 'Correo demo';
+	$Body = '<!doctype html>';
+	$Body .= '<html lang="es" >';
+	$Body .= '<head>';
+	$Body .= '<meta charset="utf-8">';
+	$Body .= '<meta name="viewport" content="width=device-width, initial-scale=1">';
+	$Body .= '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
+	$Body .= '<meta name="title" content="Mayucsa">';
+	$Body .= '<title>Email Mayucsa</title>';
+	$Body .= '</head>';
+	$Body .= '<body style="background-color: white;">';
+	$Body .= '<br><br>';
+	$Body .= '<div class="container" style="border-radius: 15px; background-color: white; margin-top:2vH;margin-bottom:2vH; width:70%; margin-left:15%; text-align:center;">';
+	$Body .= '<center>';
+	$Body .= '<h1>Se ha creado una nueva requisición.</h1>';
+	$Body .= '<br><hr style="width:30%;">';
+	$Body .= '<br><p>Requisición #'.$folio.'</p>';
+	$Body .= '<br><p>Creado por usuario: '.$requisicion->nombre_usuario.'</p>';
+	$Body .= '<br><p>Acceda al sistema (SAM) para Generar cotizaciones.</p>';
+	$Body .= '</center>';
+	$Body .= '</div>';
+	$Body .= '<br><br>';
+	$Body .= '</body>';
+	$Body .= '</html>';
+	$correos = ['ilopez@lcdevelopers.com.mx'];
+	$email = $envioSMTP->correo($title, $Subject, $Body, $correos);
+	if ($email) {
+		dd(['code'=>200]);
+	}else{
+		dd(['code'=>400, 'body'=>$Body]);
+	}
+}
 function guardatRequisicion($dbcon, $Datos){
 	$status = '0';
 	$fecha = date('Y-m-d H:i:s');
@@ -79,6 +117,9 @@ switch ($tarea) {
 		break;
 	case 'guardatRequisicion':
 		guardatRequisicion($dbcon, $objDatos);
+		break;
+	case 'envioCorreo':
+		envioCorreo($dbcon, $objDatos->folio);
 		break;
 }
 ?>

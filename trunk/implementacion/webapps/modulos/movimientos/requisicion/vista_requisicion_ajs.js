@@ -129,8 +129,18 @@ app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
 				'articulos': $scope.productosAgregados
 			}).then(function (response) {
 				response = response.data;
+				console.log('response', response);
 				jsRemoveWindowLoad();
 				if (response.code == 200) {
+					$http.post('Controller.php', {
+						'task': 'envioCorreo',
+						'folio': response.folio
+					}).then(function (res) {
+						console.log('res', res);
+						console.log('Correo enviado');
+					},function(error){
+						console.log('Error', error);
+					});
 					Swal.fire({
 					  title: '¡Éxito!',
 					  text: 'Su requisición se generó correctamente.\n Folio: '+response.folio,
@@ -146,6 +156,7 @@ app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
 					  }
 					});
 				}else{
+					alert('Error en controlador. \nFavor de ponerse en contacto con el administrador del sitio.');
 				}
 			}, function(error){
 				console.log('error', error);
