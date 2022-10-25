@@ -62,6 +62,7 @@ app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
 		$scope.autoriza = '';
 		$scope.comentario = '';
 		$scope.productosAgregados = [];
+		$scope.arrayAgregados = [];
 	}
 	$scope.validacionCampos = function(){
 		if ($scope.autoriza == '') {
