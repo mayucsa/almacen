@@ -113,6 +113,22 @@
                     </div>
                     <div class="row form-group form-group-sm">
                         <div class="col-lg-12 d-lg-flex">
+                           <div style="width: 25%;" class="form-floating mx-1">
+                                <input type="text" id="inputmax" name="inputmax" class="form-control form-control-md validanumericos">
+                                <label>Maximo</label>
+                            </div>
+                            <div style="width: 25%;" class="form-floating mx-1">
+                                <input type="text" id="inputmin" name="inputmin" class="form-control form-control-md validanumericos">
+                                <label>Minimo</label>
+                            </div>
+                             <div style="width: 50%;" class="form-floating mx-1">
+                                <input type="text" id="inputobservacion" name="inputobservacion" class="form-control form-control-md UpperCase">
+                                <label>Observaciones</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group form-group-sm">
+                        <div class="col-lg-12 d-lg-flex">
                             <div style="width: 25%;" class="form-floating mx-1">
                                 <select class="form-control form-group-md" id="selectunidadmedida" name="selectunidadmedida">
                                     <option selected="selected" value="0">[Seleccione una opción..]</option>
@@ -135,22 +151,6 @@
                                 <input type="text" id="inputnivel" name="inputnivel" class="form-control form-control-md UpperCase">
                                 <label>Nivel</label>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row form-group form-group-sm">
-                        <div class="col-lg-12 d-lg-flex">
-                            <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="text" id="inputmax" name="inputmax" class="form-control form-control-md validanumericos">
-                                <label>Maximo</label>
-                            </div>
-                            <div style="width: 23%;" class="form-floating mx-1">
-                                <input type="text" id="inputmin" name="inputmin" class="form-control form-control-md validanumericos">
-                                <label>Minimo</label>
-                            </div>
-<!--                             <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="text" id="inputptoreorden" name="inputptoreorden" class="form-control form-control-md validanumericos">
-                                <label>Punto de reorden</label>
-                            </div> -->
                         </div>
                     </div>
                     <div class="row form-group form-group-sm">

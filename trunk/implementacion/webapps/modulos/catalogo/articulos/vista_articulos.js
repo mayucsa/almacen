@@ -126,6 +126,7 @@ function limpiarCampos(){
     $('#selectgrupo').val(0);
     $('#selectcategoria').val(0);
     $('#inputdescripcion').val("");
+    $('#inputobservacion').val("");
     $('#selectunidadmedida').val(0);
     $('#inputseccion').val("");
     $('#inputcasillero').val("");
@@ -142,6 +143,7 @@ function validacionCampos() {
     var categoria       = $('#selectcategoria').val();
     var grupo           = $('#selectgrupo').val();
     var descripcion     = $('#inputdescripcion').val();
+    var observacion     = $('#inputobservacion').val();
     var unidadmedida    = $('#selectunidadmedida').val();
     var seccion         = $('#inputseccion').val();
     var casillero       = $('#inputcasillero').val();
@@ -169,6 +171,15 @@ function validacionCampos() {
     if (descripcion == "") {
         msj += '<li>Descripción</li>';
     }
+    if (max == "") {
+        msj += '<li>Maximo</li>';
+    }
+    if (min == "") {
+        msj += '<li>Minimo</li>';
+    }
+    if (observacion == "") {
+        msj += '<li>Observación</li>';
+    }
     if (unidadmedida == 0) {
         msj += '<li>Unidad de medida</li>';
     }
@@ -180,12 +191,6 @@ function validacionCampos() {
     }
     if (nivel == "") {
         msj += '<li>Nivel</li>';
-    }
-    if (max == "") {
-        msj += '<li>Maximo</li>';
-    }
-    if (min == "") {
-        msj += '<li>Minimo</li>';
     }
     // if (reorden == "") {
     //     msj += '<li>Punto de reorden</li>';
@@ -232,21 +237,22 @@ function existenciaCodigo(){
 
 function insertCaptura(){
     var datos   = new FormData();
-    var codigo          = $('#inputcodart').val();
-    var nombre          = $('#inputnombreart').val();
-    var nombrelargo     = $('#inputnombrelarge').val();
-    var categoria       = $('#selectcategoria').val();
-    var grupo           = $('#selectgrupo').val();
-    var descripcion     = $('#inputdescripcion').val();
-    var unidadmedida    = $('#selectunidadmedida').val();
-    var precio    = [0];
-    var costo    = [0];
-    var existencia    = [0];
-    var seccion         = $('#inputseccion').val();
-    var casillero       = $('#inputcasillero').val();
-    var nivel           = $('#inputnivel').val();
-    var max             = $('#inputmax').val();
-    var min             = $('#inputmin').val();
+    // var codigo          = $('#inputcodart').val();
+    // var nombre          = $('#inputnombreart').val();
+    // var nombrelargo     = $('#inputnombrelarge').val();
+    // var categoria       = $('#selectcategoria').val();
+    // var grupo           = $('#selectgrupo').val();
+    // var descripcion     = $('#inputdescripcion').val();
+    // var observacion     = $('#inputobservacion').val();
+    // var unidadmedida    = $('#selectunidadmedida').val();
+    // var precio    = [0];
+    // var costo    = [0];
+    // var existencia    = [0];
+    // var seccion         = $('#inputseccion').val();
+    // var casillero       = $('#inputcasillero').val();
+    // var nivel           = $('#inputnivel').val();
+    // var max             = $('#inputmax').val();
+    // var min             = $('#inputmin').val();
     // var reorden         = $('#inputptoreorden').val();
 
     datos.append('codigo',          $('#inputcodart').val());
@@ -255,6 +261,7 @@ function insertCaptura(){
     datos.append('categoria',       $('#selectcategoria').val());
     datos.append('grupo',           $('#selectgrupo').val());
     datos.append('descripcion',     $('#inputdescripcion').val());
+    datos.append('observacion',     $('#inputobservacion').val());
     datos.append('unidadmedida',    $('#selectunidadmedida').val());
     datos.append('precio',       0);
     datos.append('costo',        0);
@@ -340,6 +347,7 @@ function editarArticulo(){
     var ecategoria      = $('#selectcategoriaedit').val();
     var egrupo          = $('#selectgrupoedit').val(); 
     var edescripcion    = $('#inputdescripcionedit').val();
+    var eobservacion    = $('#inputobservacionedit').val();
     var eunidadmedida   = $('#selectunidadmedidaedit').val();
     var eseccion        = $('#inputseccionedit').val();
     var ecasillero      = $('#inputcasilleroedit').val();
@@ -370,6 +378,18 @@ function editarArticulo(){
         // console.log(cantidad);
         msj += 'Descripción <br>';
     }
+    if (emax == "") {
+        // console.log(cantidad);
+        msj += 'Maximo <br>';
+    }
+    if (emix == "") {
+        // console.log(cantidad);
+        msj += 'Minimo <br>';
+    }
+    if (eobservacion == "") {
+        // console.log(cantidad);
+        msj += 'Observación <br>';
+    }
     if (eunidadmedida == 0) {
         // console.log(cantidad);
         msj += 'Unidad de medida <br>';
@@ -385,14 +405,6 @@ function editarArticulo(){
     if (enivel == "") {
         // console.log(cantidad);
         msj += 'Nivel <br>';
-    }
-    if (emax == "") {
-        // console.log(cantidad);
-        msj += 'Maximo <br>';
-    }
-    if (emix == "") {
-        // console.log(cantidad);
-        msj += 'Minimo <br>';
     }
     // if (epuntoreorden == "") {
     //     // console.log(cantidad);
@@ -426,6 +438,7 @@ function editarArticulo(){
     datos.append('categoria',               $('#selectcategoriaedit').val());
     datos.append('grupo',                   $('#selectgrupoedit').val());
     datos.append('descripcion',             $('#inputdescripcionedit').val());
+    datos.append('observacion',             $('#inputobservacionedit').val());
     datos.append('unidadmedida',            $('#selectunidadmedidaedit').val());
     datos.append('seccion',                 $('#inputseccionedit').val());
     datos.append('casillero',               $('#inputcasilleroedit').val());
