@@ -5,17 +5,35 @@ app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
 	$scope.nombre_articulo = '';
 	$scope.autoriza = '';
 	$scope.comentario = '';
+	$scope.modalMisRequ = false;
+	$scope.misRequisitos = [];
 	// 
 	$http.post('Controller.php', {
 		'task': 'getMaquinas'
 	}).then(function (response) {
 		response = response.data;
 		$scope.arrayMaquinas = response;
-		// console.log('getMaquinas',response);
+	}, function(error){
+		console.log('error', error);
+	});
+	$http.post('Controller.php', {
+		'task': 'getMisRequisiciones',
+		'cve_usuario': ID
+	}).then(function (response) {
+		response = response.data;
+		$scope.misRequisitos = response;
 	}, function(error){
 		console.log('error', error);
 	});
 	// Funciones
+	$scope.setModalMisRequ = function(){
+		if ($scope.modalMisRequ == false) {
+			$scope.modalMisRequ = true;
+		}else{
+			$scope.modalMisRequ = false;
+		}
+		console.log($scope.modalMisRequ);
+	}
 	$scope.agregarProducto = function(i){
 		if ($scope.arrayAgregados.indexOf($scope.arrayProductos[i].cve_alterna) < 0) {
 			$scope.productosAgregados.push({
@@ -31,8 +49,6 @@ app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
 			  'Producto agregado previamente',
 			  'warning'
 			)
-			console.log('existe');
-			console.log($scope.arrayAgregados, $scope.arrayProductos[i].cve_alterna);
 		}
 	}
 	$scope.eliminarProductoAgregado = function(i){
@@ -130,14 +146,14 @@ app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
 				'articulos': $scope.productosAgregados
 			}).then(function (response) {
 				response = response.data;
-				console.log('response', response);
+				// console.log('response', response);
 				jsRemoveWindowLoad();
 				if (response.code == 200) {
 					$http.post('Controller.php', {
 						'task': 'envioCorreo',
 						'folio': response.folio
 					}).then(function (res) {
-						console.log('res', res);
+						// console.log('res', res);
 						console.log('Correo enviado');
 					},function(error){
 						console.log('Error', error);

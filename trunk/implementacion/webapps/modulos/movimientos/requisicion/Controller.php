@@ -6,6 +6,24 @@ function dd($var){
         die($var);
     }
 }
+function getMisRequisiciones($dbcon, $cve_usuario){
+	$sql = "SELECT cve_req FROM requisicion WHERE cve_usuario = ".$cve_usuario." ORDER BY fecha_registro desc LIMIT 10";
+	$misRequisiciones = [];
+	$cont = 0;
+	$array = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
+	foreach ($array as $i => $val) {
+		$sql = "SELECT m.nombre_maq, a.nombre_articulo, a.cve_alterna, d.cve_req, d.cantidad, d.cve_req_det, d.fecha_registro FROM requisicion_detalle d
+		INNER JOIN cat_maquinas m ON d.cve_maquina = m.cve_maq
+		INNER JOIN cat_articulos a ON d.cve_art = a.cve_articulo
+		WHERE d.cve_req = ".$val->cve_req." ORDER BY d.cve_req_det desc";
+		$articulos = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
+		foreach ($articulos as $value) {
+			$misRequisiciones[$cont] = $value;
+			$cont ++;
+		}	
+	}
+	dd($misRequisiciones);
+}
 function envioCorreo($dbcon, $folio){
 	include_once "../../../correo/EnvioSMTP.php";
 	$envioSMTP = new EnvioSMTP;
@@ -120,6 +138,9 @@ switch ($tarea) {
 		break;
 	case 'envioCorreo':
 		envioCorreo($dbcon, $objDatos->folio);
+		break;
+	case 'getMisRequisiciones':
+		getMisRequisiciones($dbcon, $objDatos->cve_usuario);
 		break;
 }
 ?>

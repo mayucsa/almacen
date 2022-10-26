@@ -100,7 +100,36 @@
                   <li class="breadcrumb-item"><a href="vista_requisicion.php">Requisici&oacute;n</a></li>
                 </ul>
             </div>
-
+            <div class="row" style="position: fixed; z-index: 9; background-color: white; width: 70%; margin-left: 5%;  border-radius: 15px; padding: 5vH; border: solid;" ng-show="modalMisRequ == true">
+                <div class="col-lg-12 col-md-12" style="max-height: 50vH; overflow-y: auto;">
+                    <h3>Mis requisiciones</h3>
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Folio</th>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Cantidad</th>
+                                <th>Máquina</th>
+                                <th>fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="obj in misRequisitos">
+                                <td>{{obj.cve_req}}</td>
+                                <td>{{obj.cve_alterna}}</td>
+                                <td>{{obj.nombre_articulo}}</td>
+                                <td>{{obj.cantidad}}</td>
+                                <td>{{obj.nombre_maq}}</td>
+                                <td>{{obj.fecha_registro}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-12 col-md-12 text-right">
+                    <button class="btn btn-danger" ng-click="setModalMisRequ()">Cerrar</button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="tile">
@@ -224,6 +253,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-12 d-lg-flex" style="display: flex; justify-content: flex-end">
+                                        <div style="width: 30%;" class="form-floating mx-1">
+                                            <button class="btn btn-info btn-sm mt-1" ng-click="setModalMisRequ()" ng-disabled="misRequisitos.length == 0">
+                                                Mis requisiciones
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
                                         <div style="width: 30%;" class="form-floating mx-1">
                                             <input 
                                                     type="text" 
