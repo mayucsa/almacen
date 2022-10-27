@@ -1,4 +1,4 @@
-app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
+app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 	$scope.productosAgregados = [];
 	$scope.arrayAgregados = [];
 	$scope.cve_alterna = '';
@@ -189,7 +189,7 @@ app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
 			'nombre_articulo': $scope.nombre_articulo
 		}).then(function (response) {
 			$scope.arrayProductos = response.data;
-			// console.log('generales...',response.data);
+			console.log('generales...',response.data);
 		}, function(error){
 			console.log('error', error);
 		});

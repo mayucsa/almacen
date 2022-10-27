@@ -53,6 +53,7 @@ include_once "modelo_requisicion.php";
             }
         </style>
     </head>
+<div ng-controller="vistaRequisicion">
    <!-- MODAL DE MENSAJES -->
     <div class="modal fade" id="modalMensajes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding-top:10%; overflow-y:visible;" >
         <div class="modal-dialog" role="document">
@@ -295,6 +296,7 @@ include_once "modelo_requisicion.php";
         <?php include_once "../../footer.php" ?>
 
     </main>
+</div>
 <script src="vista_requisicion_ajs.js"></script>
 <script src="../../../includes/js/adminlte.min.js"></script>
 
