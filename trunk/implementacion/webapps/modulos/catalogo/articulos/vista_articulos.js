@@ -67,13 +67,33 @@ function consultar(){
             table.column($(this).data('index')).search(this.value).draw();
             })
 }
-
+function imprSelec(id) {
+    var div = document.getElementById(id);
+    var ventimp = window.open(' ', 'popimpr');
+    ventimp.document.write( div.innerHTML );
+    ventimp.document.close();
+    ventimp.print( );
+    ventimp.close();
+}
 function obtenerDatosS(cve_articulo) {
     $.getJSON("modelo_articulo.php?consultar="+cve_articulo, function(registros){
-        // console.log(registros);
-
-        $('#imgcodigo').val(registros[0]['cod_art']);
-
+        // console.log('cve_alterna', registros[0]['cve_alterna']);
+        if (registros[0]['cve_alterna'].indexOf("Ñ") >= 0 || registros[0]['cve_alterna'].indexOf("ñ") >= 0) {
+            // En caso de que el código contenga la letra eñe se cerrará el modal y se avisará al usuario
+            $('#modalScanner').modal('hide');
+            $('.modal-backdrop').hide();
+            Swal.fire({
+                title: 'Código incorrecto',
+                text: 'Favor de contactar al administrador.',
+                icon: 'warning',
+                showConfirmButton: true
+            });
+            return;
+        }
+        const imgBarCode = '<img class="codigo" id="imgcodigo" />';
+        $('#modalBarCode').html(imgBarCode); 
+        // actualizar el data-value de la imagen
+        JsBarcode("#imgcodigo", registros[0]['cve_alterna']);
     });
 }
 
@@ -587,3 +607,6 @@ function eliminarGrupo(){
     });
     }
 }
+app.controller('vistaArticulosCtrl', function(BASEURL, ID, $scope, $http){
+
+})

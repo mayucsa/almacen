@@ -14,17 +14,12 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-          <!-- <div class="row form-group form-group-sm"> -->
-              <!-- <div class="col-lg-12 d-lg-flex"> -->
-                <!-- <img data-value="12345" data-text="Soy el texto" class="codigo" id="imgcodigo" name="imgcodigo" /> -->
-                <img class="codigo" id="imgcodigo" name="imgcodigo" data-value="123456" />
-              <!-- </div> -->
-          <!-- </div> -->
+      <div class="modal-body text-center" id="modalBarCode">
+        <!-- <img class="codigo" id="imgcodigo" name="imgcodigo"/> -->
       </div>
       <div class="modal-footer">
-        <input type="button" value="Imprimir" onclick="editarArticulo()" class="btn btn-primary">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <input type="button" value="Imprimir" onclick="imprSelec('modalBarCode')" class="btn btn-primary">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#modalBarCode').html('')">Cerrar</button>
       </div>
     </div>
   </div>

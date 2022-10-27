@@ -85,6 +85,9 @@
     <!--End of Tawk.to Script-->
 
     <script>
+        app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
+            // funciones generales
+        })
          $(document).ready( function () {
             // $(".UpperCase").on("keypress", function () {
             $(".UpperCase").on("blur", function () {

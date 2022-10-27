@@ -19,22 +19,23 @@
             </style>
         </head>
        <!-- MODAL DE MENSAJES -->
-<div class="modal fade" id="modalMensajes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding-top:10%; overflow-y:visible;" >
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header modal-danger">
-                <h5 class="modal-title" id="encabezadoModal"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="cuerpoModal"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+<div ng-controller="vistaArticulosCtrl">
+    <div class="modal fade" id="modalMensajes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding-top:10%; overflow-y:visible;" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-danger">
+                    <h5 class="modal-title" id="encabezadoModal"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="cuerpoModal"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <main class="app-content">
       <div class="app-title">
@@ -230,7 +231,7 @@
         <?php include_once "../../footer.php" ?>
 
     </main>
-
+</div>
 <script src="../../../includes/js/adminlte.min.js"></script>
 
 <script src="../../../includes/js/jquery351.min.js"></script>
