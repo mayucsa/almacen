@@ -76,6 +76,7 @@ function imprSelec(id) {
     ventimp.close();
 }
 function obtenerDatosS(cve_articulo) {
+    $('#modalBarCode').html(''); 
     $.getJSON("modelo_articulo.php?consultar="+cve_articulo, function(registros){
         // console.log('cve_alterna', registros[0]['cve_alterna']);
         if (registros[0]['cve_alterna'].indexOf("Ñ") >= 0 || registros[0]['cve_alterna'].indexOf("ñ") >= 0) {

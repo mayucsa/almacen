@@ -19,7 +19,7 @@
       </div>
       <div class="modal-footer">
         <input type="button" value="Imprimir" onclick="imprSelec('modalBarCode')" class="btn btn-primary">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="$('#modalBarCode').html('')">Cerrar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
