@@ -62,7 +62,7 @@ function envioCorreo($dbcon, $folio){
 		dd(['code'=>400, 'body'=>$Body]);
 	}
 }
-function guardatRequisicion($dbcon, $Datos){
+function guardarRequisicion($dbcon, $Datos){
 	$status = '0';
 	$fecha = date('Y-m-d H:i:s');
 	$conn = $dbcon->conn();
@@ -78,20 +78,22 @@ function guardatRequisicion($dbcon, $Datos){
 		
 		$getId = $dbcon->qBuilder($conn, 'first', $getId);
 		foreach ($Datos->articulos as $i => $val) {
-			$sql = "INSERT INTO requisicion_detalle (cve_req, cve_art, cve_maquina, cantidad, precio_total, surtido, prioridad, estatus_req_det, fecha_registro)
+			$sql = "INSERT INTO requisicion_detalle (cve_req, cve_art, comentario, cantidad, precio_total, surtido, prioridad, estatus_req_det, fecha_registro, cve_maquina)
 			VALUES (
 				".$getId->cve_req.",
 				".$val->cve_articulo.",
-				".$val->cve_maquina.",
+				'".$val->comentario."',
 				".$val->cantidad.",
 				0.0,
 				0.0,
 				'',
 				'".$status."',
-				'".$fecha."'
+				'".$fecha."',
+				0
 			)";
 			$qBuilder = $dbcon->qBuilder($conn, 'do', $sql);
 			if (!$qBuilder) {
+				dd($sql);
 				dd(['code'=>300, 'msj'=>'error al cargar detalle cve_articulo: '.$val->cve_articulo, 'sql'=>$sql]);
 			}
 		}
@@ -133,8 +135,8 @@ switch ($tarea) {
 	case 'getArticulos':
 		getArticulos($dbcon, $objDatos->cve_alterna, $objDatos->nombre_articulo);
 		break;
-	case 'guardatRequisicion':
-		guardatRequisicion($dbcon, $objDatos);
+	case 'guardarRequisicion':
+		guardarRequisicion($dbcon, $objDatos);
 		break;
 	case 'envioCorreo':
 		envioCorreo($dbcon, $objDatos->folio);

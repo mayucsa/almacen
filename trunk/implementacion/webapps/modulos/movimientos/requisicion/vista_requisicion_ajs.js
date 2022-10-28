@@ -107,10 +107,10 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 		}
 		// validar que los articulos tengan maquina seleccionada
 		for (var i = 0; i < $scope.productosAgregados.length; i++) {
-			if (!$scope.productosAgregados[i].cve_maquina) {
+			if (!$scope.productosAgregados[i].comentario || $scope.productosAgregados[i].comentario == '') {
 				Swal.fire({
-				  	title: 'Máquina no seleccionada',
-				  	text: 'El artículo: '+$scope.productosAgregados[i].nombre_articulo+' no tiene una máquina asignada.',
+				  	title: 'Producto sin comentario añadido',
+				  	text: 'El artículo: '+$scope.productosAgregados[i].nombre_articulo+' no tiene comentario.',
 				  	icon: 'warning',
 				  	showConfirmButton: true
 				})
@@ -139,14 +139,14 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 		  if (result.isConfirmed) {
 		  	jsShowWindowLoad('Generando folio...');
 			$http.post('Controller.php', {
-				'task': 'guardatRequisicion',
+				'task': 'guardarRequisicion',
 				'autoriza': $scope.autoriza,
 				'comentario': $scope.comentario,
 				'id': ID,
 				'articulos': $scope.productosAgregados
 			}).then(function (response) {
 				response = response.data;
-				// console.log('response', response);
+				console.log('response', response);
 				jsRemoveWindowLoad();
 				if (response.code == 200) {
 					$http.post('Controller.php', {
