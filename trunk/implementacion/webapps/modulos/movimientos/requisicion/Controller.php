@@ -115,6 +115,7 @@ function getArticulos($dbcon, $cve_alterna, $nombre_articulo){
 	if ($nombre_articulo != '') {
 		$sql .= "AND nombre_articulo LIKE '%".$nombre_articulo."%'";
 	}
+	$sql .= " LIMIT 100"; 
 	$articulos = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	dd($articulos);
 }
