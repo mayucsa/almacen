@@ -2,10 +2,10 @@ function consultar(){
         var table;
         $(document).ready(function() {
             const captura_requHeight = $('#captura_requ').height();
-            console.log(captura_requHeight);
-            $('#captura_requ').height(captura_requHeight * 1.1);
-            $('#articulos').height(captura_requHeight * 1.1);
-            $('#tbodyArticulos').height(captura_requHeight * 0.5);
+            // console.log(captura_requHeight);
+            $('#captura_requ').height(captura_requHeight * 1.2);
+            $('#articulos').height(captura_requHeight * 1.2);
+            $('#tbodyArticulos').height((captura_requHeight * 1.2) * 0.4);
         table = $('#tablaArticulos').DataTable( {
             // "dom": 'Bfrtip',
             // "buttons": [

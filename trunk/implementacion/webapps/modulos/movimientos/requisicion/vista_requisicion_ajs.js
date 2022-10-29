@@ -32,7 +32,7 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 		}else{
 			$scope.modalMisRequ = false;
 		}
-		console.log($scope.modalMisRequ);
+		// console.log($scope.modalMisRequ);
 	}
 	$scope.agregarProducto = function(i){
 		if ($scope.arrayAgregados.indexOf($scope.arrayProductos[i].cve_alterna) < 0) {
@@ -81,7 +81,7 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 		$scope.arrayAgregados = [];
 	}
 	$scope.validacionCampos = function(){
-		if ($scope.autoriza == '') {
+		if ($scope.autoriza == '' || $scope.autoriza == null) {
 			Swal.fire(
 			  'Campo faltante',
 			  'Es necesario seleccionar la persona que autoriza la requisición',
@@ -89,7 +89,7 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 			);
 			return;
 		}
-		if ($scope.comentario == '') {
+		if ($scope.comentario == '' || $scope.comentario == null) {
 			Swal.fire(
 			  'Campo faltante',
 			  'Es necesario escribir un comentario',
@@ -146,7 +146,7 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 				'articulos': $scope.productosAgregados
 			}).then(function (response) {
 				response = response.data;
-				console.log('response', response);
+				// console.log('response', response);
 				jsRemoveWindowLoad();
 				if (response.code == 200) {
 					$http.post('Controller.php', {
@@ -189,7 +189,7 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 			'nombre_articulo': $scope.nombre_articulo
 		}).then(function (response) {
 			$scope.arrayProductos = response.data;
-			console.log('generales...',response.data);
+			// console.log('generales...',response.data);
 		}, function(error){
 			console.log('error', error);
 		});

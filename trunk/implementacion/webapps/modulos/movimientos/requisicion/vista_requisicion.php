@@ -229,8 +229,8 @@ include_once "modelo_requisicion.php";
                                         <tr ng-repeat="(i,obj) in arrayProductos track by i">
                                             <td>{{obj.cve_alterna}}</td>
                                             <td>{{obj.nombre_articulo}}</td>
-                                            <td class="text-right">
-                                                <button class="btn btn-success" ng-click="agregarProducto(i)">Agregar</button>
+                                            <td class="text-center">
+                                                <button class="btn btn-success btn-sm" ng-click="agregarProducto(i)">Agregar</button>
                                             </td>
                                         </tr>
                                     </tbody>
