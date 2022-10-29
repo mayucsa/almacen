@@ -10,7 +10,7 @@
 				$mail->Host = "smtp.gmail.com";
 			    $mail->SMTPAuth = true;
 			    $mail->Username = "soportemayamat@gmail.com";
-			    $mail->Password = "teconologias3";
+			    $mail->Password = "vevxrgfrzdwknkqp";
 			    $mail->Port = 587;
 			    $mail->CharSet = 'UTF-8';
 			    $mail->From = "soportemayamat@gmail.com";

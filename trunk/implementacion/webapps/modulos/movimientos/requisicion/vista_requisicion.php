@@ -106,7 +106,7 @@ include_once "modelo_requisicion.php";
                             <th>Código</th>
                             <th>Nombre</th>
                             <th>Cantidad</th>
-                            <th>Máquina</th>
+                            <!-- <th>Máquina</th> -->
                             <th>fecha</th>
                         </tr>
                     </thead>
@@ -116,7 +116,7 @@ include_once "modelo_requisicion.php";
                             <td>{{obj.cve_alterna}}</td>
                             <td>{{obj.nombre_articulo}}</td>
                             <td>{{obj.cantidad}}</td>
-                            <td>{{obj.nombre_maq}}</td>
+                            <!-- <td>{{obj.nombre_maq}}</td> -->
                             <td>{{obj.fecha_registro}}</td>
                         </tr>
                     </tbody>
@@ -139,7 +139,7 @@ include_once "modelo_requisicion.php";
                              </div>
                         </div>
                         <div class="card-body">
-                            <div class="row form-group form-group-sm">
+                            <div class="row form-group form-group-sm" ng-show="false">
                                 <div class="col-lg-12 d-lg-flex">
                                     <span id="spanusuario" name="spanusuario" class="form-control form-control-sm" style="background-color: #E9ECEF;"><?= $id?></span>
                                     <span id="spanusuario" name="spanusuario" class="form-control form-control-sm" style="background-color: #E9ECEF;"><?= $nombre." ".$apellido?></span>
@@ -170,7 +170,7 @@ include_once "modelo_requisicion.php";
                                 <div class="col-lg-12 d-lg-flex">
                                      <div style="width: 100%;" class="form-floating mx-1">
                                         <input type="text" id="inputdescripcion" name="inputdescripcion" ng-model="comentario" class="form-control form-control-md UpperCase" maxlength="500">
-                                        <label>Comentarios</label>
+                                        <label>Comentario general</label>
                                     </div>
                                 </div>
                             </div>
@@ -302,19 +302,20 @@ include_once "modelo_requisicion.php";
 
     </main>
 </div>
-<script src="vista_requisicion_ajs.js"></script>
-<script src="../../../includes/js/adminlte.min.js"></script>
 
-<script src="../../../includes/js/jquery351.min.js"></script>
+    <script src="../../../includes/js/adminlte.min.js"></script>
 
-<script src="vista_requisicion.js"></script>
+    <script src="../../../includes/js/jquery351.min.js"></script>
+
 
 <?php 
 include_once "../../inferior.php";
 // include_once "modales.php";
 ?>
 
-<!-- <script src="vista_grupos.js"></script> -->
+    <script src="vista_requisicion_ajs.js"></script>
+
+    <script src="vista_requisicion.js"></script>
 
     <script src="../../../includes/js/jquery331.min.js"></script>
 
