@@ -65,8 +65,9 @@ function envioCorreo($dbcon, $folio){
 function guardarRequisicion($dbcon, $Datos){
 	$status = '1';
 	$fecha = date('Y-m-d H:i:s');
+	$tipo = 'N';
 	$conn = $dbcon->conn();
-	$sql = "INSERT INTO requisicion (cve_usuario, q_autoriza, comentarios, estatus_req, fecha_registro)	VALUES ( ".$Datos->id.", ".$Datos->autoriza.", '".$Datos->comentario."', '".$status."', '".$fecha."')";
+	$sql = "INSERT INTO requisicion (cve_usuario, q_autoriza, comentarios, tipo, estatus_req, fecha_registro)	VALUES ( ".$Datos->id.", ".$Datos->autoriza.", '".$Datos->comentario."', '".$tipo."', '".$status."', '".$fecha."')";
 	$qBuilder = $dbcon->qBuilder($conn, 'do', $sql);
 	if ($qBuilder) {
 		$getId = "SELECT max(cve_req) cve_req FROM requisicion WHERE 
