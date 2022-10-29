@@ -12,8 +12,8 @@ function getMisRequisiciones($dbcon, $cve_usuario){
 	$cont = 0;
 	$array = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	foreach ($array as $i => $val) {
-		$sql = "SELECT m.nombre_maq, a.nombre_articulo, a.cve_alterna, d.cve_req, d.cantidad, d.cve_req_det, d.fecha_registro FROM requisicion_detalle d
-		INNER JOIN cat_maquinas m ON d.cve_maquina = m.cve_maq
+		$sql = "SET lc_time_names = 'es_MX'";
+		$sql = "SELECT a.nombre_articulo, a.cve_alterna, d.cve_req, d.cantidad, d.cve_req_det, date_format(d.fecha_registro, '%d/%M/%Y') as fecha_registro FROM requisicion_detalle d
 		INNER JOIN cat_articulos a ON d.cve_art = a.cve_articulo
 		WHERE d.cve_req = ".$val->cve_req." ORDER BY d.cve_req_det desc";
 		$articulos = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
@@ -54,7 +54,7 @@ function envioCorreo($dbcon, $folio){
 	$Body .= '<br><br>';
 	$Body .= '</body>';
 	$Body .= '</html>';
-	$correos = ['ilopez@lcdevelopers.com.mx'];
+	$correos = ['a.chan@mayucsa.com.mx'];
 	$email = $envioSMTP->correo($title, $Subject, $Body, $correos);
 	if ($email) {
 		dd(['code'=>200]);
@@ -63,7 +63,7 @@ function envioCorreo($dbcon, $folio){
 	}
 }
 function guardarRequisicion($dbcon, $Datos){
-	$status = '0';
+	$status = '1';
 	$fecha = date('Y-m-d H:i:s');
 	$conn = $dbcon->conn();
 	$sql = "INSERT INTO requisicion (cve_usuario, q_autoriza, comentarios, estatus_req, fecha_registro)	VALUES ( ".$Datos->id.", ".$Datos->autoriza.", '".$Datos->comentario."', '".$status."', '".$fecha."')";
@@ -78,7 +78,7 @@ function guardarRequisicion($dbcon, $Datos){
 		
 		$getId = $dbcon->qBuilder($conn, 'first', $getId);
 		foreach ($Datos->articulos as $i => $val) {
-			$sql = "INSERT INTO requisicion_detalle (cve_req, cve_art, comentario, cantidad, precio_total, surtido, prioridad, estatus_req_det, fecha_registro, cve_maquina)
+			$sql = "INSERT INTO requisicion_detalle (cve_req, cve_art, comentario, cantidad, precio_total, surtido, prioridad, estatus_req_det, fecha_registro, cve_maquina, cantidad_cotizado)
 			VALUES (
 				".$getId->cve_req.",
 				".$val->cve_articulo.",
@@ -89,7 +89,8 @@ function guardarRequisicion($dbcon, $Datos){
 				'',
 				'".$status."',
 				'".$fecha."',
-				0
+				0,
+				0.0
 			)";
 			$qBuilder = $dbcon->qBuilder($conn, 'do', $sql);
 			if (!$qBuilder) {
