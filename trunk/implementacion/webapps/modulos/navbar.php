@@ -84,7 +84,7 @@
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="../../movimientos/requisicion/vista_requisicion.php"><i class="icon fa fa-circle-o"></i> Requisiciones</a></li>
 
-              <li><a class="treeview-item" href="../../morteros/captura/vista_captura.php"><i class="icon fa fa-circle-o"></i> Cotización</a></li>
+              <li><a class="treeview-item" href="../../movimientos/cotizacion/vista_cotizacion.php"><i class="icon fa fa-circle-o"></i> Cotización</a></li>
             
               <li><a class="treeview-item" href="../../morteros/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Orden de compra</a></li>
             
