@@ -50,7 +50,7 @@
         </ul>
       </div>
 
-      <div class="row">
+      <div class="row" ng-controller="cambioPssCtrl">
         <div class="col-md-12">
             <div class="tile">
                 <div class="card">

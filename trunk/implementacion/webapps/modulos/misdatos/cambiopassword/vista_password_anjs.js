@@ -1,4 +1,4 @@
-app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
+app.controller('cambioPssCtrl', function(BASEURL, ID, $scope, $http){
 	$scope.inputnueva = '';
 	$scope.inputconfirmar = '';
 	$scope.bloquear = true;
