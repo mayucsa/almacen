@@ -25,6 +25,7 @@ function consultar(){
                                     // const primaryKey = data;
                                     // "data": 'cve_entrada',
                                     return  '<span class= "btn btn-success" onclick= "obtenerDatosA('+row[3]+')" title="Agregar contactos" data-toggle="modal" data-target="#modalAgregaContacto" data-whatever="@getbootstrap"><i class="fas fa-user-plus"></i> </span>' + ' ' +
+                                            '<span class= "btn btn-success" onclick= "obtenerDatosVContactos('+row[3]+')" title="Ver contactos" data-toggle="modal" data-target="#modalVerContacto" data-whatever="@getbootstrap"><i class="fas fa-list-alt"></i> </span>' + ' ' +
                                             '<span class= "btn btn-info" onclick= "obtenerDatosV('+row[3]+')" title="Ver datos de proveedor" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>' + ' ' +
                                             '<span class= "btn btn-warning" onclick= "obtenerDatos('+row[3]+')" title="Editar" data-toggle="modal" data-target="#modalEditar" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>' + ' ' + 
                                             '<span class= "btn btn-danger" onclick= "obtenerDatosE('+row[3]+')" title="Eliminar" data-toggle="modal" data-target="#modalEliminar" data-whatever="@getbootstrap"><i class="fas fa-trash-alt"></i> </span>';
@@ -126,6 +127,26 @@ function obtenerDatosE(cve_proveedor) {
         $('#inputidel').val(registros[0]['cve_proveedor']);
         $('#inputcodigodel').val(registros[0]['cve_alterna']);
         $('#inputnombredel').val(registros[0]['nombre_proveedor']);
+    });
+}
+
+function obtenerDatosVContactos(cve_proveedor) {
+    $.getJSON("modelo_proveedores.php?consultarcontacto="+cve_proveedor, function(registros){
+        // console.log(registros);
+
+        $('#inputname').val(registros[0]['Proveedor']);
+
+        $("#tablaModal").html( '<thead> <tr>  <th class="text-center">Nombre de contacto</th>' +
+                                                '<th class="text-center">Correo</th>'+
+                                                '<th class="text-center">Télefono</th></tr>'+
+                                    '</thead>');
+    for (i = 0; i < registros.length; i++){
+         $("#tablaModal").append('<tr>' + 
+            '<td style="dislay: none;">' + registros[i].Contacto + '</td>'+
+            '<td style="dislay: none;">' + registros[i].Correo + '</td>'+
+            '<td align="center" style="dislay: none;">' + registros[i].Telefono + '</td>'+'</tr>');
+    }
+
     });
 }
 
@@ -232,6 +253,36 @@ function existenciaCodigo(){
                                         icon: 'warning',
                                         title: '¡Error!',
                                         text: 'El código del Proveedor ya existe',
+                                        // footer: 'Favor de ingresar un código nuevo',
+                                        confirmButtonColor: '#1A4672'
+                                    })
+                    }else{
+                        existenciaRFC();
+                        }
+                    }
+            })
+}
+
+function existenciaRFC(){
+    var rfc = $('#inputrfc').val();
+    var msj = "";
+
+    var datos   = new FormData();
+
+    datos.append('rfc', $('#inputrfc').val());
+
+        $.ajax({
+                type:"POST",
+                url:"modelo_proveedores.php?accion=verificarrfc&rfc=" + rfc,
+                data: rfc,
+                processData:false,
+                contentType:false,
+        success:function(data){
+                    if (data == 'correcto') {
+                        Swal.fire({
+                                        icon: 'warning',
+                                        title: '¡Error!',
+                                        text: 'El RFC del Proveedor ya existe',
                                         // footer: 'Favor de ingresar un código nuevo',
                                         confirmButtonColor: '#1A4672'
                                     })
@@ -345,10 +396,11 @@ function editarProveedor(){
     var erfc            = $('#inputrfcedit').val();
     var edireccion      = $('#inputdireccionedit').val(); 
     var ecolonia        = $('#inputcoloniaedit').val();
+    var ecp             = $('#inputcpedit').val();
     var ecdestado       = $('#inputcdestadoedit').val();
-    var econtacto       = $('#inputcontactoedit').val();
-    var ecorreo         = $('#inputcorreoedit').val();
-    var etelefono       = $('#inputteledit').val();
+    // var econtacto       = $('#inputcontactoedit').val();
+    // var ecorreo         = $('#inputcorreoedit').val();
+    // var etelefono       = $('#inputteledit').val();
     var ecredito        = $('#inputcreditoedit').val();
 
     var msj = "";
@@ -373,21 +425,13 @@ function editarProveedor(){
         // console.log(cantidad);
         msj += 'Colonia <br>';
     }
+    if (ecp == "") {
+        // console.log(cantidad);
+        msj += 'Código postal <br>';
+    }
     if (ecdestado == "") {
         // console.log(cantidad);
         msj += 'Ciudad, Estado <br>';
-    }
-    if (econtacto == "") {
-        // console.log(cantidad);
-        msj += 'Nombre de contacto <br>';
-    }
-    if (ecorreo == "") {
-        // console.log(cantidad);
-        msj += 'Correo <br>';
-    }
-    if (etelefono == "") {
-        // console.log(cantidad);
-        msj += 'Teléfono <br>';
     }
     if (ecredito == "") {
         // console.log(cantidad);
@@ -421,10 +465,8 @@ function editarProveedor(){
     datos.append('erfc',               $('#inputrfcedit').val());
     datos.append('edireccion',                   $('#inputdireccionedit').val());
     datos.append('ecolonia',             $('#inputcoloniaedit').val());
+    datos.append('ecp',             $('#inputcpedit').val());
     datos.append('ecdestado',            $('#inputcdestadoedit').val());
-    datos.append('econtacto',                 $('#inputcontactoedit').val());
-    datos.append('ecorreo',               $('#inputcorreoedit').val());
-    datos.append('etelefono',                   $('#inputteledit').val());
     datos.append('ecredito',                     $('#inputcreditoedit').val());
 
     datos.append('usuario',                 $('#spanusuario').text());
@@ -435,10 +477,8 @@ function editarProveedor(){
     console.log(datos.get('erfc'));
     console.log(datos.get('edireccion'));
     console.log(datos.get('ecolonia'));
+    console.log(datos.get('ecp'));
     console.log(datos.get('ecdestado'));
-    console.log(datos.get('econtacto'));
-    console.log(datos.get('ecorreo'));
-    console.log(datos.get('etelefono'));
     console.log(datos.get('ecredito'));
     console.log(datos.get('usuario'));
 
