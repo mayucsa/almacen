@@ -59,7 +59,7 @@
         $catalogo .= '
           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-folder-open"></i><span class="app-menu__label">Catalogos</span><i class="treeview-indicator fas fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="../../catalogo/categorias/vista_categorias.php"><i class="icon fa fa-circle-o"></i> Categorias</a></li>
+              <li><a class="treeview-item" href="../../catalogo/categorias/vista_categorias.php"><i class="icon fa fa-circle-o"></i> Almacenes</a></li>
 
               <li><a class="treeview-item" href="../../catalogo/grupos/vista_grupos.php"><i class="icon fa fa-circle-o"></i> Grupos</a></li>
 

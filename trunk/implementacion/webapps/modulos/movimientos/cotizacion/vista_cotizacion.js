@@ -36,15 +36,15 @@ function consultar(){
                                 }
                             },
                             {
-                                "targets": 5,
+                                "targets":7,
                                 "render": function (data, type, row, meta) {
-                                    return '<input type="text" class="form-control form-control-sm validanumericos" disabled>';
+                                    return '<input type="text" class="form-control form-control-sm validanumericos">';
                                 }
                             },
                             {
                                 "targets": 6,
                                 "render": function (data, type, row, meta) {
-                                    return '<input type="text" class="form-control form-control-sm validanumericos" disabled>';
+                                    return '<input type="text" class="form-control form-control-sm validanumericos">';
                                 }
                             },
                             {
