@@ -110,7 +110,7 @@ include_once "modelo_cotizacion.php";
                                 <!-- </div> -->
                                     <div style="width: 40%;" class="form-floating mx-1">
                                         <input type="file" ng-model="subircotizacion" name="fileProductos" id="fileProductos" class="form-control"
-                                            accept=".xls, .xlsx, .doc, .docx, .pdf">
+                                            accept=".xls, .xlsx, .doc, .docx, .pdf" multiple="multiple">
                                         <label>Subir cotización</label>
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@ include_once "modelo_cotizacion.php";
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row" ng-show="false">
                         <div class="col-lg-12 d-lg-flex" style="display: flex; justify-content: flex-end">
                             <div style="width: 20%;" class="form-floating mx-1">
                                 <input 
@@ -152,7 +152,7 @@ include_once "modelo_cotizacion.php";
             <div class="card card-info">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover w-100 shadow" id="tablaGrupos">
+                        <table class="table table-striped table-bordered table-hover w-100 shadow">
                             <thead>
                                 <tr>
                                     <th class="text-center">Cod Req</th>
@@ -168,17 +168,30 @@ include_once "modelo_cotizacion.php";
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr ng-repeat="(i, obj) in arrayRequisiciones track by i">
+                                    <td class="align-middle text-center">{{obj[0]}}</td>
+                                    <td class="align-middle text-center">
+                                        <span class= "badge badge-success" ng-show="obj[1] == 'N'">Normal</span>
+                                        <span class= "badge badge-primary" ng-show="obj[1] == 'A'">Automatica</span>
+                                    </td>
+                                    <td class="text-center align-middle" nowrap="nowrap">{{obj[10]}} {{obj[11]}}</td>
+                                    <td class="align-middle text-center">{{obj[3]}}</td>
+                                    <td class="align-middle text-center">{{obj[4]}}</td>
+                                    <td class="align-middle text-center">{{obj[5]}}</td>
+                                    <td>
+                                        <input type="text" class="form-control input_{{obj[1]}}" ng-model="obj[13]" ng-keyup="setCantidad(i)" ng-blur="setFixed(i)" ng-disabled="obj[15]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control input_{{obj[1]}}" ng-model="obj[14]" ng-keyup="setPrecioU(i)" ng-disabled="obj[15]">
+                                    </td>
+                                    <td class="align-middle text-center">{{obj[8] | currency}}</td>
+                                    <td class="align-middle text-center">
+                                        <div class="div">
+                                            <div class="col-md-4 offset-md-5 text-center">
+                                                <input class="form-check-input check_{{obj[1]}}" type="checkbox" ng-model="obj[16]" ng-checked="obj[16]" ng-change="checkRequisicion(i)" ng-disabled="obj[15]">
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

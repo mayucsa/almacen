@@ -59,6 +59,7 @@ $var    = "estatus_req_det = '1'";
             ['db' => '`art`.`cve_articulo`', 'dt' => 9, 'field' => 'cve_articulo'],
             ['db' => '`u`.`nombre`', 'dt' => 10, 'field' => 'nombre'],
             ['db' => '`u`.`apellido`', 'dt' => 11, 'field' => 'apellido'],
+            ['db' => '`req`.`cve_req_det`', 'dt' => 12, 'field' => 'cve_req_det'],
 
             ];
         // $columns = [
