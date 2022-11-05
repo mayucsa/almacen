@@ -46,34 +46,32 @@ function guardaArchivos($dbcon){
     		dd(['code'=>400, 'insert'=>$insert]);
     	}
 	}
-	dd(['code'=>200]);
+	dd(['code'=>200, 'cve_odc'=>$cve_odc]);
 }
 function generaOrdenCompra($dbcon, $datos){
 	$requisiciones_det = $datos->requisiciones_det;
 	$cve_proveedor = $datos->cve_proveedor;
-	$cve_req = $datos->cve_req;
-	$sql = "SELECT cve_usuario, q_autoriza FROM requisicion WHERE cve_req = ".$cve_req;
-	$requisicion = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
+	$cve_usuario = $datos->cve_usuario;
+	$q_autoriza = $datos->q_autoriza;
 	$fecha = date('Y-m-d H:i:s');
 	$sql = "INSERT INTO orden_compra (cve_usuario, cve_proveedor, q_autoriza, estatus_autorizado, estatus_odc, fecha_registro)
 		VALUES(
-			".$requisicion->cve_usuario.",
+			".$cve_usuario.",
 			".$cve_proveedor.",
-			".$requisicion->q_autoriza.",
-			1,
+			".$q_autoriza.",
+			0,
 			1,
 			'".$fecha."'
 		)
 	";
 	$insert = $dbcon->qBuilder($dbcon->conn(), 'do', $sql);
 	if ($insert) {
-		$sql = "SELECT cve_odc FROM orden_compra WHERE cve_usuario = ".$requisicion->cve_usuario." AND cve_proveedor = ".$cve_proveedor." 
-		AND q_autoriza = ".$requisicion->q_autoriza." AND fecha_registro = '".$fecha."'";
+		$sql = "SELECT cve_odc FROM orden_compra WHERE cve_usuario = ".$cve_usuario." AND cve_proveedor = ".$cve_proveedor." AND q_autoriza = ".$q_autoriza." AND fecha_registro = '".$fecha."'";
 		$cve_odc = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
 		foreach ($requisiciones_det as $i => $row) {
 			$sql = "INSERT INTO orden_compra_detalle (cve_odc, cve_req, cve_art, cantidad_cotizada, precio_unidad, precio_total, estatus_req_det, fecha_registro) values(
 				".$cve_odc->cve_odc.",
-				".$cve_req.",
+				".$row->cve_req.",
 				".$row->cve_art.",
 				".$row->cantidad.",
 				".$row->precioU.",
@@ -83,7 +81,25 @@ function generaOrdenCompra($dbcon, $datos){
 			)";
 			if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
 				dd(['code'=>400, 'qry'=>$sql]);
+			}else{
+				if ($row->cantidad_solicitada == $row->cantidad) {
+					$sql = "UPDATE requisicion_detalle SET estatus_req_det = 2, cantidad_cotizado = cantidad_cotizado + ".$row->cantidad." WHERE cve_req = ".$row->cve_req." AND cve_req_det = ".$row->cve_req_det;
+				}else{
+					$sql = "UPDATE requisicion_detalle SET cantidad_cotizado = cantidad_cotizado + ".$row->cantidad." WHERE cve_req = ".$row->cve_req." AND cve_req_det = ".$row->cve_req_det;
+				}
+				if (!$dbcon->qBuilder($dbcon->conn(),'do',$sql)) {
+					dd(['code'=>400, 'qry'=>$sql]);
+				}
 			}
+		}
+		// actualizar estatus tabla requisicion en caso de existir detalle concluido
+		$sql = "UPDATE requisicion r SET estatus_req = 2
+			WHERE (SELECT count(*) FROM requisicion_detalle WHERE cve_req = r.cve_req)
+			= (SELECT count(*) FROM requisicion_detalle WHERE cve_req = r.cve_req AND cantidad = cantidad_cotizado)
+			AND (SELECT count(*) FROM requisicion_detalle WHERE cve_req = r.cve_req) > 0
+		";
+		if (!$dbcon->qBuilder($dbcon->conn(),'do',$sql)) {
+			dd(['code' => 400, 'qry'=>$sql]);
 		}
 		dd(['code' => 200, 'cve_odc' => $cve_odc->cve_odc]);
 	}else{

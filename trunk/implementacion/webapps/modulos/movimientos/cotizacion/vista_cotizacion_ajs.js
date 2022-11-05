@@ -1,7 +1,7 @@
 app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 	$scope.proveedor = '';
 	$scope.subircotizacion = '';
-	$scope.cve_req = '';
+	$scope.q_autoriza = '';
 	$scope.seleccionados = [];
 	$scope.limpiarCampos = function () {
 		$scope.proveedor = '';
@@ -17,86 +17,150 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 			);
 			return;
 		}
-		jsShowWindowLoad('Generando orden de compra...');
-		var arrayCveReqDets = [];
+		$scope.arrayCveReqDets = [];
+		if ($scope.seleccionados.length == 0) {
+			Swal.fire(
+			  'Sin selecciones',
+			  'No ha seleccionada ningún artículo.',
+			  'warning'
+			);
+			return;
+		}
 		for (var i = 0; i < $scope.seleccionados.length; i++) {
 			const index = $scope.seleccionados[i];
-			arrayCveReqDets.push({
+			const cantidad = $scope.arrayRequisiciones[index][13];
+			const precioU = $scope.arrayRequisiciones[index][14];
+			if (cantidad == undefined || parseFloat(cantidad) === 0 
+				||precioU == undefined || parseFloat(precioU) === 0) {
+				Swal.fire(
+				  'Campo faltante',
+				  'Es necesario agregar cantidad cotizada y precio unitario.',
+				  'warning'
+				);
+				return;
+			}
+			$scope.arrayCveReqDets.push({
 				'cve_req': $scope.arrayRequisiciones[index][0],
 				'cve_req_det': $scope.arrayRequisiciones[index][12],
 				'cve_art': $scope.arrayRequisiciones[index][6],
-				'cantidad': $scope.arrayRequisiciones[index][13],
-				'precioU': $scope.arrayRequisiciones[index][14],
+				'cantidad_solicitada': $scope.arrayRequisiciones[index][5],
+				'cantidad': cantidad,
+				'precioU': precioU,
 				'total': $scope.arrayRequisiciones[index][8],
 				'tipo': $scope.arrayRequisiciones[index][1],
 			});
 		}
-		$http.post('Controller.php',{
-			'requisiciones_det': arrayCveReqDets,
-			'cve_proveedor': $scope.proveedor,
-			'cve_req': $scope.cve_req,
-			'task': 'generaOrdenCompra'
-		}).then(function (response) {
-			console.log('response', response.data);
-			response = response.data;
-			if (response.code == 200) {
-				const input = document.getElementById('fileProductos');
-				if (input.files.length == 0) {
-					// Si no hay archivos seleccionados termina la función
-					jsRemoveWindowLoad();
-				   	return;
-				}
-				jsShowWindowLoad('Guardando archivos...');
-		        const formData = new FormData();
-		        for (var i = 0; i < input.files.length; i++) {
-		            formData.append("archivos[]", input.files[i]); 
-		        }
-		        formData.append('cve_odc', response.cve_odc);
-		        formData.append('task', 'guardaArchivos');
-		        $http({ 
-		            method: 'post', 
-		            url: 'Controller.php', 
-		            data: formData, 
-		            headers: {'Content-Type': undefined}, 
-		        }).then(function successCallback(response) {
-		            jsRemoveWindowLoad();
-		            console.log('response.data', response.data);
-		            if (response.data.code == 200) {
-		            	Swal.fire(
-						  '¡Éxito!',
-						  'Archivos guardados satisfactoriamente.',
-						  'success'
-						);
-		            }else{
-						console.log(response.data);
-		            	Swal.fire(
+		Swal.fire({
+		  title: 'Estas a punto de generar una orden de compra',
+		  text: '¿Es correcta la información agregada?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: 'green',
+		  cancelButtonColor: 'orange',
+		  confirmButtonText: 'Aceptar',
+		  cancelButtonText: 'Revisar'
+		}).then((result) => {
+		  	if (result.isConfirmed) {
+				jsShowWindowLoad('Generando orden de compra...');
+				$http.post('Controller.php',{
+					'requisiciones_det': $scope.arrayCveReqDets,
+					'cve_proveedor': $scope.proveedor,
+					'cve_usuario': ID,
+					'q_autoriza': $scope.q_autoriza,
+					'task': 'generaOrdenCompra'
+				}).then(function (response) {
+					console.log('response', response.data);
+					response = response.data;
+					if (response.code == 200) {
+						const input = document.getElementById('fileProductos');
+						if (input.files.length == 0) {
+							// Si no hay archivos seleccionados termina la función
+							jsRemoveWindowLoad();
+							Swal.fire({
+							  title: '¡Éxito!',
+							  text: 'Orden de compra generada correctamente.\n Folio: '+response.cve_odc,
+							  icon: 'success',
+							  showCancelButton: false,
+							  confirmButtonColor: 'green',
+							  confirmButtonText: 'Aceptar'
+							}).then((result) => {
+							  if (result.isConfirmed) {
+							  	location.reload();
+							  }else{
+							  	location.reload();
+							  }
+							});
+						   	return;
+						}
+						jsShowWindowLoad('Guardando archivos...');
+				        const formData = new FormData();
+				        for (var i = 0; i < input.files.length; i++) {
+				            formData.append("archivos[]", input.files[i]); 
+				        }
+				        formData.append('cve_odc', response.cve_odc);
+				        formData.append('task', 'guardaArchivos');
+				        $http({ 
+				            method: 'post', 
+				            url: 'Controller.php', 
+				            data: formData, 
+				            headers: {'Content-Type': undefined}, 
+				        }).then(function successCallback(response) {
+				            jsRemoveWindowLoad();
+				            console.log('response.data', response.data);
+				            if (response.data.code == 200) {
+				            	Swal.fire(
+								  '¡Éxito!',
+								  'Orden de compra generada y archivos guardados satisfactoriamente.',
+								  'success'
+								);
+								Swal.fire({
+								  title: '¡Éxito!',
+								  text: 'Orden de compra generada y archivos guardados satisfactoriamente.\n Folio: '+response.cve_odc,
+								  icon: 'success',
+								  showCancelButton: false,
+								  confirmButtonColor: 'green',
+								  confirmButtonText: 'Aceptar'
+								}).then((result) => {
+								  if (result.isConfirmed) {
+								  	location.reload();
+								  }else{
+								  	location.reload();
+								  }
+								});
+							   	return;
+				            }else{
+								console.log(response.data);
+				            	Swal.fire(
+								  'Error',
+								  'Error al guardar los archivos.',
+								  'error'
+								);
+				            }
+				        }, function(error){
+				        	jsRemoveWindowLoad();
+				        	console.log('error', error);
+				        });
+					}else{
+						jsRemoveWindowLoad();
+						Swal.fire(
 						  'Error',
-						  'Error al guardar los archivos.',
-						  'error'
+						  'Error en el controlador.',
+						  'warning'
 						);
-		            }
-		        }, function(error){
-		        	jsRemoveWindowLoad();
-		        	console.log('error', error);
-		        });
-			}else{
-				jsRemoveWindowLoad();
-				Swal.fire(
-				  'Error',
-				  'Error en el controlador.',
-				  'warning'
-				);
-			}
-		}, function(error){
-			console.log('error', error);
+					}
+				}, function(error){
+					console.log('error', error);
+				});
+				return;
+		  	}
 		});
-		return
 	}
 	$scope.checkRequisicion = function(i){
-		if ($scope.cve_req != '' && $scope.cve_req != $scope.arrayRequisiciones[i][0]) {
+		if ($scope.q_autoriza != '' && $scope.q_autoriza != $scope.arrayRequisiciones[i][2]) {
+			console.log($scope.q_autoriza , $scope.arrayRequisiciones[i][2]);
 			Swal.fire(
-			  'Requisición diferente',
-			  'La selección no corresponde al código de requisición previamente seleccionado.',
+			  'Autorización diferente',
+			  'La selección no corresponde al código de autorizador de las selección(es) anteriores.',
 			  'warning'
 			);
 			$scope.arrayRequisiciones[i][16] = false;
@@ -106,7 +170,7 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 			// si la posicion seleccionada no se ha guardado en el arreglo de seleccionados, entonces se agregará al arreglo de seleccionados
 			if ($scope.seleccionados.indexOf(i) < 0) {
 				$scope.seleccionados.push(i);
-				$scope.cve_req = $scope.arrayRequisiciones[i][0];
+				$scope.q_autoriza = $scope.arrayRequisiciones[i][2];
 
 			}
 		}else{
@@ -131,7 +195,7 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 			}
 		}
 		if ($scope.seleccionados.length == 0) {
-			$scope.cve_req = '';
+			$scope.q_autoriza = '';
 		}
 	}
 	$scope.setNumerico = function(numero){

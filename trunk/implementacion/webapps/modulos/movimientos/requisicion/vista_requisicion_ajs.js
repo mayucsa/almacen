@@ -68,7 +68,7 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 			}, 2000)
 		    
 		  }
-		})
+		});
 	}
 	$scope.quitarProducto = function(i){
 		$scope.arrayAgregados.splice(i, 1);
