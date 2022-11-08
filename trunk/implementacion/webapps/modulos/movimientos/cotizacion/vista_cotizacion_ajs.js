@@ -4,9 +4,19 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 	$scope.q_autoriza = '';
 	$scope.seleccionados = [];
 	$scope.limpiarCampos = function () {
+		jsShowWindowLoad('Limpiando campos...');
 		$scope.proveedor = '';
 		$scope.subircotizacion = '';
 		$('#fileProductos').val([]);
+		$http.post('serverSideCot.php').then(function (response) {
+			// console.log('response', response.data.query);
+			response = response.data.data;
+			$scope.arrayRequisiciones = response;
+			jsRemoveWindowLoad();
+		}, function(error){
+			console.log('error', error);
+			jsRemoveWindowLoad();
+		});
 	}
 	$scope.validacionCampos = function () {
 		if ($scope.proveedor == '' || $scope.proveedor == null) {
