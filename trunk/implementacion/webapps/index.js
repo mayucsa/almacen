@@ -36,7 +36,7 @@ function validacionDatos(pusuario,ppassword){
         data = JSON.parse(data);
         if(data.success){
             $('#myLoading').modal('show');
-            setTimeout(function(){location.href='modulos/dashboard/dashboard/dashboard.php';},2000);
+            setTimeout(function(){location.href='modulos/bienvenida/bienvenida/bienvenida.php';},2000);
             // setTimeout(function(){location.href='modulos/inventario/bloquera/inventario_bloquera.php';},2000);
         } else {
             console.log('error');

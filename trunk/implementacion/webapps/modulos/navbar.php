@@ -86,7 +86,7 @@
 
               <li><a class="treeview-item" href="../../movimientos/cotizacion/vista_cotizacion.php"><i class="icon fa fa-circle-o"></i> Cotización</a></li>
             
-              <li><a class="treeview-item" href="../../morteros/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Orden de compra</a></li>
+              <li><a class="treeview-item" href="../../movimientos/ordencompra/vista_ordencompra.php"><i class="icon fa fa-circle-o"></i> Orden de compra</a></li>
             
               <li><a class="treeview-item" href="../../morteros/salidas/vista_salidas.php"><i class="icon fa fa-circle-o"></i> Entradas</a></li>
 
@@ -98,7 +98,7 @@
         $autorizacion .= '
           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-check-circle"></i><span class="app-menu__label">Autorización</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="../../laboratorio/captura/vista_laboratorio.php"><i class="icon fa fa-circle-o"></i> Requisiciones</a></li>
+              <li><a class="treeview-item" href="../../autorizaciones/requisiciones/vista_requisiciones.php"><i class="icon fa fa-circle-o"></i> Requisiciones</a></li>
             
               <li><a class="treeview-item" href="../../laboratorio/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Servicios</a></li>
             </ul>
@@ -108,13 +108,7 @@
         $seguridad .= '
           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-key"></i><span class="app-menu__label">Seguridad</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-            <li><a class="treeview-item" href="../../besser/captura/vista_besser.php"><i class="icon fa fa-circle-o"></i> Producción</a></li>
-            
-              <li><a class="treeview-item" href="../../besser/curado/vista_curado.php""><i class="icon fa fa-circle-o"></i> Cuarto Curado</a></li>
 
-              <li><a class="treeview-item" href="../../besser/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Entradas</a></li>
-            
-              <li><a class="treeview-item" href="../../besser/desalojo/vista_desalojo.php"><i class="icon fa fa-circle-o"></i> Desalojos</a></li>
             </ul>
           </li>';
 
