@@ -13,6 +13,17 @@ class ModeloCot{
 			 $vquery->close();
 			 $vquery = null;
 	}
+	function ShowCFDI(){
+		$sql = "	SELECT  	*
+					FROM cat_usocfdi
+					WHERE estatus_cfdi = 1";
+
+			 $vquery = Conexion::conectar()->prepare($sql);
+          $vquery->execute();
+			 return $vquery->fetchAll();
+			 $vquery->close();
+			 $vquery = null;
+	}
 
 }
 

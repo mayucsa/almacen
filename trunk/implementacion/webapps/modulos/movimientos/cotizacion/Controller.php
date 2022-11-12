@@ -51,14 +51,22 @@ function guardaArchivos($dbcon){
 function generaOrdenCompra($dbcon, $datos){
 	$requisiciones_det = $datos->requisiciones_det;
 	$cve_proveedor = $datos->cve_proveedor;
+	$fechaentrega = $datos->fechaentrega;
 	$cve_usuario = $datos->cve_usuario;
 	$q_autoriza = $datos->q_autoriza;
+	$cve_cfdi = $datos->cve_cfdi;
+	$formapago = $datos->formapago;
+	$metodopago = $datos->metodopago;
 	$fecha = date('Y-m-d H:i:s');
-	$sql = "INSERT INTO orden_compra (cve_usuario, cve_proveedor, q_autoriza, estatus_autorizado, estatus_odc, fecha_registro)
+	$sql = "INSERT INTO orden_compra (cve_usuario, cve_proveedor, q_autoriza, fecha_entrega, cve_cfdi, forma_pago, metodo_pago, estatus_autorizado, estatus_odc, fecha_registro)
 		VALUES(
 			".$cve_usuario.",
 			".$cve_proveedor.",
 			".$q_autoriza.",
+			'".$fechaentrega."',
+			'".$cve_cfdi."',
+			'".$formapago."',
+			'".$metodopago."',
 			0,
 			1,
 			'".$fecha."'

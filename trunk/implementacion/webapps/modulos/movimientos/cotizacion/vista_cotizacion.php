@@ -8,6 +8,10 @@ include_once "modelo_cotizacion.php";
         <link rel="stylesheet" type="text/css" href="../../../includes/css/adminlte.min.css">
         <link rel="stylesheet" href="../../../includes/css/data_tables_css/jquery.dataTables.min.css">
         <link rel="stylesheet" href="../../../includes/css/data_tables_css/buttons.dataTables.min.css">
+
+        <link rel="stylesheet" type="text/css" href="../../../includes/datapicker/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="../../../includes/datapicker/jquery-ui.min.css">
+
         <style type="text/css">
             body{
                 background-color: #f7f6f6;
@@ -98,7 +102,7 @@ include_once "modelo_cotizacion.php";
                         <div class="card-body">
                             <div class="row form-group form-group-sm">
                                 <div class="col-lg-12 d-lg-flex">
-                                    <div style="width: 40%;" class="form-floating mx-1">
+                                    <div style="width: 30%;" class="form-floating mx-1">
                                         <select class="form-control form-group-md" ng-model="proveedor" id="selectproveedor" name="selectproveedor">
                                             <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                             <?php foreach (ModeloCot::ShowProveedores() as $value) { ?>
@@ -107,11 +111,44 @@ include_once "modelo_cotizacion.php";
                                         </select>
                                         <label>Proveedor</label>
                                     </div>
-                                <!-- </div> -->
-                                    <div style="width: 40%;" class="form-floating mx-1">
+                                    <div style="width: 30%;" class="form-floating mx-1">
                                         <input type="file" ng-model="subircotizacion" name="fileProductos" id="fileProductos" class="form-control"
                                             accept=".xls, .xlsx, .doc, .docx, .pdf" multiple="multiple">
                                         <label>Subir cotización</label>
+                                    </div>
+                                    <div style="width: 30%;" class="form-floating mx-1">
+                                        <input class="date-picker form-control" ng-model="fechaentrega">
+                                        <label>Fecha de entrega</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group form-group-sm">
+                                <div class="col-lg-12 d-lg-flex">
+                                    <div style="width: 30%;" class="form-floating mx-1">
+                                        <select class="form-control form-group-md" ng-model="usocfdi" id="selectusocfdi" name="selectusocfdi">
+                                            <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
+                                            <?php foreach (ModeloCot::ShowCFDI() as $value) { ?>
+                                            <option value="<?=$value['cve_cfdi']?>"><?=$value['cve_cfdi']?> <?=$value['descripcion']?></option>
+                                            <?php } ?>
+                                        </select>
+                                        <label>Uso de CFDI</label>
+                                    </div>
+                                    <div style="width: 30%;" class="form-floating mx-1">
+                                        <select class="form-control form-group-md" ng-model="formapago" id="selectusocfdi" name="selectusocfdi">
+                                            <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
+                                            <option value="Efectivo">Efectivo</option>
+                                            <option value="Transferencia">Transferencia</option>
+                                            <option value="Cheque">Cheque</option>
+                                        </select>
+                                        <label>Forma de pago</label>
+                                    </div>
+                                    <div style="width: 30%;" class="form-floating mx-1">
+                                        <select class="form-control form-group-md" ng-model="metodopago" id="selectusocfdi" name="selectusocfdi">
+                                            <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
+                                            <option value="PUE">PUE - Pago en una sola Exhibici&oacute;n</option>
+                                            <option value="PPD">PPD - Pago diferido</option>
+                                        </select>
+                                        <label>M&eacute;todo de pago</label>
                                     </div>
                                 </div>
                             </div>
@@ -239,6 +276,23 @@ include_once "../../inferior.php";
     <script src="../../../includes/js/data_tables_js/buttons.html5.min.js"></script>
     <script src="../../../includes/js/data_tables_js/buttons.print.min.js"></script>
 
+    <script type="text/javascript" src="../../../includes/datapicker/jquery-ui.min.js"></script>
+
     <script type="text/javascript">
         consultar();
+    </script>
+    <script>
+        $('.date-picker').datepicker({
+        closeText: 'Cerrar',
+        prevText: '<Ant',
+        nextText: 'Sig>',
+        currentText: 'Hoy',
+        monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        // changeDay: true,
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        dateFormat: 'yy-mm-dd',
+        showDays: false,
+    });
     </script>

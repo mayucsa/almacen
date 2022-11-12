@@ -1,11 +1,19 @@
 app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 	$scope.proveedor = '';
 	$scope.subircotizacion = '';
+	$scope.fechaentrega = '';
 	$scope.q_autoriza = '';
+	$scope.usocfdi = '';
+	$scope.formapago = '';
+	$scope.metodopago = '';
 	$scope.seleccionados = [];
 	$scope.limpiarCampos = function () {
 		jsShowWindowLoad('Limpiando campos...');
 		$scope.proveedor = '';
+		$scope.fechaentrega = '';
+		$scope.usocfdi = '';
+		$scope.formapago = '';
+		$scope.metodopago = '';
 		$scope.subircotizacion = '';
 		$('#fileProductos').val([]);
 		$http.post('serverSideCot.php').then(function (response) {
@@ -23,6 +31,38 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 			Swal.fire(
 			  'Campo faltante',
 			  'Es necesario seleccionar el proveedor',
+			  'warning'
+			);
+			return;
+		}
+		if ($scope.fechaentrega == '' || $scope.fechaentrega == null) {
+			Swal.fire(
+			  'Campo faltante',
+			  'Es necesario seleccionar una fecha de entrega',
+			  'warning'
+			);
+			return;
+		}
+		if ($scope.usocfdi == '' || $scope.usocfdi == null) {
+			Swal.fire(
+			  'Campo faltante',
+			  'Es necesario seleccionar un uso de CFDI',
+			  'warning'
+			);
+			return;
+		}
+		if ($scope.formapago == '' || $scope.formapago == null) {
+			Swal.fire(
+			  'Campo faltante',
+			  'Es necesario seleccionar una forma de pago',
+			  'warning'
+			);
+			return;
+		}
+		if ($scope.metodopago == '' || $scope.metodopago == null) {
+			Swal.fire(
+			  'Campo faltante',
+			  'Es necesario seleccionar un método de pago',
 			  'warning'
 			);
 			return;
@@ -75,6 +115,10 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 				$http.post('Controller.php',{
 					'requisiciones_det': $scope.arrayCveReqDets,
 					'cve_proveedor': $scope.proveedor,
+					'fechaentrega': $scope.fechaentrega,
+					'cve_cfdi': $scope.usocfdi,
+					'formapago': $scope.formapago,
+					'metodopago': $scope.metodopago,
 					'cve_usuario': ID,
 					'q_autoriza': $scope.q_autoriza,
 					'task': 'generaOrdenCompra'
@@ -88,7 +132,7 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 							jsRemoveWindowLoad();
 							Swal.fire({
 							  title: '¡Éxito!',
-							  text: 'Orden de compra generada correctamente.\n Folio: '+response.cve_odc,
+							  html: 'Orden de compra generada correctamente.\n Folio: <b>'+ response.cve_odc +'</b>',
 							  icon: 'success',
 							  showCancelButton: false,
 							  confirmButtonColor: 'green',
