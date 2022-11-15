@@ -206,11 +206,11 @@ function descargaPDF(){
 
 function EnviarCorreo(cve_odc){
     $.getJSON("modelo_ordencompra.php?consultar="+cve_odc, function (registros) {
-        console.log(registros);
+        // console.log(registros);
         // console.log(registros[0]);
         // console.log(registros[1]);
     });
-
+    console.log('envío correo');
     window.open('sendEmail.php?cve_odc='+cve_odc);
 }
 // 
