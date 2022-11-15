@@ -262,6 +262,7 @@ include_once "modelo_requisicion.php";
                                                     <th>Código</th>
                                                     <th>Nombre</th>
                                                     <th>Cantidad</th>
+                                                    <th>Unidad de medida</th>
                                                     <th>Comentario</th>
                                                     <th>Opciones</th>
                                                 </tr>
@@ -273,6 +274,7 @@ include_once "modelo_requisicion.php";
                                                     <td>
                                                         <input type="number" ng-model="obj.cantidad" class="form-control text-right">
                                                     </td>
+                                                    <td>{{obj.unidad_medida}}</td>
                                                     <td>
                                                         <!-- <select class="form-control" ng-model="obj.cve_maquina">
                                                             <option value="" disabled>Seleccione</option>

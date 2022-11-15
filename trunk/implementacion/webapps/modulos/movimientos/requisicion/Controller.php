@@ -109,13 +109,16 @@ function getMaquinas($dbcon){
 	$maquinas = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	dd($maquinas);
 }
-function getArticulos($dbcon, $cve_alterna, $nombre_articulo){
-	$sql = "SELECT cve_alterna, nombre_articulo, cve_articulo FROM cat_articulos WHERE estatus_articulo = 'VIG' ";
+function getArticulos($dbcon, $cve_alterna, $nombre_articulo, $unidad_medida){
+	$sql = "SELECT cve_alterna, nombre_articulo, cve_articulo, unidad_medida  FROM cat_articulos WHERE estatus_articulo = 'VIG' ";
 	if ($cve_alterna != '') {
 		$sql .= " AND cve_alterna LIKE '%".$cve_alterna."%'";
 	}
 	if ($nombre_articulo != '') {
 		$sql .= "AND nombre_articulo LIKE '%".$nombre_articulo."%'";
+	}
+	if ($unidad_medida != '') {
+		$sql .= "AND unidad_medida LIKE '%".$unidad_medida."%'";
 	}
 	$sql .= " LIMIT 100"; 
 	$articulos = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
@@ -136,7 +139,7 @@ switch ($tarea) {
 		getMaquinas($dbcon);
 		break;
 	case 'getArticulos':
-		getArticulos($dbcon, $objDatos->cve_alterna, $objDatos->nombre_articulo);
+		getArticulos($dbcon, $objDatos->cve_alterna, $objDatos->nombre_articulo, $objDatos->unidad_medida);
 		break;
 	case 'guardarRequisicion':
 		guardarRequisicion($dbcon, $objDatos);

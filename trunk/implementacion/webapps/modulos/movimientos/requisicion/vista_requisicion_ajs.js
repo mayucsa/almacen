@@ -3,6 +3,7 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 	$scope.arrayAgregados = [];
 	$scope.cve_alterna = '';
 	$scope.nombre_articulo = '';
+	$scope.unidad_medida = '';
 	$scope.autoriza = '';
 	$scope.comentario = '';
 	$scope.modalMisRequ = false;
@@ -40,7 +41,8 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 				'cve_alterna': $scope.arrayProductos[i].cve_alterna,
 				'nombre_articulo': $scope.arrayProductos[i].nombre_articulo,
 				'cve_articulo': $scope.arrayProductos[i].cve_articulo,
-				'cantidad': 1
+				'cantidad': 1,
+				'unidad_medida': $scope.arrayProductos[i].unidad_medida,
 			});
 			$scope.arrayAgregados.push($scope.arrayProductos[i].cve_alterna);
 		}else{
@@ -160,7 +162,7 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 					});
 					Swal.fire({
 					  title: '¡Éxito!',
-					  text: 'Su requisición se generó correctamente.\n Folio: '+response.folio,
+					  html: 'Su requisición se generó correctamente.\n <b>Folio: ' +response.folio + '</b>',
 					  icon: 'success',
 					  showCancelButton: false,
 					  confirmButtonColor: 'green',
@@ -186,7 +188,8 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 		$http.post('Controller.php', {
 			'task': 'getArticulos',
 			'cve_alterna': $scope.cve_alterna,
-			'nombre_articulo': $scope.nombre_articulo
+			'nombre_articulo': $scope.nombre_articulo,
+			'unidad_medida': $scope.unidad_medida,
 		}).then(function (response) {
 			$scope.arrayProductos = response.data;
 			// console.log('generales...',response.data);
