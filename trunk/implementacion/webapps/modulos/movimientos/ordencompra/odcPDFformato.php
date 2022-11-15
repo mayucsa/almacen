@@ -175,18 +175,30 @@
 		$myHtml .='</div>';
 		$myHtml .='</div>';
 		$myHtml .='</div>';
-		$myHtml .='<div style="margin-top: 100px; margin-left:">';
+		$myHtml .='<div>';
 		$myHtml .='<table style="width:100%;">';
 		$myHtml .='<tr>';
 		$myHtml .='<th style="width:15%;">';
 		$myHtml .='</th>';
-		$myHtml .='<th style="width:25%;text-align:center">';
+		$myHtml .='<th style="width:25%;text-align:center; position:relative">';
+		$firma = '../../../includees/archivos/firmas/'.$datos['usuario']->cve_usuario.'.png';
+		if (file_exists($firma)) {
+			$myHtml .= '<br><img src="'.$firma.'" style="height: 60px; position: relative;"><br>';
+		}else{
+			$myHtml .= '<br><br><br><br><br>';	
+		}
 		$myHtml .='_________________________';
 		$myHtml .='<br>Orden de compra<br>Creado por<br>'.$datos['usuario']->nombre.' '.$datos['usuario']->apellido;
 		$myHtml .='</th>';
 		$myHtml .='<th style="width:20%;">';
 		$myHtml .='</th>';
 		$myHtml .='<th style="width:25%;text-align:center">';
+		$firma = '../../../includees/archivos/firmas/compras.png';
+		if (file_exists($firma)) {
+			$myHtml .= '<br><img src="'.$firma.'" style="width:90%;">';
+		}else{
+			$myHtml .= '<br><br><br><br><br>';	
+		}
 		$myHtml .='_________________________';
 		$myHtml .='<br>Vo. Bo. Jefe de compras';
 		$myHtml .='</th>';
@@ -216,7 +228,7 @@
 		INNER JOIN cat_proveedores p ON odc.cve_proveedor = p.cve_proveedor
 		WHERE odc.cve_odc = ".$cve_odc;
 		$proveedor = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
-		$sql = "SELECT u.nombre, u.apellido FROM orden_compra odc INNER JOIN cat_usuarios u ON u.cve_usuario = odc.cve_usuario
+		$sql = "SELECT u.cve_usuario, u.nombre, u.apellido FROM orden_compra odc INNER JOIN cat_usuarios u ON u.cve_usuario = odc.cve_usuario
 		WHERE odc.cve_odc = ".$cve_odc;
 		$usuario = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
 		require_once('../../../includes/librerias/barcode.php');
