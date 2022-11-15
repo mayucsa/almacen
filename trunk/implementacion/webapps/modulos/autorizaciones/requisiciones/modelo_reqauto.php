@@ -4,10 +4,11 @@ include_once "../../../dbconexion/conexion.php";
 if (isset($_GET["consultar"])) {
 	$cve_odc = $_GET["consultar"];
 
-	$sql	= "	SELECT O.cve_odc AS cve_odc, O.cve_proveedor AS cve_proveedor, D.cve_req AS req, A.nombre_articulo AS articulo, D.cantidad_cotizada AS cantidad, D.precio_unidad AS unitario, D.precio_total AS total
+	$sql	= "	SELECT O.cve_odc AS cve_odc, O.cve_proveedor AS cve_proveedor, D.cve_req AS req, A.nombre_articulo AS articulo, RQ.comentario AS comentario, D.cantidad_cotizada AS cantidad, D.precio_unidad AS unitario, D.precio_total AS total
 				FROM `orden_compra` O
 				INNER JOIN orden_compra_detalle D ON D.cve_odc = O.cve_odc
 				INNER JOIN cat_articulos A ON A.cve_articulo = D.cve_art
+				INNER JOIN requisicion_detalle RQ ON D.cve_req = RQ.cve_req
 				WHERE O.cve_odc =" .$cve_odc;
 	// $sql	= "	SELECT * FROM seg_entradas ORDER BY fecha_registro DESC";
 

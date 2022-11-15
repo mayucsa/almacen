@@ -28,7 +28,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="img">
-                                <img class="rounded mx-auto d-block" src="../../../includes/imagenes/juntos2.png">
+                                <img class="rounded mx-auto d-block" src="../../../includes/imagenes/Mayucsap.png">
                             </div>
                             <div class="col-md-12 text-center mt-5 mb-5">
                                 <h1> Bienvenido(a) <?php echo $nombre." ".$apellido?> a nuestra Sistema de Almacén (SAM) <h1>

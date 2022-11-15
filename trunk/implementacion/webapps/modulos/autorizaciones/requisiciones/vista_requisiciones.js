@@ -136,6 +136,7 @@ function obtenerDatos(cve_odc) {
 
         $("#tablaModal").html( '<thead> <tr>  <th class="text-center">Folio req</th>' +
                                                 '<th class="text-center">Articulo</th>'+
+                                                '<th class="text-center">Comentario</th>'+
                                                 '<th class="text-center">Cantidad</th>'+
                                                 '<th class="text-center">Precio unitario</th>'+
                                                 '<th class="text-center">Precio total</th></tr>'+
@@ -144,6 +145,7 @@ function obtenerDatos(cve_odc) {
          $("#tablaModal").append('<tr>' + 
             '<td style="dislay: none;">' + registros[i].req + '</td>'+
             '<td style="dislay: none;">' + registros[i].articulo + '</td>'+
+            '<td style="dislay: none;">' + registros[i].comentario + '</td>'+
             '<td style="dislay: none;">' + registros[i].cantidad + '</td>'+
             '<td style="dislay: none;">' + registros[i].unitario + '</td>'+
             '<td align="center" style="dislay: none;">' + registros[i].total + '</td>'+'</tr>');
@@ -182,7 +184,7 @@ function Autorizacion(cve_odc){
         // console.log(datos.get('cve_odc'));
     // });
         Swal.fire({
-            title: 'Autorizarión',
+            title: 'Autorización',
             html: '¿Deseas autorizar la orden de compra con folio <b>#'+  registros[0]['cve_odc'] + '</b>?',
             icon: 'warning',
             showCancelButton: true,
