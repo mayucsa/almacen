@@ -1,8 +1,8 @@
 <?php
+session_start();
 	include_once "modelo_login.php";
 	include_once "datos_usuario.php";
 	// require_once ("modelo_login.php");
-	session_start();
 
 	$objetoModelo	= new Modelo_login;
 	set_time_limit(0);
@@ -25,7 +25,11 @@
 				$objeto_datos_usuario->set_vista_autorizacion($d->autorizacion_vista);
 				$objeto_datos_usuario->set_vista_seguridad($d->seguridad_vista);
 
+				$_SESSION['loggedin'] = true;
+				$_SESSION['id'] = $d->cve_usuario;
 				$_SESSION['usuario'] = serialize($objeto_datos_usuario);
+				$_SESSION['start'] = time();
+				$_SESSION['expire'] = $_SESSION['start'] + (2 * 3600);//expira en 2 horas
 				// $_SESSION['usuario'] = $objeto_datos_usuario;
 				// $_SESSION['usuario'] = $usuario;
                 $response['success'] = TRUE;

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once "../../../dbconexion/conexion.php";
 // header('Content-Type: application/json');
 
@@ -12,7 +13,7 @@ $primaryKey = 'cve_odc';
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
-$var    = "estatus_odc = '1' ";
+$var    = "estatus_odc = '1' AND odc.q_autoriza = ".$_SESSION['id'];
 // $columns = array(
 //     array( 'db' => 'cve_maq',          'dt' => 0 ),
 //     array( 'db' => 'cve_fallo',    'dt' => 1 ),
