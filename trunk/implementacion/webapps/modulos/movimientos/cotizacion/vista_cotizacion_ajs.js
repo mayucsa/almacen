@@ -124,6 +124,7 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 					'task': 'generaOrdenCompra'
 				}).then(function (response) {
 					console.log('response', response.data);
+					// 'cve_odc': response.cve_odc;
 					response = response.data;
 					if (response.code == 200) {
 						const input = document.getElementById('fileProductos');
@@ -132,7 +133,7 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 							jsRemoveWindowLoad();
 							Swal.fire({
 							  title: '¡Éxito!',
-							  html: 'Orden de compra generada correctamente.\n Folio: <b>'+ response.cve_odc +'</b>',
+							  html: 'Orden de compra generada correctamente.\n <b>Folio: ' +response.cve_odc+ '</b>' ,
 							  icon: 'success',
 							  showCancelButton: false,
 							  confirmButtonColor: 'green',
