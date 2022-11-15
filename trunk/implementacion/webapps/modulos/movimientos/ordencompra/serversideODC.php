@@ -54,9 +54,8 @@ $var    = "estatus_odc = '1' ";
             ['db' => '`odc`.`estatus_autorizado`', 'dt' => 5, 'formatter' => function($d, $row){
                 if ($d == '1') {
                    return   '<span class= "btn btn-info" onclick= "obtenerDatos('.$row[0].')" title="Ver detalle" data-toggle="modal" data-target="#modalVerMP" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>'. ' '.
-                            '<span class= "btn btn-secondary"  title="Imprimir"><i class="fas fa-print"></i> </span>'. ' '.
-                            '<span class= "btn btn-danger" onclick="descargaPDF('.$row[0].')"  title="Descargar PDF"><i class="fas fa-file-pdf"></i> </span>'. ' '.
-                            '<span class= "btn btn-warning" onclick="EnviarCorreo('.$row[0].')" title="Enviar correo a proveedor"><i class="fas fa-envelope"></i> </span>';
+                        '<a class= "btn btn-danger" href="odcPDFformato.php?cve_odc='.$row[0].'" target="_blank" title="Descargar PDF"><i class="fas fa-file-pdf"></i> </a>'. ' '.
+                        '<span class= "btn btn-warning" onclick="EnviarCorreo('.$row[0].')" title="Enviar correo a proveedor"><i class="fas fa-envelope"></i> </span>';
                 }else{
                     return  '<span class= "btn btn-info" onclick= "obtenerDatos('.$row[0].')" title="Ver detalle" data-toggle="modal" data-target="#modalVerMP" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>';
                 }

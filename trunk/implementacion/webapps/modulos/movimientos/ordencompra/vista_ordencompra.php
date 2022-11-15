@@ -66,25 +66,25 @@ include_once "../../../dbconexion/conexion.php";
             }
         </style>
     </head>
-<!-- <div ng-controller="vistaRequisicion"> -->
-<div id="modalScanner" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Código de Barras</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center" id="modalBarCode">
-            </div>
-            <div class="modal-footer">
-                <input type="button" value="Imprimir" onclick="imprSelec('modalBarCode')" class="btn btn-primary">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+<div ng-controller="vistaODC">
+    <div id="modalScanner" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Código de Barras</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center" id="modalBarCode">
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Imprimir" onclick="imprSelec('modalBarCode')" class="btn btn-primary">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <main class="app-content">
         <div class="app-title">
@@ -145,7 +145,7 @@ include_once "../../../dbconexion/conexion.php";
                                         </tr>
                                     </tbody>
                                 </table>
-                    </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,9 +154,9 @@ include_once "../../../dbconexion/conexion.php";
 
 
         <?php include_once "../../footer.php" ?>
-
+        
     </main>
-<!-- </div> -->
+</div>
 
     <script src="../../../includes/js/adminlte.min.js"></script>
 
@@ -171,6 +171,8 @@ include_once "modales.php";
     <!-- <script src="vista_requisicion_ajs.js"></script> -->
 
     <script src="vista_ordencompra.js"></script>
+
+    <script src="vista_ordencompra_ajs.js"></script>
 
     <script src="../../../includes/js/jquery331.min.js"></script>
 

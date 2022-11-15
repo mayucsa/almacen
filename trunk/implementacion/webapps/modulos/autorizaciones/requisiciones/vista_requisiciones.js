@@ -84,7 +84,7 @@ function consultar(){
                                 "targets": 4,
                                 "render": function (data, type, row, meta) {
                                     return  '<span class= "btn btn-info" onclick= "obtenerDatos('+row["cve_odc"]+')" title="Ver detalle" data-toggle="modal" data-target="#modalVerMP" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>' + " " +
-                                            '<span class= "btn btn-secondary" onclick= "prueba()" title="Descargar archivo"><i class="fas fa-download"></i> </span>' + " " +
+                                            '<span class= "btn btn-secondary" onclick="descargaArchivos('+row["cve_odc"]+')" title="Descargar archivo"><i class="fas fa-download"></i> </span>' + " " +
                                             '<span class= "btn btn-success" onclick= "Autorizacion('+row["cve_odc"]+')" title="Autorizar"><i class="fas fa-check"></i> </span>';
                                 }                                
                             }
@@ -151,7 +151,27 @@ function obtenerDatos(cve_odc) {
 
     });
 }
-
+function descargaArchivos(cve_odc){
+    $.ajax({
+        method: "POST",
+        url: "controller.php",
+        data: { task: 'descargaArchivos', cve_odc: cve_odc }
+    })
+    .done(function( result ) {
+        result = JSON.parse(result);
+        for (var i = 0; i < result.length; i++) {
+            download(result[i].nombreOriginal, result[i].ruta+result[i].nombre);
+        }
+    });
+}
+function download(filename, textInput) {
+    var element = document.createElement('a');
+    element.setAttribute('href',textInput);
+    element.setAttribute('download', filename);
+    document.body.appendChild(element);
+    element.click();
+    //document.body.removeChild(element);
+}
 function Autorizacion(cve_odc){
     $.getJSON("modelo_reqauto.php?consultar="+cve_odc, function(registros){
         console.log(registros);
