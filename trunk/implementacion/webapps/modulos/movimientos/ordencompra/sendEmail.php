@@ -21,8 +21,9 @@ try {
     $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('soportemayamat@gmail.com', 'Sistema Almacen Mayucsa');
+    $mail->setFrom('soportemayamat@gmail.com', 'Sistema Almacen Mayucsa (SAM)');
     $mail->addAddress('r.ciau@mayucsa.com.mx', 'Rogelio Ciau');     //Add a recipient
+    $mail->addAddress('o.tymonina@mayucsa.com.mx', 'Olena Tymonina');     //Add a recipient
     // Obtenemos el cve_odc de la requisición
     $cve_odc = $_REQUEST['cve_odc'];
     $sql = "SELECT catp.nombre_proveedor, conp.correo FROM orden_compra odc 
@@ -44,8 +45,13 @@ try {
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Orden de compra - Mayucsa';
-    $mail->Body    = 'Buen d&iacute;a, se ha generado una Orden de compra con folio #'.$cve_odc;
+    $mail->Subject = 'Orden de compra '.$cve_odc.' - Mayucsa';
+    $mail->Body    = 'Buen d&iacute;a, se ha generado una Orden de compra con n&uacute;mero de <b>folio '.$cve_odc.'</b> 
+                        <br><br> Favor de presentar &eacute;sta Orden de Compra impresa para la recepci&oacute;n de los materiales en nuestro almac&eacute;n.
+                        <br> Indispensable presentar &eacute;sta Orden de compra con factura y/o remisi&oacute;n sellada y firmada por almac&eacute;n para la revisi&oacute;n de facturas.
+                        <br><br> Horarios de almac&eacute;n: lunes a viernes de 08:00 a 16:00 hrs y s&aacute;bados de 08:00 a 12:00 hrs.
+                        <br> D&iacute;as de revisi&oacute;n y entrega de contra-recibos: martes y jueves de 09:00 a 12:00 hrs y de 14:00 a 16:00 hrs.
+                        <br> D&iacute;as de pago lunes de 09:00 a 12:00 hrs y de 14:00 a 16:00 hrs.';
     $mail->AddAttachment("../../../includes/imagenes/Mayucsa.png", "Mayucsa.png");
     $sql = "SELECT * FROM orden_compra_archivos WHERE cve_odc = ".$cve_odc;
     $archivos = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);

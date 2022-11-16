@@ -129,7 +129,8 @@ include_once "../../../dbconexion/conexion.php";
                                     <thead>
                                         <tr>
                                             <th class="text-center">Folio</th>
-                                            <th class="text-center">Quien creo</th>
+                                            <th class="text-center">Creado por</th>
+                                            <th class="text-center">Proveedor</th>
                                             <th class="text-center">Estatus</th>
                                             <th class="text-center">Fecha</th>
                                             <th class="text-center">Opciones</th>
@@ -137,6 +138,7 @@ include_once "../../../dbconexion/conexion.php";
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>

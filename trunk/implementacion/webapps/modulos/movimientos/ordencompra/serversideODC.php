@@ -13,7 +13,8 @@ $primaryKey = 'cve_odc';
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
-$var    = "estatus_odc = '1' AND odc.q_autoriza = ".$_SESSION['id'];
+$var    = "estatus_odc = '1' ";
+// "AND odc.q_autoriza = ".$_SESSION['id'];
 // $columns = array(
 //     array( 'db' => 'cve_maq',          'dt' => 0 ),
 //     array( 'db' => 'cve_fallo',    'dt' => 1 ),
@@ -60,7 +61,8 @@ $var    = "estatus_odc = '1' AND odc.q_autoriza = ".$_SESSION['id'];
                 }else{
                     return  '<span class= "btn btn-info" onclick= "obtenerDatos('.$row[0].')" title="Ver detalle" data-toggle="modal" data-target="#modalVerMP" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>';
                 }
-            }, 'field' => 'estatus_autorizado']
+            }, 'field' => 'estatus_autorizado'],
+            ['db' => '`prov`.`nombre_proveedor`', 'dt' => 6, 'field' => 'nombre_proveedor'],
             ];
         // $columns = [
         //     ['db' => '`req`.`cve_req`', 'dt' => 0, 'field' => 'cve_req'],
@@ -80,7 +82,9 @@ $var    = "estatus_odc = '1' AND odc.q_autoriza = ".$_SESSION['id'];
 
  
  $joinQuery = " FROM `{$table}` AS `odc` 
-                INNER JOIN `cat_usuarios` AS `user` ON (`odc`.`cve_usuario` = `user`.`cve_usuario`)";
+                INNER JOIN `cat_usuarios` AS `user` ON (`odc`.`cve_usuario` = `user`.`cve_usuario`)
+                INNER JOIN `cat_proveedores` AS `prov` ON (`odc`.`cve_proveedor` = `prov`.`cve_proveedor`)
+                ";
 
 // SQL server connection information
 

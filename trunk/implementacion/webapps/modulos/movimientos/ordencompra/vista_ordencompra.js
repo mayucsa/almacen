@@ -30,7 +30,7 @@ function consultar(){
             "bDestroy": true,
             "columnDefs":[
                             {
-                                "targets": [0, 1, 2, 3, 4],
+                                "targets": [0, 1, 2, 3, 4, 5],
                                 "className": 'dt-body-center' /*alineacion al centro th de tbody de la table*/
                             },
                             {
@@ -41,6 +41,12 @@ function consultar(){
                             },
                             {
                                 "targets": 2,
+                                "render": function(data, type, row, meta){
+                                    return row[6];
+                                }
+                            },
+                            {
+                                "targets": 3,
                                 "render": function(data, type, row, meta){
                                     // const primaryKey = data;
                                     // "data": 'cve_entrada',
@@ -53,6 +59,12 @@ function consultar(){
                             },
                             {
                                 "targets": 4,
+                                "render": function(data, type, row, meta){
+                                    return row[3];
+                                }
+                            },
+                            {
+                                "targets": 5,
                                 "render": function(data, type, row, meta){
                                     return row[5];
                                     // return  '<span class= "btn btn-info" onclick= "obtenerDatosA('+row[3]+')" title="Ver detalle" data-toggle="modal" data-target="#modalAgregaContacto" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>' + ' ' +
@@ -211,6 +223,20 @@ function EnviarCorreo(cve_odc){
         // console.log(registros[1]);
     });
     console.log('envío correo');
-    window.open('sendEmail.php?cve_odc='+cve_odc);
+    // window.open('sendEmail.php?cve_odc='+cve_odc);
+    $.ajax({
+                type:"POST",
+                url:"sendEmail.php?cve_odc=" + cve_odc,
+                data: cve_odc,
+                processData:false,
+                contentType:false,
+        success:function(data){
+                    Swal.fire(
+                                'Correos enviado!',
+                                'Se ha enviado la Orden de compra al proveedor !!',
+                                'success'
+                            )
+                    }
+    })
 }
 // 
