@@ -87,9 +87,13 @@
                         <input type="text" id="inputnombreartedit" name="inputnombreartedit" class="form-control form-control-md UpperCase">
                         <label>Nombre de articulo</label>
                     </div>
-                    <div style="width: 25%;" class="form-floating mx-1">
+                    <!-- <div style="width: 25%;" class="form-floating mx-1">
                         <input type="text" id="inputnombrelargeedit" name="inputnombrelargeedit" class="form-control form-control-md UpperCase">
                         <label>Nombre de articulo - Largo</label>
+                    </div> -->
+                    <div style="width: 50%;" class="form-floating mx-1">
+                        <input type="text" id="inputobservacionedit" name="inputobservacionedit" class="form-control form-control-md UpperCase">
+                        <label>Observaciones</label>
                     </div>
                 </div>
             </div>
@@ -137,10 +141,14 @@
                         <input type="text" id="inputminedit" name="inputminedit" class="form-control form-control-md validanumericos">
                         <label>Minimo</label>
                     </div>
-                     <div style="width: 50%;" class="form-floating mx-1">
+                    <div style="width: 23%;" class="form-floating mx-1">
+                        <input type="text" id="inputpuntoreordenedit" name="inputpuntoreordenedit" class="form-control form-control-md validanumericos">
+                        <label>Punto de reorden</label>
+                    </div>
+                     <!-- <div style="width: 50%;" class="form-floating mx-1">
                         <input type="text" id="inputobservacionedit" name="inputobservacionedit" class="form-control form-control-md UpperCase">
                         <label>Observaciones</label>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="row form-group form-group-sm">

@@ -1,4 +1,5 @@
 <?php
+// session_start();
     include_once "../../superior.php";
     include_once "../../../dbconexion/conexion.php";
     include_once "modelo_articulo.php";
@@ -33,7 +34,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
                 </div>
-            </div>
+            </div>3
         </div>
     </div>
 
@@ -73,9 +74,13 @@
                                 <label>Nombre de articulo</label>
                             </div>
                             <div style="width: 50%;" class="form-floating mx-1">
+                                <input type="text" id="inputobservacion" name="inputobservacion" class="form-control form-control-md UpperCase">
+                                <label>Observaciones</label>
+                            </div>
+                            <!-- <div style="width: 50%;" class="form-floating mx-1">
                                 <input type="text" id="inputnombrelarge" name="inputnombrelarge" class="form-control form-control-md UpperCase">
                                 <label>Nombre de articulo - Largo</label>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="row form-group form-group-sm">
@@ -91,7 +96,7 @@
                                             }
                                         ?>
                                 </select>
-                                <label>Categoria</label>
+                                <label>Almacenes</label>
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
                                 <select class="form-control form-group-md" id="selectgrupo" name="selectgrupo">
@@ -122,15 +127,30 @@
                                 <input type="text" id="inputmin" name="inputmin" class="form-control form-control-md validanumericos">
                                 <label>Minimo</label>
                             </div>
-                             <div style="width: 50%;" class="form-floating mx-1">
+                            <div style="width: 25%;" class="form-floating mx-1">
+                                <input type="text" id="inputptoreorden" name="inputptoreorden" class="form-control form-control-md validanumericos">
+                                <label>Punto de reorden</label>
+                            </div>
+                            <div style="width: 25%;" class="form-floating mx-1">
+                                <select class="form-control form-group-md" id="selectunidadmedida" name="selectunidadmedida">
+                                    <option selected="selected" value="0">[Seleccione una opción..]</option>
+                                    <option value="KG">KG</option>
+                                    <option value="LTS">LTS</option>
+                                    <option value="PZA">PZA</option>
+                                    <option value="SACO">SACO</option>
+                                    <option value="SERVICIO">SERVICIO</option>
+                                </select>
+                                <label>Unidad de medida</label>
+                            </div>
+                             <!-- <div style="width: 50%;" class="form-floating mx-1">
                                 <input type="text" id="inputobservacion" name="inputobservacion" class="form-control form-control-md UpperCase">
                                 <label>Observaciones</label>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="row form-group form-group-sm">
                         <div class="col-lg-12 d-lg-flex">
-                            <div style="width: 25%;" class="form-floating mx-1">
+                            <!-- <div style="width: 25%;" class="form-floating mx-1">
                                 <select class="form-control form-group-md" id="selectunidadmedida" name="selectunidadmedida">
                                     <option selected="selected" value="0">[Seleccione una opción..]</option>
                                     <option value="KG">KG</option>
@@ -139,7 +159,7 @@
                                     <option value="SACO">SACO</option>
                                 </select>
                                 <label>Unidad de medida</label>
-                            </div>
+                            </div> -->
                              <div style="width: 25%;" class="form-floating mx-1">
                                 <input type="text" id="inputseccion" name="inputseccion" class="form-control form-control-md UpperCase">
                                 <label>Sección</label>
@@ -162,7 +182,20 @@
                     </div>
                     <div class="row form-group form-group-sm border-top">
                         <div class="col-sm-12" align="center">
-                            <input type="submit" value="Guardar" href="#" onclick="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important">
+                            <?php
+                                if ($_SESSION['articulo_edit'] == 1) {
+                            ?>
+                                    <input type="submit" value="Guardar" href="#" onclick="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important">
+                            <?php
+                                }else{
+                            ?>
+                                    <input type="submit" value="Guardar" href="#" onclick="sinacceso()" class="btn btn-primary" style="margin-bottom: -25px !important">
+                            <?php
+                                }
+                            ?>
+
+
+                            <!-- <input type="submit" value="Guardar" href="#" onclick="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important"> -->
                             <input type="submit" value="Limpiar" href="#" onclick="limpiarCampos()" class="btn btn-warning" style="margin-bottom: -25px !important">
                         </div>
                     </div>

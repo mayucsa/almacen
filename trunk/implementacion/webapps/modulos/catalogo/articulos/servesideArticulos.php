@@ -1,5 +1,11 @@
 <?php
+session_start();
 include_once "../../../dbconexion/conexion.php";
+include_once "../../../modulos/seguridad/login/datos_usuario.php";
+
+// $objeto = unserialize($_SESSION['usuario']);
+ // $edit_catalogo  = $objeto->edit_catalogo;
+
 // header('Content-Type: application/json');
 
 // DB table to use
@@ -26,6 +32,17 @@ $columns = array(
         }
     ),
     array( 'db' => 'cve_articulo',       'dt' => 5),
+    array( 'db' => 'estatus_articulo',       'dt' => 6, 'formatter' => function($d, $row){
+        if ($_SESSION['articulo_edit'] == 1) {
+            return  '<span class= "btn btn-info" onclick= "obtenerDatosS('.$row[5].')" title="Scanner" data-toggle="modal" data-target="#modalScanner" data-whatever="@getbootstrap"><i class="fas fa-barcode"></i> </span>'. ' '.
+                    '<span class= "btn btn-info" onclick= "obtenerDatosV('.$row[5].')" title="Ver" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>'. ' '.
+                    '<span class= "btn btn-warning" onclick= "obtenerDatos('.$row[5].')" title="Editar" data-toggle="modal" data-target="#modalEditar" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>'.' '.
+                    '<span class= "btn btn-danger" onclick= "obtenerDatosE('.$row[5].')" title="Eliminar" data-toggle="modal" data-target="#modalEliminar" data-whatever="@getbootstrap"><i class="fas fa-trash-alt"></i> </span>';
+
+        }else{
+            return '<span class= "btn btn-info" onclick= "obtenerDatosV('.$row[5].')" title="Ver" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>';
+        }
+    })
 );
  
 // SQL server connection information

@@ -1,4 +1,5 @@
-<?php 
+<?php
+session_start();
     include_once "../../../modulos/seguridad/login/datos_usuario.php";
 
     if (empty($_SESSION['usuario'])) {
@@ -21,6 +22,7 @@
         $vista_dashboardalma  = $objeto->vista_dashboardalma;
 
         $vista_catalogo  = $objeto->vista_catalogo;
+        $edit_catalogo  = $objeto->edit_catalogo;
 
         $vista_movimiento  = $objeto->vista_movimiento;
 
@@ -55,6 +57,27 @@
               <a class="app-menu__item" href="../../dashboard/dashboard/dashboard.php"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a>
           </li>';
 
+
+          $hijosC = '';
+          $hijosC .='
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="../../catalogo/categorias/vista_categorias.php"><i class="icon fa fa-circle-o"></i> Almacenes</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/grupos/vista_grupos.php"><i class="icon fa fa-circle-o"></i> Grupos</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/articulos/vista_articulos.php"><i class="icon fa fa-circle-o"></i> Articulos</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/proveedores/vista_proveedores.php"><i class="icon fa fa-circle-o"></i> Proveedores</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/areas/vista_areas.php"><i class="icon fa fa-circle-o"></i> Áreas</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/departamentos/vista_departamentos.php"><i class="icon fa fa-circle-o"></i> Departamentos</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/maquinas/vista_maquinas.php"><i class="icon fa fa-circle-o"></i> Máquinas</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/centrocostos/vista_centrocostos.php"><i class="icon fa fa-circle-o"></i> Centro de costos</a></li>
+            </ul>';
+
         $catalogo = '';
         $catalogo .= '
           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-folder-open"></i><span class="app-menu__label">Catalogos</span><i class="treeview-indicator fas fa-angle-right"></i></a>
@@ -76,7 +99,6 @@
               <li><a class="treeview-item" href="../../catalogo/centrocostos/vista_centrocostos.php"><i class="icon fa fa-circle-o"></i> Centro de costos</a></li>
             </ul>
           </li>';
-
 
         $movimientos = '';
         $movimientos .= '
@@ -127,19 +149,19 @@
 
           echo $padre;
 
-          if ($vista_dashboardalma == 1) {
+          if ($_SESSION['dashboardalma_vista'] == 1) {
             echo $dashboard;
           }
-          if ($vista_catalogo == 1) {
+          if ($_SESSION['catalogo_vista'] == 1) {
             echo $catalogo;
           }
-          if ($vista_movimiento == 1) {
+          if ($_SESSION['movimientos_vista'] == 1) {
             echo $movimientos;
           }
-          if ($vista_autorizacion == 1) {
+          if ($_SESSION['autorizacion_vista'] == 1) {
             echo $autorizacion;
           }
-          if ($vista_seguridad == 1) {
+          if ($_SESSION['seguridad_vista'] == 1) {
             echo $seguridad;
           }
 

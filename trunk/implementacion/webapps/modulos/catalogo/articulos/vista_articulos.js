@@ -22,12 +22,11 @@ function consultar(){
                             {
                                 "targets": 5,
                                 "render": function(data, type, row, meta){
-                                    // const primaryKey = data;
-                                    // "data": 'cve_entrada',
-                                    return  '<span class= "btn btn-info" onclick= "obtenerDatosS('+row[5]+')" title="Scanner" data-toggle="modal" data-target="#modalScanner" data-whatever="@getbootstrap"><i class="fas fa-barcode"></i> </span>' + ' ' +
-                                            '<span class= "btn btn-info" onclick= "obtenerDatosV('+row[5]+')" title="Ver" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>' + ' ' +
-                                            '<span class= "btn btn-warning" onclick= "obtenerDatos('+row[5]+')" title="Editar" data-toggle="modal" data-target="#modalEditar" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>' + ' ' +
-                                            '<span class= "btn btn-danger" onclick= "obtenerDatosE('+row[5]+')" title="Eliminar" data-toggle="modal" data-target="#modalEliminar" data-whatever="@getbootstrap"><i class="fas fa-trash-alt"></i> </span>';
+                                    return row[6];
+                                    // return  '<span class= "btn btn-info" onclick= "obtenerDatosS('+row[5]+')" title="Scanner" data-toggle="modal" data-target="#modalScanner" data-whatever="@getbootstrap"><i class="fas fa-barcode"></i> </span>' + ' ' +
+                                            // '<span class= "btn btn-info" onclick= "obtenerDatosV('+row[5]+')" title="Ver" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>' + ' ' +
+                                            // '<span class= "btn btn-warning" onclick= "obtenerDatos('+row[5]+')" title="Editar" data-toggle="modal" data-target="#modalEditar" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>' + ' ' +
+                                            // '<span class= "btn btn-danger" onclick= "obtenerDatosE('+row[5]+')" title="Eliminar" data-toggle="modal" data-target="#modalEliminar" data-whatever="@getbootstrap"><i class="fas fa-trash-alt"></i> </span>';
                                 }
                                 // "data": null,
                                 // "defaultContent": '<span class= "btn btn-warning" onclick= "obtenerDatos(".$value["cve_entrada"].")" data-toggle="modal" data-target="#modalMatPrimaUpdate" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>'
@@ -116,7 +115,7 @@ function obtenerDatos(cve_articulo) {
         $('#inputid').val(registros[0]['cve_articulo']);
         // $('#inputcodartedit').val(registros[0]['cve_alterna']);
         $('#inputnombreartedit').val(registros[0]['nombre_articulo']);
-        $('#inputnombrelargeedit').val(registros[0]['nombre_articulo_largo']);
+        // $('#inputnombrelargeedit').val(registros[0]['nombre_articulo_largo']);
         $('#selectcategoriaedit').val(registros[0]['cve_ctg']);
         $('#selectgrupoedit').val(registros[0]['cve_grupo']);
         $('#inputdescripcionedit').val(registros[0]['descripcion']);
@@ -126,6 +125,8 @@ function obtenerDatos(cve_articulo) {
         $('#inputniveledit').val(registros[0]['nivel']);
         $('#inputmaxedit').val(registros[0]['max']);
         $('#inputminedit').val(registros[0]['min']);
+        $('#inputobservacionedit').val(registros[0]['observaciones']);
+        $('#inputpuntoreordenedit').val(registros[0]['punto_reorden']);
         // $('#inputptoreordenedit').val(registros[0]['punto_reorden']);
     });
 }
@@ -143,7 +144,7 @@ function obtenerDatosE(cve_articulo) {
 function limpiarCampos(){
     $('#inputcodart').val("");
     $('#inputnombreart').val("");
-    $('#inputnombrelarge').val("");
+    // $('#inputnombrelarge').val("");
     $('#selectgrupo').val(0);
     $('#selectcategoria').val(0);
     $('#inputdescripcion').val("");
@@ -154,13 +155,13 @@ function limpiarCampos(){
     $('#inputnivel').val("");
     $('#inputmax').val("");
     $('#inputmin').val("");
-    // $('#inputptoreorden').val("");
+    $('#inputptoreorden').val("");
 }
 
 function validacionCampos() {
     var codigo          = $('#inputcodart').val();
     var nombre          = $('#inputnombreart').val();
-    var nombrelargo     = $('#inputnombrelarge').val();
+    // var nombrelargo     = $('#inputnombrelarge').val();
     var categoria       = $('#selectcategoria').val();
     var grupo           = $('#selectgrupo').val();
     var descripcion     = $('#inputdescripcion').val();
@@ -171,7 +172,7 @@ function validacionCampos() {
     var nivel           = $('#inputnivel').val();
     var max             = $('#inputmax').val();
     var min             = $('#inputmin').val();
-    // var reorden         = $('#inputptoreorden').val();
+    var reorden         = $('#inputptoreorden').val();
     var msj = "";
   
     if (codigo == "") {
@@ -180,9 +181,9 @@ function validacionCampos() {
     if (nombre == "") {
         msj += '<li>Nombre de artículo</li>';
     }
-    if (nombrelargo == "") {
-        msj += '<li>Nombre de artículo - Largo</li>';
-    }
+    // if (nombrelargo == "") {
+    //     msj += '<li>Nombre de artículo - Largo</li>';
+    // }
     if (categoria == 0) {
         msj += '<li>Categoría</li>';
     }
@@ -213,9 +214,9 @@ function validacionCampos() {
     if (nivel == "") {
         msj += '<li>Nivel</li>';
     }
-    // if (reorden == "") {
-    //     msj += '<li>Punto de reorden</li>';
-    // }
+    if (reorden == "") {
+        msj += '<li>Punto de reorden</li>';
+    }
     if (msj.length != 0) {
         $('#encabezadoModal').html('Validación de datos');
         $('#cuerpoModal').html('Los siguientes campos son obligatorios:<ul>'+msj+'</ul>');
@@ -278,7 +279,7 @@ function insertCaptura(){
 
     datos.append('codigo',          $('#inputcodart').val());
     datos.append('nombre',          $('#inputnombreart').val());
-    datos.append('nombrelargo',     $('#inputnombrelarge').val());
+    // datos.append('nombrelargo',     $('#inputnombrelarge').val());
     datos.append('categoria',       $('#selectcategoria').val());
     datos.append('grupo',           $('#selectgrupo').val());
     datos.append('descripcion',     $('#inputdescripcion').val());
@@ -292,7 +293,7 @@ function insertCaptura(){
     datos.append('nivel',           $('#inputnivel').val());
     datos.append('max',             $('#inputmax').val());
     datos.append('min',             $('#inputmin').val());
-    // datos.append('reorden',         $('#inputptoreorden').val());
+    datos.append('reorden',         $('#inputptoreorden').val());
     datos.append('usuario',         $('#spanusuario').text());
 
     // console.log(datos.get('codigo'));
@@ -361,10 +362,20 @@ function cerrarModalEliminar(){
     $('.modal-backdrop').remove();
 }
 
+function sinacceso(){
+
+    Swal.fire({
+        // confirmButtonColor: '#3085d6',
+        title: 'Usuario Sin Privilegios',
+        html: 'Pongase en contacto con el Administrador',
+        confirmButtonColor: '#1A4672'
+        });
+}
+
 function editarArticulo(){
     // var ecodart         = $('#inputcodartedit').val();
     var enombre         = $('#inputnombreartedit').val();
-    var enombrelargo    = $('#inputnombrelargeedit').val();  
+    // var enombrelargo    = $('#inputnombrelargeedit').val(); 
     var ecategoria      = $('#selectcategoriaedit').val();
     var egrupo          = $('#selectgrupoedit').val(); 
     var edescripcion    = $('#inputdescripcionedit').val();
@@ -375,6 +386,7 @@ function editarArticulo(){
     var enivel          = $('#inputniveledit').val();
     var emax            = $('#inputmaxedit').val();
     var emix            = $('#inputminedit').val();
+    var ereorden            = $('#inputpuntoreordenedit').val();
     // var epuntoreorden   = $('#inputptoreordenedit').val();
 
     var msj = "";
@@ -382,10 +394,6 @@ function editarArticulo(){
     if (enombre == "") {
         // console.log(cantidad);
         msj += 'Nombre de artículo <br>';
-    }
-    if (enombrelargo == "") {
-        // console.log(cantidad);
-        msj += 'Nombre de artículo - Largo <br>';
     }
     if (ecategoria == 0) {
         // console.log(cantidad);
@@ -427,6 +435,10 @@ function editarArticulo(){
         // console.log(cantidad);
         msj += 'Nivel <br>';
     }
+    if (ereorden == "") {
+        // console.log(cantidad);
+        msj += 'Punto de reorden <br>';
+    }
     // if (epuntoreorden == "") {
     //     // console.log(cantidad);
     //     msj += 'Punto de reorden <br>';
@@ -455,7 +467,7 @@ function editarArticulo(){
     var datos   = new FormData();
     datos.append('cve_articulo',            $('#inputid').val());
     datos.append('nombre_articulo',         $('#inputnombreartedit').val());
-    datos.append('nombre_articulo_largo',   $('#inputnombrelargeedit').val());
+    // datos.append('nombre_articulo_largo',   $('#inputnombrelargeedit').val());
     datos.append('categoria',               $('#selectcategoriaedit').val());
     datos.append('grupo',                   $('#selectgrupoedit').val());
     datos.append('descripcion',             $('#inputdescripcionedit').val());
@@ -466,21 +478,23 @@ function editarArticulo(){
     datos.append('nivel',                   $('#inputniveledit').val());
     datos.append('max',                     $('#inputmaxedit').val());
     datos.append('min',                     $('#inputminedit').val());
+    datos.append('reorden',                 $('#inputpuntoreordenedit').val());
 
     datos.append('usuario',                 $('#spanusuario').text());
 
     // console.log(datos.get('cve_articulo'));
     // console.log(datos.get('nombre_articulo'));
-    // console.log(datos.get('nombre_articulo_largo'));
+    // console.log(datos.get('observacion'));
     // console.log(datos.get('categoria'));
     // console.log(datos.get('grupo'));
     // console.log(datos.get('descripcion'));
+    // console.log(datos.get('max'));
+    // console.log(datos.get('min'));
+    // console.log(datos.get('reorden'));
     // console.log(datos.get('unidadmedida'));
     // console.log(datos.get('seccion'));
     // console.log(datos.get('casillero'));
     // console.log(datos.get('nivel'));
-    // console.log(datos.get('max'));
-    // console.log(datos.get('min'));
     // console.log(datos.get('usuario'));
 
         Swal.fire({

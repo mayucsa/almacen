@@ -27,6 +27,13 @@ session_start();
 
 				$_SESSION['loggedin'] = true;
 				$_SESSION['id'] = $d->cve_usuario;
+				$_SESSION['dashboardalma_vista'] = $d->dashboardalma_vista;
+				$_SESSION['catalogo_vista'] = $d->catalogo_vista;
+				$_SESSION['movimientos_vista'] = $d->movimientos_vista;
+				$_SESSION['autorizacion_vista'] = $d->autorizacion_vista;
+				$_SESSION['seguridad_vista'] = $d->seguridad_vista;
+				$_SESSION['almacenes_vista'] = $d->almacenes_vista;
+				$_SESSION['articulo_edit'] = $d->articulo_edit;
 				$_SESSION['usuario'] = serialize($objeto_datos_usuario);
 				$_SESSION['start'] = time();
 				$_SESSION['expire'] = $_SESSION['start'] + (2 * 3600);//expira en 2 horas
