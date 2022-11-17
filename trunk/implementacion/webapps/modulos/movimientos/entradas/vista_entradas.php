@@ -130,7 +130,7 @@ include_once "../../../dbconexion/conexion.php";
                                             <label>Folio de Factura/Remisi&oacute;n</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input class="date-picker form-control" ng-model="fechafactura">
+                                            <input class="date-picker form-control" ng-model="fechafactura" id="fechafactura">
                                             <label>Fecha de Factura/Remisi&oacute;n</label>
                                         </div>
                                     </div>
@@ -164,11 +164,11 @@ include_once "../../../dbconexion/conexion.php";
                                                 <tr>
                                                     <th>Folio Req</th>
                                                     <th>Cve articulo</th>
-                                                    <th>Nombre articulos</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Cantidad a entrar</th>
-                                                    <th>unidad medida</th>
-                                                    <th>Precio</th>
+                                                    <th>Nombre de articulo</th>
+                                                    <th>Unidad medida</th>
+                                                    <th>Cantidad original</th>
+                                                    <th>Cantidad a recibir</th>
+                                                    <th>Precio total</th>
                                                     <th>Check</th>
                                                 </tr>
                                             </thead>
@@ -178,8 +178,8 @@ include_once "../../../dbconexion/conexion.php";
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td> <input type="number" class="form-control text-right"> </td>
                                                     <td></td>
+                                                    <td> <input type="number" class="form-control text-right"> </td>
                                                     <td></td>
                                                     <td>
                                                         <div class="div">

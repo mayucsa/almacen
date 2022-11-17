@@ -12,11 +12,11 @@ function guardarMovimiento($dbcon, $Datos){
 	$status = '1';
 	$fecha = date('Y-m-d H:i:s');
 	$conn = $dbcon->conn();
-	$sql = "INSERT INTO movimientos (tipo_mov, creado_por, cve_odc, tipo_documento, folio_documento, fecha_documento, estatus_mov, fecha_registro) VALUES ('".$tipo_mov."', ".$Datos->id.", ".$Datos->folioodc.", '".$Datos->tipo."', '".$Datos->foliofactura."', '".$Datos->fechafactura."', '".$status."', '".$fecha."' )";
+	$sql = "INSERT INTO movtos_entradas (tipo_mov, creado_por, cve_odc, tipo_documento, folio_documento, fecha_documento, estatus_mov, fecha_registro) VALUES ('".$tipo_mov."', ".$Datos->id.", ".$Datos->folioodc.", '".$Datos->tipo."', '".$Datos->foliofactura."', '".$Datos->fechafactura."', '".$status."', '".$fecha."' )";
 	$qBuilder = $dbcon->qBuilder($conn, 'do', $sql);
 
 	if ($qBuilder) {
-		$getId = "SELECT max(cve_mov) cve_mov FROM movimientos WHERE
+		$getId = "SELECT max(cve_mov) cve_mov FROM movtos_entradas WHERE
 		fecha_registro = '".$fecha."'
 		AND creado_por = ".$Datos->id."
 		AND tipo_mov = '".$tipo_mov."'

@@ -35,10 +35,12 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 			);
 			return;
 		}
+		$scope.fechafactura = $('#fechafactura').val();
+		console.log('fecha', $scope.fechafactura);
 		if ($scope.fechafactura == '' || $scope.fechafactura == null) {
 			Swal.fire(
 			  'Campo faltante',
-			  'Es necesario ingresar el folio de la factura/remisión',
+			  'Es necesario ingresar la fecha de la factura/remisión',
 			  'warning'
 			);
 			return;
