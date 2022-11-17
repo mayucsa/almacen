@@ -19,16 +19,16 @@ session_start();
         $clave  = $objeto->rol_persona;
         $id  = $objeto->clave_usuario;
 
-        $vista_dashboardalma  = $objeto->vista_dashboardalma;
+        // $vista_dashboardalma  = $objeto->vista_dashboardalma;
 
         $vista_catalogo  = $objeto->vista_catalogo;
         $edit_catalogo  = isset($objeto->edit_catalogo)?$objeto->edit_catalogo:'';
 
-        $vista_movimiento  = $objeto->vista_movimiento;
+        // $vista_movimiento  = $objeto->vista_movimiento;
 
-        $vista_autorizacion  = $objeto->vista_autorizacion;
+        // $vista_autorizacion  = $objeto->vista_autorizacion;
 
-        $vista_seguridad  = $objeto->vista_seguridad;
+        // $vista_seguridad  = $objeto->vista_seguridad;
  ?>
 <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
@@ -110,7 +110,7 @@ session_start();
             
               <li><a class="treeview-item" href="../../movimientos/ordencompra/vista_ordencompra.php"><i class="icon fa fa-circle-o"></i> Orden de compra</a></li>
             
-              <li><a class="treeview-item" href="../../morteros/salidas/vista_salidas.php"><i class="icon fa fa-circle-o"></i> Entradas</a></li>
+              <li><a class="treeview-item" href="../../movimientos/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Entradas</a></li>
 
               <li><a class="treeview-item" href="../../morteros/seguridad/vista_seguridad.php"><i class="icon fa fa-circle-o"></i> Salidas</a></li>
             </ul>
