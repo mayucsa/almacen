@@ -35,6 +35,8 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 			);
 			return;
 		}
+		$scope.fechaentrega = $('#fechaentrega').val();
+		console.log('fecha', $scope.fechaentrega);
 		if ($scope.fechaentrega == '' || $scope.fechaentrega == null) {
 			Swal.fire(
 			  'Campo faltante',
@@ -131,6 +133,7 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 						if (input.files.length == 0) {
 							// Si no hay archivos seleccionados termina la función
 							jsRemoveWindowLoad();
+							console.log('response.cve_odc', response.cve_odc, response);
 							Swal.fire({
 							  title: '¡Éxito!',
 							  html: 'Orden de compra generada correctamente.\n <b>Folio: ' +response.cve_odc+ '</b>' ,
@@ -170,7 +173,7 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 								);
 								Swal.fire({
 								  title: '¡Éxito!',
-								  text: 'Orden de compra generada y archivos guardados satisfactoriamente.\n Folio: '+response.cve_odc,
+								  text: 'Orden de compra generada y archivos guardados satisfactoriamente.\n Folio: '+response.data.cve_odc,
 								  icon: 'success',
 								  showCancelButton: false,
 								  confirmButtonColor: 'green',

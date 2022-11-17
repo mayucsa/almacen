@@ -29,8 +29,8 @@ function envioCorreo($dbcon, $folio){
 	$envioSMTP = new EnvioSMTP;
 	$sql = "SELECT u.nombre_usuario FROM requisicion r INNER JOIN cat_usuarios u ON u.cve_usuario = r.cve_usuario WHERE cve_req = ".$folio;
 	$requisicion = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
-	$title = 'Prueba';
-	$Subject = 'Correo demo';
+	$title = 'Nueva requisición';
+	$Subject = 'Nueva requisición generada';
 	$Body = '<!doctype html>';
 	$Body .= '<html lang="es" >';
 	$Body .= '<head>';
@@ -54,7 +54,9 @@ function envioCorreo($dbcon, $folio){
 	$Body .= '<br><br>';
 	$Body .= '</body>';
 	$Body .= '</html>';
-	$correos = ['a.chan@mayucsa.com.mx'];
+	$claveRol2 = "SELECT correo FrOM cat_usuarios WHERE cve_rol = 2";
+	$correos = $dbcon->qBuilder($dbcon->conn(), 'all', $claveRol2);
+	// $correos = ['a.chan@mayucsa.com.mx'];
 	$email = $envioSMTP->correo($title, $Subject, $Body, $correos);
 	if ($email) {
 		dd(['code'=>200]);

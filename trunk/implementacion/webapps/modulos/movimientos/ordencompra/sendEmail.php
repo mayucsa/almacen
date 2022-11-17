@@ -53,11 +53,7 @@ try {
                         <br> D&iacute;as de revisi&oacute;n y entrega de contra-recibos: martes y jueves de 09:00 a 12:00 hrs y de 14:00 a 16:00 hrs.
                         <br> D&iacute;as de pago lunes de 09:00 a 12:00 hrs y de 14:00 a 16:00 hrs.';
     $mail->AddAttachment("../../../includes/imagenes/Mayucsa.png", "Mayucsa.png");
-    $sql = "SELECT * FROM orden_compra_archivos WHERE cve_odc = ".$cve_odc;
-    $archivos = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
-    foreach ($archivos as $i => $val) {
-        $mail->AddAttachment($val->ruta.$val->nombre, $val->nombreOriginal);
-    }
+    $mail->AddAttachment($_REQUEST['pdf'], 'ODC_'.$cve_odc.'.pdf');
     // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();

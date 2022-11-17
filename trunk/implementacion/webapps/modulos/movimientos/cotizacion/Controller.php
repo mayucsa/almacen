@@ -6,6 +6,48 @@ function dd($var){
         die($var);
     }
 }
+function envioCorreo($dbcon, $cve_odc){
+	include_once "../../../correo/EnvioSMTP.php";
+	$envioSMTP = new EnvioSMTP;
+	$sql = "SELECT odc.q_autoriza, u.nombre_usuario FROM orden_compra odc 
+	INNER JOIN cat_usuarios u ON u.cve_usuario = odc.cve_usuario 
+	WHERE cve_odc = ".$cve_odc;
+	$odc = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
+	$title = 'Nueva orden de compra';
+	$Subject = 'Aprobación orden de compra pendiente';
+	$Body = '<!doctype html>';
+	$Body .= '<html lang="es" >';
+	$Body .= '<head>';
+	$Body .= '<meta charset="utf-8">';
+	$Body .= '<meta name="viewport" content="width=device-width, initial-scale=1">';
+	$Body .= '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
+	$Body .= '<meta name="title" content="Mayucsa">';
+	$Body .= '<title>Email Mayucsa</title>';
+	$Body .= '</head>';
+	$Body .= '<body style="background-color: white;">';
+	$Body .= '<br><br>';
+	$Body .= '<div class="container" style="border-radius: 15px; background-color: white; margin-top:2vH;margin-bottom:2vH; width:70%; margin-left:15%; text-align:center;">';
+	$Body .= '<center>';
+	$Body .= '<h1>Se ha creado una nueva orden de compra.</h1>';
+	$Body .= '<br><hr style="width:30%;">';
+	$Body .= '<br><p>Orden de compra #'.$cve_odc.'</p>';
+	$Body .= '<br><p>Creado por usuario: '.$odc->nombre_usuario.'</p>';
+	$Body .= '<br><p>Acceda al sistema (SAM) para Generar cotizaciones.</p>';
+	$Body .= '</center>';
+	$Body .= '</div>';
+	$Body .= '<br><br>';
+	$Body .= '</body>';
+	$Body .= '</html>';
+	$claveRol2 = "SELECT correo FrOM cat_usuarios WHERE cve_usuario = ".$odc->q_autoriza;
+	$correos = $dbcon->qBuilder($dbcon->conn(), 'all', $claveRol2);
+	// $correos = ['a.chan@mayucsa.com.mx'];
+	$email = $envioSMTP->correo($title, $Subject, $Body, $correos);
+	if ($email) {
+		return 'ok';
+	}else{
+		return 'error '.$email;
+	}
+}
 function guardaArchivos($dbcon){
 	$cve_odc = $_REQUEST['cve_odc'];
 	$archivos = $_FILES['archivos']["name"];
@@ -109,7 +151,12 @@ function generaOrdenCompra($dbcon, $datos){
 		if (!$dbcon->qBuilder($dbcon->conn(),'do',$sql)) {
 			dd(['code' => 400, 'qry'=>$sql]);
 		}
-		dd(['code' => 200, 'cve_odc' => $cve_odc->cve_odc]);
+		$envioCorreo = envioCorreo($dbcon, $cve_odc->cve_odc);
+		if ($envioCorreo == 'ok') {
+			dd(['code' => 200, 'cve_odc' => $cve_odc->cve_odc]);
+		}else{
+			dd(['code' => 400, 'error'=>'envío de correo '.$envioCorreo]);
+		}
 	}else{
 		dd(['code' => 400, 'qry'=>$sql]);
 	}

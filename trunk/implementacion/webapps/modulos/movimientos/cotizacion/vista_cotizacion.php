@@ -117,7 +117,7 @@ include_once "modelo_cotizacion.php";
                                         <label>Subir cotización</label>
                                     </div>
                                     <div style="width: 30%;" class="form-floating mx-1">
-                                        <input class="date-picker form-control" ng-model="fechaentrega">
+                                        <input class="date-picker form-control" ng-model="fechaentrega" id="fechaentrega">
                                         <label>Fecha de entrega</label>
                                     </div>
                                 </div>

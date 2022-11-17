@@ -22,7 +22,7 @@ session_start();
         $vista_dashboardalma  = $objeto->vista_dashboardalma;
 
         $vista_catalogo  = $objeto->vista_catalogo;
-        $edit_catalogo  = $objeto->edit_catalogo;
+        $edit_catalogo  = isset($objeto->edit_catalogo)?$objeto->edit_catalogo:'';
 
         $vista_movimiento  = $objeto->vista_movimiento;
 

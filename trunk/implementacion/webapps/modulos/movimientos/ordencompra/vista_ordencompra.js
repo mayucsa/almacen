@@ -217,26 +217,36 @@ function descargaPDF(){
 }
 
 function EnviarCorreo(cve_odc){
+    jsShowWindowLoad('Generando PDF...');
     $.getJSON("modelo_ordencompra.php?consultar="+cve_odc, function (registros) {
         // console.log(registros);
         // console.log(registros[0]);
         // console.log(registros[1]);
     });
-    console.log('envío correo');
+    // console.log('envío correo');
     // window.open('sendEmail.php?cve_odc='+cve_odc);
     $.ajax({
-                type:"POST",
-                url:"sendEmail.php?cve_odc=" + cve_odc,
-                data: cve_odc,
-                processData:false,
-                contentType:false,
-        success:function(data){
-                    Swal.fire(
-                                'Correos enviado!',
-                                'Se ha enviado la Orden de compra al proveedor !!',
-                                'success'
-                            )
-                    }
+        method: "POST",
+        url: "odcPDFformato.php",
+        data: { cve_odc: cve_odc, tipo: 'descarga' }
     })
+    .done(function( result ) {
+        jsShowWindowLoad('Enviando correo...');
+        $.ajax({
+            type:"POST",
+            url:"sendEmail.php?cve_odc=" + cve_odc + "&pdf=" + result,
+            data: cve_odc,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                jsRemoveWindowLoad();
+                Swal.fire(
+                    'Correos enviado!',
+                    'Se ha enviado la Orden de compra al proveedor !!',
+                    'success'
+                )
+            }
+        })
+    });
 }
 // 

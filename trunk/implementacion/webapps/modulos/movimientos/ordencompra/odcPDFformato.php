@@ -74,7 +74,7 @@
 		$myHtml .='<br>';
 		$myHtml .='<span>RFC: '.$datos['proveedor']->rfc.'</span>';
 		$myHtml .='<br>';
-		$myHtml .='<span>FECHA ENTREGA: dd/mm/yyyy</span>';
+		$myHtml .='<span>FECHA ENTREGA: '.$datos['usuario']->fecha_entrega.'</span>';
 		$myHtml .='</th>';
 		$myHtml .='</tr>';
 		$myHtml .='</table>';
@@ -120,10 +120,13 @@
 		$myHtml .='<td></td>';
 		$myHtml .='<td></td>';
 		$myHtml .='<td class="text-right">';
-		$myHtml .='<strong>Total:</strong>';
+		$myHtml .='<strong>Subtotal<br>IVA<br>Total:</strong>';
+		
 		$myHtml .='</td>';
 		$myHtml .='<td class="text-right">';
-		$myHtml .='<strong>$'.number_format($total, 2).'</strong>';
+		$myHtml .='<strong>$'.number_format($total, 2).'</strong><br>';
+		$myHtml .='<strong>$'.number_format($total * 0.16, 2).'</strong><br>';
+		$myHtml .='<strong>$'.number_format($total * 1.16, 2).'</strong>';
 		$myHtml .='</td>';
 		$myHtml .='</tr>';
 		$myHtml .='</tfoot>';
@@ -134,25 +137,25 @@
 		$myHtml .='<div class="row pl-4 pr-4">';
 		$myHtml .='<div class="col-md-12">';
 		$myHtml .='<h2>Observaciones:</h2>';
-		$myHtml .='<br>';
+		// $myHtml .='<br>';
 		$myHtml .='<hr style="border: solid 1px;">';
 		$myHtml .='</div>';
 		$myHtml .='<div class="col-md-12 p-4">';
 		$myHtml .='<div class="row">';
 		$myHtml .='<div class="col-md-12">';
-		$myHtml .='<span>Uso CFDI:</span>';
+		$myHtml .='<span>Uso CFDI: '.$datos['usuario']->cve_cfdi.'-'.$datos['usuario']->cfdi_desc.'</span>';
 		$myHtml .='</div>';
 		$myHtml .='<div class="col-md-12">';
-		$myHtml .='<span>Forma de pago:</span>';
+		$myHtml .='<span>Forma de pago: '.$datos['usuario']->forma_pago.'</span>';
 		$myHtml .='</div>';
 		$myHtml .='<div class="col-md-12">';
-		$myHtml .='<span>Método de pago:</span>';
+		$myHtml .='<span>Método de pago: '.$datos['usuario']->metodo_pago.'</span>';
 		$myHtml .='</div>';
 		$myHtml .='</div>';
 		$myHtml .='</div>';
 		$myHtml .='<div class="col-md-12">';
 		$myHtml .='<h2>Nota:</h2>';
-		$myHtml .='<br>';
+		// $myHtml .='<br>';
 		$myHtml .='<hr style="border: solid 1px;">';
 		$myHtml .='</div>';
 		$myHtml .='<div class="col-md-12">';
@@ -163,15 +166,15 @@
 		$myHtml .='</span>';
 		$myHtml .='</div>';
 		$myHtml .='<div class="col-md-12 mt-4">';
-		$myHtml .='<p>';
+		$myHtml .='<span>';
 		$myHtml .='Horarios de almacén: lunes a viernes de 08:00 a 16:00 hrs y sábados de 08:00 a 12:00 hrs.';
-		$myHtml .='</p>';
-		$myHtml .='<p>';
+		$myHtml .='</span>';
+		$myHtml .='<br><span>';
 		$myHtml .='Días de revisión y entrega de contra-recibos: martes y jueves de 09:00 a 12:00 hrs y de 14:00 a 16:00 hrs.';
-		$myHtml .='</p>';
-		$myHtml .='<p>';
+		$myHtml .='</span>';
+		$myHtml .='<br><span>';
 		$myHtml .='Días de pago lunes de 09:00 a 12:00 hrs y de 14:00 a 16:00 hrs.';
-		$myHtml .='</p>';
+		$myHtml .='</span>';
 		$myHtml .='</div>';
 		$myHtml .='</div>';
 		$myHtml .='</div>';
@@ -195,7 +198,7 @@
 		$myHtml .='<th style="width:25%;text-align:center">';
 		$firma = '../../../includees/archivos/firmas/compras.png';
 		if (file_exists($firma)) {
-			$myHtml .= '<br><img src="'.$firma.'" style="width:90%;">';
+			$myHtml .= '<br><img src="'.$firma.'" style="height: 60px; position: relative;"><br>';
 		}else{
 			$myHtml .= '<br><br><br><br><br>';	
 		}
@@ -228,7 +231,9 @@
 		INNER JOIN cat_proveedores p ON odc.cve_proveedor = p.cve_proveedor
 		WHERE odc.cve_odc = ".$cve_odc;
 		$proveedor = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
-		$sql = "SELECT u.cve_usuario, u.nombre, u.apellido FROM orden_compra odc INNER JOIN cat_usuarios u ON u.cve_usuario = odc.cve_usuario
+		$sql = "SELECT u.cve_usuario, u.nombre, u.apellido, odc.cve_cfdi, catcfdi.descripcion as cfdi_desc, forma_pago, metodo_pago, fecha_entrega FROM orden_compra odc 
+		INNER JOIN cat_usuarios u ON u.cve_usuario = odc.cve_usuario
+		LEFT JOIN cat_usocfdi catcfdi ON catcfdi.cve_cfdi = odc.cve_cfdi
 		WHERE odc.cve_odc = ".$cve_odc;
 		$usuario = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
 		require_once('../../../includes/librerias/barcode.php');
@@ -253,7 +258,23 @@
 		//      $html2pdf->setModeDebug();
         $html2pdf->setDefaultFont('Arial');
         $html2pdf->writeHTML($myHtml);
-        $html2pdf->Output('odc_'.$cve_odc.'.pdf');
+        $path = '../../../includees/archivos/odc/';
+        if (!file_exists($path)) {
+	        mkdir($path,0755,true);
+	    }
+	    if(!file_exists($path)){
+	        mkdir($path, 0777) or die("No se puede crear el directorio de extracción");    
+	    }
+        $archivo = $path.'odc_'.$cve_odc.'.pdf';
+        if (isset($_REQUEST['tipo'])) {
+        	$pdfContent = $html2pdf->output('', 'S');
+        	$f =fopen($archivo, 'a');
+            fwrite($f, $pdfContent);
+            fclose($f);
+            echo $archivo;
+        }else{
+        	$html2pdf->Output($archivo);
+        }
     }
     catch(HTML2PDF_exception $e) {
         echo $e;
