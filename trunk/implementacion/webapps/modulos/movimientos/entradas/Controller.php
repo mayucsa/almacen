@@ -98,7 +98,7 @@ function guardarMovimiento($dbcon, $Datos){
 
 		$getId = $dbcon->qBuilder($conn, 'first', $getId);
 		foreach ($Datos->ordenCompraDetalle as $i => $val) {
-			if ($val->chkd == true) {
+			if ($val->chkd == true && floatval($val->chkd) > 0) {
 				$sql = "INSERT INTO movtos_entradas_detalle(cve_mov, cve_articulo, cantidad_cotizada, cantidad_entrada, estatus_mov, fecha_registro)
 				VALUES (
 					".$getId->cve_mov.", ".$val->cve_art.",
