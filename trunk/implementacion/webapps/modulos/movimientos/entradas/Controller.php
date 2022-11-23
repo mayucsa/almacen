@@ -38,10 +38,10 @@ function envioCorreo($dbcon, $cve_mov){
 	$Body .= '<br><br>';
 	$Body .= '</body>';
 	$Body .= '</html>';
-	$correos = "SELECT req.q_autoriza, cu.correo FROM movtos_entradas mv
+	$correos = "SELECT req.cve_usuario, cu.correo FROM movtos_entradas mv
 		INNER JOIN orden_compra_detalle odcd ON odcd.cve_odc = mv.cve_odc 
 		INNER JOIN requisicion req ON req.cve_req = odcd.cve_req
-		INNER JOIN cat_usuarios cu ON cu.cve_usuario = req.q_autoriza
+		INNER JOIN cat_usuarios cu ON cu.cve_usuario = req.cve_usuario
 		WHERE mv.cve_mov = ".$cve_mov."
 		group by req.q_autoriza, cu.correo";
 	$correos = $dbcon->qBuilder($dbcon->conn(), 'all', $correos);
