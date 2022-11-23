@@ -114,7 +114,7 @@ include_once "../../../dbconexion/conexion.php";
                                 <div class="row form-group form-group-sm">
                                     <div class="col-lg-12 d-lg-flex">
                                          <div style="width: 25%;" class="form-floating mx-1">
-                                            <input type="text" ng-model="folioodc" class="form-control form-control-md validanumericos" maxlength="500">
+                                            <input type="text" ng-model="folioodc" class="form-control form-control-md validanumericos" maxlength="500" ng-blur="validaFolio(folioodc)">
                                             <label>Folio de Orden de Compra</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
@@ -173,18 +173,20 @@ include_once "../../../dbconexion/conexion.php";
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td> <input type="number" class="form-control text-right"> </td>
-                                                    <td></td>
+                                                <tr ng-repeat="(i, obj) in ordenCompraDetalle track by i">
+                                                    <td>{{obj.cve_odc}}</td>
+                                                    <td>{{obj.cve_art}}</td>
+                                                    <td>{{obj.nombre_articulo}}</td>
+                                                    <td>{{obj.unidad_medida}}</td>
+                                                    <td>{{obj.cantidad_cotizada}}</td>
+                                                    <td>
+                                                        <input type="text" class="form-control text-right" ng-model="obj.cantidad" ng-keyup="calculaTotal(i)">
+                                                    </td>
+                                                    <td>{{obj.total}}</td>
                                                     <td>
                                                         <div class="div">
                                                             <div class="col-md-4 offset-md-5 text-center">
-                                                                <input class="form-check-input" type="checkbox">
+                                                                <input class="form-check-input" type="checkbox" ng-model="obj.chkd" ng-checked="obj.chkd" ng-change="checkEntrada(i)">
                                                             </div>
                                                         </div>
                                                     </td>

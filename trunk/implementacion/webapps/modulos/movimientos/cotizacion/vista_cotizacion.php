@@ -214,7 +214,7 @@ include_once "modelo_cotizacion.php";
                                     <td class="text-center align-middle" nowrap="nowrap">{{obj[10]}} {{obj[11]}}</td>
                                     <td class="align-middle text-center">{{obj[3]}}</td>
                                     <td class="align-middle text-center">{{obj[4]}}</td>
-                                    <td class="align-middle text-center">{{obj[5]}}</td>
+                                    <td class="align-middle text-center">{{obj[5]|number:4}}</td>
                                     <td>
                                         <input type="text" class="form-control input_{{obj[1]}}" ng-model="obj[13]" ng-keyup="setCantidad(i)" ng-blur="setFixed(i)" ng-disabled="obj[15]">
                                     </td>

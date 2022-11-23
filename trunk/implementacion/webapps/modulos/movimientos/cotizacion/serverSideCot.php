@@ -51,7 +51,7 @@ $var    = "estatus_req_det = '1' ";
             ['db' => '`art`.`nombre_articulo`', 'dt' => 4, 'field' => 'nombre_articulo'],
             ['db' => '`req`.`cantidad`', 'dt' => 5,
                         'formatter' => function($d, $row){
-                            return number_format($d - $row[7], 4,'.',',');
+                            return floatval($d - $row[7]);
                         }, 'field' => 'cantidad'],
             ['db' => '`req`.`cve_art`', 'dt' => 6, 'field' => 'cve_art'],
             ['db' => '`req`.`cantidad_cotizado`', 'dt' => 7, 'field' => 'cantidad_cotizado'],

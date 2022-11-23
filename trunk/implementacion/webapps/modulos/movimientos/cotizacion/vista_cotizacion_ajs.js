@@ -279,7 +279,8 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 	}
 	$scope.setCantidad = function(i){
 		const cantidad = $scope.setNumerico($scope.arrayRequisiciones[i][13]);
-		if (cantidad > $scope.arrayRequisiciones[i][5]) {
+		if (parseFloat(cantidad) > parseFloat($scope.arrayRequisiciones[i][5])) {
+			// console.log(parseFloat(cantidad) , );
 			Swal.fire(
 			  'Cantidad incorrecta',
 			  'La cantidad máxima es '+ $scope.arrayRequisiciones[i][5],
