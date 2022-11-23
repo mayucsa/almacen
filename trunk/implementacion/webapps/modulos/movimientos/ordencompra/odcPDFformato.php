@@ -32,23 +32,36 @@
 		.text-right{
 			text-align: right;
 		}
+		.tabulado{
+			width: 100%;
+			position:relative;
+		}
 		.tabulado table {
 		  border-collapse: collapse;
 		  border-spacing: 0;
-		  width: 90%;
+		  width: 100%;
 		  border: 1px solid #ddd;
 		}
 		.tabulado-thead tr{
 			background-color: #3374FF;
 			color: white;
 		}
-		.tabulado-thead th, td {
+		.tabulado-thead th {
 		  text-align: left;
-		  padding: 14px;
+		  padding: 10px;
+		  border: solid 1 white;
+		}
+		.tabulado-thead td {
+		  text-align: left;
+		  text-align: justify;
+		}
+
+		.tdSize{
+			font-size:11px;
 		}
 		</style>';
 		$myHtml = $estilos.'<div>';
-		$myHtml .='<div class="container-fluid" style="width: 85%;">';
+		$myHtml .='<div class="container-fluid" style="width: 100%; position:absolute">';
 		$myHtml .='<table class="table">';
 		$myHtml .='<tr>';
 		$myHtml .='<th class="th-7">';
@@ -83,16 +96,16 @@
 		$myHtml .='</div>';
 		$myHtml .='<div class="col-md-12 p-4">';
 		$myHtml .='<div class="row m-4 tabulado">';
-		$myHtml .='<table class="table table-bordered table-striped" style="width:80%;">';
+		$myHtml .='<table class="table table-bordered table-striped" style="width:100%;">';
 		$myHtml .='<thead class="tabulado-thead">';
 		$myHtml .='<tr>';
-		$myHtml .='<th>Folio Req</th>';
-		$myHtml .='<th>Cod. Artículo</th>';
-		$myHtml .='<th>Nombre artículo</th>';
-		$myHtml .='<th>Unidad medida</th>';
-		$myHtml .='<th>Cantidad</th>';
-		$myHtml .='<th>Precio unitario</th>';
-		$myHtml .='<th>Subtotal</th>';
+		$myHtml .='<th style="width:10%">Folio <br>Req</th>';
+		$myHtml .='<th style="width:10%">Cod. <br>Artículo</th>';
+		$myHtml .='<th style="width:40%">Nombre artículo</th>';
+		$myHtml .='<th style="width:10%">Unidad <br>medida</th>';
+		$myHtml .='<th style="width:10%">Cantidad</th>';
+		$myHtml .='<th style="width:10%">Precio <br>unitario</th>';
+		$myHtml .='<th style="width:10%">Subtotal</th>';
 		$myHtml .='</tr>';
 		$myHtml .='</thead>';
 		$myHtml .='<tbody>';
@@ -100,14 +113,14 @@
 		for ($i=0; $i < count($datos['tabla']); $i++) { 
 			$estilo = $i%2==0?'':'style="background-color:#f2f2f2"';
 			$myHtml .='<tr '.$estilo.'>';
-			$myHtml .='<td>'.$datos['tabla'][$i]->cve_req.'</td>';
-			$myHtml .='<td>'.$datos['tabla'][$i]->cve_art.'</td>';
-			$myHtml .='<td>'.$datos['tabla'][$i]->nombre_articulo.'</td>';
-			$myHtml .='<td>'.$datos['tabla'][$i]->unidadMedida.'</td>';
-			$myHtml .='<td>'.$datos['tabla'][$i]->cantidad_cotizada.'</td>';
-			$myHtml .='<td style="text-align:right;">$'.number_format($datos['tabla'][$i]->precio_unidad, 2).'</td>';
+			$myHtml .='<td class="tdSize" style="width:10%">'.$datos['tabla'][$i]->cve_req.'</td>';
+			$myHtml .='<td class="tdSize" style="width:10%">'.$datos['tabla'][$i]->cve_art.'</td>';
+			$myHtml .='<td class="tdSize" style="width:40%;">'.$datos['tabla'][$i]->nombre_articulo.'</td>';
+			$myHtml .='<td class="tdSize" style="width:10%">'.$datos['tabla'][$i]->unidad_medida.'</td>';
+			$myHtml .='<td class="tdSize" style="width:10%">'.$datos['tabla'][$i]->cantidad_cotizada.'</td>';
+			$myHtml .='<td style="text-align:right;style="width:10%">$'.number_format($datos['tabla'][$i]->precio_unidad, 2).'</td>';
 			$precio = floatval($datos['tabla'][$i]->precio_unidad) * floatval($datos['tabla'][$i]->cantidad_cotizada);
-			$myHtml .='<td style="text-align:right;">$'.number_format($precio, 2).'</td>';
+			$myHtml .='<td style="text-align:right;style="width:10%">$'.number_format($precio, 2).'</td>';
 			$total += $precio;
 			$myHtml .='</tr>';
 		}
@@ -221,7 +234,7 @@
     	include_once "../../../dbconexion/conn.php";
 		$dbcon	= 	new MysqlConn;
     	$cve_odc = $_REQUEST['cve_odc'];
-    	$sql = "SELECT odcd.cve_req, odcd.cve_art, ca.nombre_articulo, '' unidadMedida, 
+    	$sql = "SELECT odcd.cve_req, odcd.cve_art, ca.nombre_articulo, ca.unidad_medida, 
 		odcd.cantidad_cotizada, odcd.precio_unidad 
 		FROM orden_compra_detalle odcd 
 		INNER JOIN cat_articulos ca ON ca.cve_articulo = odcd.cve_art
