@@ -112,7 +112,7 @@ session_start();
             
               <li><a class="treeview-item" href="../../movimientos/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Entradas</a></li>
 
-              <li><a class="treeview-item" href="../../morteros/seguridad/vista_seguridad.php"><i class="icon fa fa-circle-o"></i> Salidas</a></li>
+              <li><a class="treeview-item" href="../../movimientos/salidas/vista_salidas.php"><i class="icon fa fa-circle-o"></i> Salidas</a></li>
             </ul>
           </li>';
 
@@ -120,9 +120,9 @@ session_start();
         $autorizacion .= '
           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-check-circle"></i><span class="app-menu__label">Autorización</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="../../autorizaciones/requisiciones/vista_requisiciones.php"><i class="icon fa fa-circle-o"></i> Requisiciones</a></li>
+              <li><a class="treeview-item" href="../../autorizaciones/requisiciones/vista_requisiciones.php"><i class="icon fa fa-circle-o"></i> Orden de compra</a></li>
             
-              <li><a class="treeview-item" href="../../laboratorio/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Servicios</a></li>
+               <li><a class="treeview-item" href="../../autorizaciones/terminacion/vista_terminacion.php"><i class="icon fa fa-circle-o"></i> Terminación de servicios</a></li>
             </ul>
           </li>';
 
