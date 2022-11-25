@@ -154,7 +154,7 @@ include_once "modelo_salidas.php";
                                             <label>Concepto</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <select class="form-control form-group-md" ng-model="departamento" id="departamento" name="departamento">
+                                            <select class="form-control form-group-md" ng-model="departamento" id="departamento" name="departamento" ng-change="getMaquinas()">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                                 <?php foreach (ModeloSalidas::ShowDepartamentos() as $value) { ?>
                                                 <option value="<?=$value['cve_depto']?>"><?=$value['cve_alterna']?> <?=$value['nombre_depto']?></option>
@@ -163,11 +163,9 @@ include_once "modelo_salidas.php";
                                             <label>Departamentos</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <select class="form-control form-group-md" ng-model="maquinas" id="maquinas" name="maquinas">
+                                            <select class="form-control form-group-md" ng-model="maquinas" id="maquinas" name="maquinas" ng-disabled="arrayMaquinas.length==0">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
-                                                <?php foreach (ModeloSalidas::ShowMaquinas() as $value) { ?>
-                                                <option value="<?=$value['cve_maq']?>"><?=$value['cve_alterna']?> <?=$value['nombre_maq']?></option>
-                                                <?php } ?>
+                                                <option ng-repeat="(i,obj) in arrayMaquinas track by i" value="{{obj.cve_maq}}">{{obj.cve_alterna}}-{{obj.nombre_maq}}</option>
                                             </select>
                                             <label>Máquinas</label>
                                         </div>
@@ -188,7 +186,9 @@ include_once "modelo_salidas.php";
 
                                 <div class="row form-group form-group-sm border-top">
                                     <div class="col-sm-12" align="center">
-                                        <input type="submit" value="Generar Salida" href="#" ng-click="validacionCampos()"class="btn btn-primary" style="margin-bottom: -25px !important">
+                                        <button ng-click="validacionCampos()"class="btn btn-primary" style="margin-bottom: -25px !important">
+                                            Generar Salida
+                                        </button>
                                         <input type="submit" value="Limpiar" href="#" ng-click="limpiarCampos()" class="btn btn-warning" style="margin-bottom: -25px !important">
                                     </div>
                                 </div>
@@ -211,10 +211,19 @@ include_once "modelo_salidas.php";
                                 <div class="row form-group form-group-sm">
                                     <div class="col-lg-12 d-lg-flex">
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input type="text" ng-model="codarticulo" class="form-control form-control-md UpperCase">
+                                            <input type="text" ng-model="codarticulo" class="form-control form-control-md UpperCase" ng-change="getArticulos()" id="dropDownSearch" role="button" data-bs-toggle="dropdown" aria-expanded="false" ng-click="clickInputArticulos()">
                                             <label>Articulo</label>
                                         </div>
-                                        <button class= "btn btn-info" ng-click="setModalArticulos()" title="Articulos"><i class="fas fa-eye"></i>
+                                        <!-- <button class= "btn btn-info btn-sm" ng-click="setModalArticulos()" title="Articulos">
+                                            <i class="fas fa-eye"></i>
+                                        </button> -->
+                                        <ul class="dropdown-menu" aria-labelledby="dropDownSearch" style="width: 40%; display: block" ng-show="findArticulos.length > 0">
+                                            <li ng-repeat="(i, obj) in findArticulos track by i">
+                                              <a class="dropdown-item" href="javascript:void(0)" ng-click="setArticulo(i)">
+                                                <span class="p-2">{{obj.cve_alterna}} - {{obj.nombre_articulo}}</span>
+                                              </a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="row form-group form-group-sm">
@@ -231,16 +240,18 @@ include_once "modelo_salidas.php";
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td> <input type="number" class="form-control text-right"> </td>
+                                                <tr ng-repeat="(i, obj) in articulos track by i">
+                                                    <td>{{obj.cve_alterna}}</td>
+                                                    <td>{{obj.nombre_articulo}}</td>
+                                                    <td>{{obj.unidad_medida}}</td>
+                                                    <td>{{obj.existencia}}</td>
+                                                    <td>
+                                                        <input type="text" class="form-control text-right" ng-model="obj.cantidad" ng-change="validarCantidad(i)">
+                                                    </td>
                                                     <td>
                                                         <div class="div">
                                                             <div class="col-md-4 offset-md-5 text-center">
-                                                                <button class= "btn btn-danger" title="Borrar"><i class="fas fa-trash-alt"></i>
+                                                                <button class= "btn btn-danger" title="Borrar" ng-click="quitarArticulo(i)"><i class="fas fa-trash-alt"></i>
                                                             </div>
                                                         </div>
                                                     </td>
