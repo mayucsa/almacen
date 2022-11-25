@@ -11,7 +11,7 @@ function getMaquinas($dbcon, $cve_depto){
 	dd($dbcon->qBuilder($dbcon->conn(), 'all', $sql));
 }
 function getArticulos($dbcon, $codarticulo){
-	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida FROM cat_articulos WHERE cve_alterna = '".$codarticulo."'";
+	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida FROM cat_articulos WHERE cve_alterna = '".$codarticulo."' AND existencia > 0";
 	$articulo = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	if (count($articulo)) {
 		dd(['tipo'=>1, 'datos'=>$articulo]);
