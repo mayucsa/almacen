@@ -11,10 +11,14 @@ function getMaquinas($dbcon, $cve_depto){
 	dd($dbcon->qBuilder($dbcon->conn(), 'all', $sql));
 }
 function getArticulos($dbcon, $codarticulo){
-	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida FROM cat_articulos WHERE cve_alterna = '".$codarticulo."' AND existencia > 0";
+	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida FROM cat_articulos WHERE cve_alterna = '".$codarticulo."' ";
 	$articulo = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
-	if (count($articulo)) {
-		dd(['tipo'=>1, 'datos'=>$articulo]);
+	if (count($articulo) > 0) {
+		if ($articulo[0]->existencia > 0) {
+			dd(['tipo'=>1, 'datos'=>$articulo]);
+		}else{
+			dd(['tipo'=>0, 'datos'=>$articulo[0]->cve_alterna.'-'.$articulo[0]->nombre_articulo]);
+		}
 	}
 	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida FROM cat_articulos WHERE cve_alterna LIKE '%".$codarticulo."%' AND existencia > 0
 		OR nombre_articulo LIKE '%".$codarticulo."%' AND existencia > 0 ORDER BY nombre_articulo LIMIT 20";

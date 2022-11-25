@@ -22,9 +22,17 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 			if (response.tipo == 1) {
 				$scope.setArticulos = response.datos;
 				$scope.setArticulo(0, 1);
-			}else{
-				$scope.findArticulos = response.datos;
+				return;
 			}
+			if (response.tipo == 0) {
+				Swal.fire('Sin existencia',
+					'El artículo '+response.datos+' No tiene existencias',
+					'warning'
+				);
+				return
+			}
+			$scope.findArticulos = response.datos;
+			
 		},function(error){
 			console.log('error', error);
 		});
