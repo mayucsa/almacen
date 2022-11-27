@@ -82,6 +82,7 @@ function guardarMovimiento($dbcon, $Datos){
 	$status = '1';
 	$fecha = date('Y-m-d H:i:s');
 	$conn = $dbcon->conn();
+	$estatus_req_completa = 4;
 	$sql = "INSERT INTO movtos_entradas (tipo_mov, creado_por, cve_odc, tipo_documento, folio_documento, fecha_documento, estatus_mov, fecha_registro) VALUES ('".$tipo_mov."', ".$Datos->id.", ".$Datos->folioodc.", '".$Datos->tipo."', '".$Datos->foliofactura."', '".$Datos->fechafactura."', '".$status."', '".$fecha."' )";
 	$qBuilder = $dbcon->qBuilder($conn, 'do', $sql);
 
@@ -120,10 +121,10 @@ function guardarMovimiento($dbcon, $Datos){
 					if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
 						dd(['code'=>400, 'msj'=>'error al cambiar estatus_req_det = 2.', 'sql'=>$sql]);
 					}
-					$sql = "UPDATE requisicion_detalle SET estatus_req_det = 3
+					$sql = "UPDATE requisicion_detalle SET estatus_req_det = ".$estatus_req_completa."
 					WHERE cve_art = ".$val->cve_art." AND cve_req IN (SELECT cve_req FROM orden_compra_detalle where cve_odc = ".$Datos->folioodc.")";
 					if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
-						dd(['code'=>400, 'msj'=>'error al cambiar estatus_req_det = 3.', 'sql'=>$sql]);
+						dd(['code'=>400, 'msj'=>'error al cambiar estatus_req_det = '.$estatus_req_completa.'.', 'sql'=>$sql]);
 					}
 				}
 			}
@@ -134,10 +135,10 @@ function guardarMovimiento($dbcon, $Datos){
 			if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
 				dd(['code'=>400, 'msj'=>'error al cambiar estatus_odc = 2.', 'sql'=>$sql]);
 			}
-			$sql = "UPDATE requisicion SET estatus_req = 3
+			$sql = "UPDATE requisicion SET estatus_req = ".$estatus_req_completa."
 			WHERE cve_req IN (SELECT cve_req FROM orden_compra_detalle where cve_odc = ".$Datos->folioodc.")";
 			if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
-				dd(['code'=>400, 'msj'=>'error al cambiar estatus_req = 3.', 'sql'=>$sql]);
+				dd(['code'=>400, 'msj'=>'error al cambiar estatus_req = '.$estatus_req_completa.'.', 'sql'=>$sql]);
 			}
 		}
 		envioCorreo($dbcon, $getId->cve_mov);

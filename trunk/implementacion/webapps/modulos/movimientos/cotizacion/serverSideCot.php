@@ -55,7 +55,11 @@ $var    = "estatus_req_det = '1' ";
                         }, 'field' => 'cantidad'],
             ['db' => '`req`.`cve_art`', 'dt' => 6, 'field' => 'cve_art'],
             ['db' => '`req`.`cantidad_cotizado`', 'dt' => 7, 'field' => 'cantidad_cotizado'],
-            ['db' => '`req`.`cantidad`', 'dt' => 8, 'field' => 'cantidad'],
+            // ['db' => '`req`.`cantidad`', 'dt' => 8, 'field' => 'cantidad'],
+            ['db' => '`req`.`cantidad`', 'dt' => 8,
+                        'formatter' => function($d, $row){
+                            return 0;
+                        }, 'field' => 'cantidad'],
             ['db' => '`art`.`cve_articulo`', 'dt' => 9, 'field' => 'cve_articulo'],
             ['db' => '`u`.`nombre`', 'dt' => 10, 'field' => 'nombre'],
             ['db' => '`u`.`apellido`', 'dt' => 11, 'field' => 'apellido'],

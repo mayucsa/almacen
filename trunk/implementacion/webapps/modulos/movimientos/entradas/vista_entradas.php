@@ -246,6 +246,8 @@ include_once "../../inferior.php";
         consultar();
     </script> -->
     <script>
+        const yesterday = new Date()
+        yesterday.setDate(yesterday.getDate() - 1)
         $('.date-picker').datepicker({
         closeText: 'Cerrar',
         prevText: '<Ant',
@@ -253,6 +255,7 @@ include_once "../../inferior.php";
         currentText: 'Hoy',
         monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         // changeDay: true,
+        maxDate: yesterday,
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,

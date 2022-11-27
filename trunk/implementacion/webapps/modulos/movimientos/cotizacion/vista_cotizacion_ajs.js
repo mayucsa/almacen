@@ -298,11 +298,13 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 		if (cantidad > 0 && setPrecioU > 0) {
 			const multiplica = cantidad * setPrecioU;
 			$scope.arrayRequisiciones[i][8] = multiplica;//campo total
+		}else{
+			$scope.arrayRequisiciones[i][8] = 0;
 		}
 	}
 	$http.post('serverSideCot.php').then(function (response) {
-		// console.log('response', response.data.query);
 		response = response.data.data;
+		// console.log('response', response);
 		$scope.arrayRequisiciones = response;
 	}, function(error){
 		console.log('error', error);

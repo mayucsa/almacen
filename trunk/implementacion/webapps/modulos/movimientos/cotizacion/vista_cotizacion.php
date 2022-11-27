@@ -117,7 +117,7 @@ include_once "modelo_cotizacion.php";
                                         <label>Subir cotización</label>
                                     </div>
                                     <div style="width: 30%;" class="form-floating mx-1">
-                                        <input class="date-picker form-control" ng-model="fechaentrega" id="fechaentrega">
+                                        <input class="date-picker form-control" min="2022-11-27" ng-model="fechaentrega" id="fechaentrega">
                                         <label>Fecha de entrega</label>
                                     </div>
                                 </div>
@@ -282,12 +282,15 @@ include_once "../../inferior.php";
         consultar();
     </script>
     <script>
+        const tomorrow = new Date()
+        tomorrow.setDate(tomorrow.getDate() + 1)
         $('.date-picker').datepicker({
         closeText: 'Cerrar',
         prevText: '<Ant',
         nextText: 'Sig>',
         currentText: 'Hoy',
         monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        minDate: tomorrow,
         // changeDay: true,
         changeMonth: true,
         changeYear: true,
