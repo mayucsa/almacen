@@ -212,4 +212,28 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 			}
 		})
 	}
+	$scope.getCcostos = function(i){
+		if ($scope.departamento == undefined || $scope.departamento == '') {
+			Swal.fire('Sin departamento','Es necesario seleccionar un departamento','warning');
+			$scope.articulos[i].centroCosto = '';
+			return;
+		}
+		$http.post('Controller.php', {
+			'task': 'getCcostos',
+			'centroCosto': $scope.articulos[i].centroCosto,
+			'cve_depto': $scope.departamento
+		}).then(function (response){
+			response = response.data;
+			console.log(response);
+			$scope.arrayCcostos = response;
+			
+		},function(error){
+			console.log('error', error);
+		});
+	}
+	$scope.setCcosto = function(i, w){
+		$scope.articulos[i].centroCosto = $scope.arrayCcostos[w].cve_alterna+'-'+$scope.arrayCcostos[w].nombre_cc;
+		$scope.articulos[i].cve_cc = $scope.arrayCcostos[w].cve_cc;
+		$scope.arrayCcostos = [];
+	}
 })

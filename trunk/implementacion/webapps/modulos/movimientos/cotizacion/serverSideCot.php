@@ -12,7 +12,7 @@ $primaryKey = 'cve_req_det';
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
-$var    = "estatus_req_det = '1' ";
+$var    = "estatus_req_det IN ('1', '2') ";
 // $columns = array(
 //     array( 'db' => 'cve_maq',          'dt' => 0 ),
 //     array( 'db' => 'cve_fallo',    'dt' => 1 ),

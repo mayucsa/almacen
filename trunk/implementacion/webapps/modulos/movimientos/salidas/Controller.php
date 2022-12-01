@@ -6,6 +6,15 @@ function dd($var){
         die($var);
     }
 }
+function getCcostos($dbcon, $centroCosto, $cve_depto){
+	$sql = "SELECT cve_cc, cve_alterna, nombre_cc FROM cat_centro_costos WHERE 
+	cve_depto = ".$cve_depto." AND cve_alterna LIKE '%".$centroCosto."%'
+	or
+	cve_depto = ".$cve_depto." AND nombre_cc LIKE '%".$centroCosto."%'
+	ORDER BY nombre_cc asc";
+	$return = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
+	dd($return);
+}
 function getMaquinas($dbcon, $cve_depto){
 	$sql = "SELECT * FROM cat_maquinas WHERE estatus_maq = 'VIG' AND cve_depto = ".$cve_depto;
 	dd($dbcon->qBuilder($dbcon->conn(), 'all', $sql));
@@ -48,10 +57,11 @@ function guardarMovimiento($dbcon, $Datos){
 		$articulos = $Datos->articulos;
 		foreach ($articulos as $i => $val) {
 			$sql = "INSERT INTO movtos_salidas_detalle 
-			(cve_mov, cve_articulo, existencia, cantidad_salida, estatus_mov, fecha_registro)
+			(cve_mov, cve_articulo, cve_cc, existencia, cantidad_salida, estatus_mov, fecha_registro)
 			VALUES(
 				".$getId->cve_mov.",
 				".$val->cve_articulo.",
+				".$val->cve_cc.",
 				".$val->existencia.",
 				".$val->cantidad.",
 				1, '".$fecha."'
@@ -92,6 +102,9 @@ switch ($tarea){
 		break;
 	case 'getMaquinas':
 		getMaquinas($dbcon, $objDatos->cve_depto);
+		break;
+	case 'getCcostos':
+		getCcostos($dbcon, $objDatos->centroCosto, $objDatos->cve_depto);
 		break;
 }
 

@@ -236,6 +236,7 @@ include_once "modelo_salidas.php";
                                                     <th>Unidad medida</th>
                                                     <th>Existencia</th>
                                                     <th>Cantidad a salir</th>
+                                                    <th>Centro de costo</th>
                                                     <th>Quitar</th>
                                                 </tr>
                                             </thead>
@@ -247,6 +248,16 @@ include_once "modelo_salidas.php";
                                                     <td>{{obj.existencia}}</td>
                                                     <td>
                                                         <input type="text" class="form-control text-right" ng-model="obj.cantidad" ng-change="validarCantidad(i)">
+                                                    </td>
+                                                    <td style="width:auto;">
+                                                        <input type="text" class="form-control" ng-model="obj.centroCosto" id="dropDownCC" role="button" data-bs-toggle="dropdown" aria-expanded="false" ng-keyup="getCcostos(i)">
+                                                        <ul class="dropdown-menu" aria-labelledby="dropDownCC" style=" position: relative; display: block" ng-show="arrayCcostos.length > 0">
+                                                            <li ng-repeat="(w, obj) in arrayCcostos track by w">
+                                                              <a class="dropdown-item" href="javascript:void(0)" ng-click="setCcosto(i, w)">
+                                                                <span class="p-2">{{obj.cve_alterna}} - {{obj.nombre_cc}}</span>
+                                                              </a>
+                                                            </li>
+                                                        </ul>
                                                     </td>
                                                     <td>
                                                         <div class="div">
