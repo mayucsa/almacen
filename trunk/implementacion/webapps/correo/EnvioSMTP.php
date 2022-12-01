@@ -18,7 +18,7 @@ use PHPMailer\PHPMailer\Exception;
 			    $mail->Host       = 'smtp.gmail.com';//Set the SMTP server to send through
 			    $mail->SMTPAuth   = true;//Enable SMTP authentication
 			    $mail->Username   = 'soportemayamat@gmail.com';//SMTP username
-			    $mail->Password   = 'vevxrgfrzdwknkqp';//SMTP password
+			    $mail->Password   = 'epbcajhtvlfecqqk';//SMTP password
 			    $mail->SMTPSecure = 'tls';//Enable implicit TLS encryption
 			    $mail->Port       = 587; 
 			
