@@ -199,7 +199,7 @@ include_once "modelo_requisicion.php";
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <button class="btn btn-info btn-sm mt-1" ng-click="setModalMisRequ()" ng-disabled="misRequisitos.length == 0">
+                                        <button class="btn btn-info btn-sm mt-1" onclick ="location.href='../misrequisiciones/vista_misrequisiciones.php'; ">
                                             Mis requisiciones
                                             <!-- <i class="fa fa-eye"></i> -->
                                         </button>
