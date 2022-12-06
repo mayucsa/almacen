@@ -45,7 +45,7 @@ session_start();
       </div>
     <!-- </div> -->
       <?php
-        $padre = '';
+        /*$padre = '';
         $padre .= '<ul class="app-menu">';
 
         $hijo = '';
@@ -147,9 +147,137 @@ session_start();
           <li><a class="app-menu__item" href="../../../logout.php"><i class="app-menu__icon fas fa-sign-out-alt"></i><span class="app-menu__label">Cerrar sesi&oacute;n</span></a>
           </li>';
 
-          echo $padre;
+          echo $padre;*/
+          ?>
+          <ul class="app-menu">
+            <!-- dashboard -->
+            <li ng-show="perfilUsu.dashboard_principal == 1">
+                <a class="app-menu__item" href="../../dashboard/dashboard/dashboard.php"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a>
+            </li>
+            <!-- catalogo -->
+            <li class="treeview" ng-show="perfilUsu.catalogo_principal == 1">
+              <a class="app-menu__item" href="#" data-toggle="treeview">
+                <i class="app-menu__icon fas fa-folder-open"></i><span class="app-menu__label">Catalogos</span><i class="treeview-indicator fas fa-angle-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li ng-show="perfilUsu.almacen_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/categorias/vista_categorias.php"><i class="icon fa fa-circle-o"></i> Almacenes
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.grupo_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/grupos/vista_grupos.php"><i class="icon fa fa-circle-o"></i> Grupos
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.articulo_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/articulos/vista_articulos.php"><i class="icon fa fa-circle-o"></i> Articulos
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.provedores_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/proveedores/vista_proveedores.php"><i class="icon fa fa-circle-o"></i> Proveedores
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.areas_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/areas/vista_areas.php"><i class="icon fa fa-circle-o"></i> Áreas
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.deptos_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/departamentos/vista_departamentos.php"><i class="icon fa fa-circle-o"></i> Departamentos
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.maquinas_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/maquinas/vista_maquinas.php"><i class="icon fa fa-circle-o"></i> Máquinas
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.centrocostos_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/centrocostos/vista_centrocostos.php">
+                    <i class="icon fa fa-circle-o"></i> Centro de costos
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!-- movimientos -->
+            <li class="treeview" ng-show="perfilUsu.movimientos_principal == 1">
+              <a class="app-menu__item" href="#" data-toggle="treeview">
+                <i class="app-menu__icon fas fa-pen-square"></i><span class="app-menu__label">Movimientos</span><i class="treeview-indicator fa fa-angle-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li ng-show="perfilUsu.requisicion_vista == 1">
+                  <a class="treeview-item" href="../../movimientos/requisicion/vista_requisicion.php">
+                    <i class="icon fa fa-circle-o"></i> Requisiciones
+                  </a>
+                </li>
 
-          if ($_SESSION['dashboardalma_vista'] == 1) {
+                <li ng-show="perfilUsu.cotizacion_vista == 1">
+                  <a class="treeview-item" href="../../movimientos/cotizacion/vista_cotizacion.php">
+                    <i class="icon fa fa-circle-o"></i> Cotización
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.ordencompra_vista == 1">
+                  <a class="treeview-item" href="../../movimientos/ordencompra/vista_ordencompra.php">
+                    <i class="icon fa fa-circle-o"></i> Orden de compra
+                  </a>
+                </li>
+              
+                <li ng-show="perfilUsu.entradas_vista == 1">
+                  <a class="treeview-item" href="../../movimientos/entradas/vista_entradas.php">
+                    <i class="icon fa fa-circle-o"></i> Entradas
+                  </a>
+                </li>
+
+                <li ng-show="perfilUsu.salidas_vista == 1">
+                  <a class="treeview-item" href="../../movimientos/salidas/vista_salidas.php">
+                    <i class="icon fa fa-circle-o"></i> Salidas
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!-- autorizacion -->
+            <li class="treeview" ng-show="perfilUsu.autorizacion_principal == 1">
+              <a class="app-menu__item" href="#" data-toggle="treeview">
+                <i class="app-menu__icon fas fa-check-circle"></i><span class="app-menu__label">Autorización</span><i class="treeview-indicator fa fa-angle-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li ng-show="perfilUsu.autocotizacion_vista == 1">
+                  <a class="treeview-item" href="../../autorizaciones/requisiciones/vista_requisiciones.php">
+                    <i class="icon fa fa-circle-o"></i> Orden de compra
+                  </a>
+                </li>
+              
+                <li ng-show="perfilUsu.terminacion_vista == 1">
+                  <a class="treeview-item" href="../../autorizaciones/terminacion/vista_terminacion.php">
+                    <i class="icon fa fa-circle-o"></i> Terminación de servicios
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!-- seguridad -->
+            <li class="treeview" ng-show="perfilUsu.seguridad_principal == 1">
+              <a class="app-menu__item" href="#" data-toggle="treeview">
+                <i class="app-menu__icon fas fa-key"></i><span class="app-menu__label">Seguridad</span><i class="treeview-indicator fa fa-angle-right"></i>
+              </a>
+              <ul class="treeview-menu">
+
+              </ul>
+            </li>
+            <!-- mis datos -->
+            <li class="treeview" ng-show="perfilUsu.usuarios_vista == 1">
+              <a class="app-menu__item" href="#" data-toggle="treeview">
+              <i class="app-menu__icon fas fa-user-cog"></i><span class="app-menu__label">Mis datos</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a class="treeview-item" href="../../misdatos/cambiopassword/vista_password.php"><i class="icon fa fa-circle-o"></i> Cambio de contraseña</a></li>
+              </ul>
+            </li>
+            <!-- cierre sesión -->
+            <li ng-show="perfilUsu.usuarios_vista == 1">
+              <a class="app-menu__item" href="../../../logout.php">
+                <i class="app-menu__icon fas fa-sign-out-alt"></i>
+                <span class="app-menu__label">Cerrar sesi&oacute;n</span>
+              </a>
+            </li>
+          </ul>
+          <?php
+
+          /*if ($_SESSION['dashboardalma_vista'] == 1) {
             echo $dashboard;
           }
           if ($_SESSION['catalogo_vista'] == 1) {
@@ -166,7 +294,7 @@ session_start();
           }
 
 
-          echo $misdatos.$cierresesion.$hijo;
+          echo $misdatos.$cierresesion.$hijo;*/
 
       // switch ($clave){
       //   case 1:

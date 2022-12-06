@@ -87,16 +87,26 @@
     <script>
         app.controller('AngularCtrler', function(BASEURL, ID, $scope, $http){
             // funciones generales
+            $http.post('../../../modulos/seguridad/datos_usuario.php',{
+                'task': 'getUserPerfil',
+                'id': ID
+            }).then(function (response) {
+                // response = response.data.data;
+                $scope.perfilUsu = response.data;
+                console.log('response perfilUsu', $scope.perfilUsu);
+            }, function(error){
+                console.log('error', error);
+            });
         })
-         $(document).ready( function () {
+        $(document).ready( function () {
             // $(".UpperCase").on("keypress", function () {
             $(".UpperCase").on("blur", function () {
-           $input=$(this);
-           setTimeout(function () {
-            $input.val($input.val().toUpperCase());
-           },50);
-          })
-         })
+                $input=$(this);
+                setTimeout(function () {
+                    $input.val($input.val().toUpperCase());
+                },50);
+            })
+        })
 </script> <!-- Script convierte Minusculas a Mayúsculas-->
 
     <!-- <script type="text/javascript">
