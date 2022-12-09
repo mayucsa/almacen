@@ -129,7 +129,7 @@
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
                                 <input type="text" id="inputptoreorden" name="inputptoreorden" class="form-control form-control-md validanumericos">
-                                <label>Punto de reorden</label>
+                                <label>Empaque</label>
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
                                 <select class="form-control form-group-md" id="selectunidadmedida" name="selectunidadmedida">
