@@ -4,13 +4,15 @@ include_once "../../../dbconexion/conexion.php";
 if ( isset($_GET['accion']) && $_GET['accion'] == "insertar") {
 	// die (json_encode($_REQUEST));
 	$area 	= $_POST['area'];
+    $codarea   = $_POST['codarea'];
 	$usuario 	= $_POST['usuario'];
 
-    $sql		= "INSERT INTO cat_areas (nombre_area, creado_por, editado_por, eliminado_por, estatus_area, fecha_registro, fecha_editado, fecha_eliminado) VALUES	(:area, :usuario, '', '', 'VIG', NOW(), 0, 0);";
+    $sql		= "INSERT INTO cat_areas (nombre_area, cve_alterna, creado_por, editado_por, eliminado_por, estatus_area, fecha_registro, fecha_editado, fecha_eliminado) VALUES	(:area, :codarea, :usuario, '', '', 'VIG', NOW(), 0, 0);";
 
    $vquery = Conexion::conectar()->prepare($sql);
 
    $vquery->bindparam(':area', $area);
+   $vquery->bindparam(':codarea', $codarea);
    $vquery->bindparam(':usuario', 	$usuario);
 
    $vquery->execute();
@@ -84,6 +86,28 @@ if (isset($_GET['eliminar']) ) {
 
    echo json_encode(["success"=>1]);
    exit();
+
+}
+
+if (isset($_GET["accion"]) && $_GET['accion'] == "verificar") {
+    // die (json_encode($_REQUEST));
+    $codarea = $_REQUEST["codarea"];
+
+    $sql    = " SELECT count(*) as existe 
+                FROM cat_areas 
+                WHERE cve_alterna =".$codarea."";
+
+    $vquery = Conexion::conectar()->prepare($sql);
+    $vquery ->execute();
+    $lista = $vquery->fetchAll(PDO::FETCH_ASSOC);
+    // echo json_encode($lista);
+    $existenciacodart = $lista[0]['existe'];
+    if ($existenciacodart > 0) {
+        echo "correcto";
+    }else{
+        echo "error";
+    }
+    exit();
 
 }
 

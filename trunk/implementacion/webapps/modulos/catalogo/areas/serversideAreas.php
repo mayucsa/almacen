@@ -14,16 +14,17 @@ $primaryKey = 'cve_area';
 // indexes
 // $var    = "creado_por = 'Alfredo Chan'";
 $columns = array(
-    array( 'db' => 'nombre_area',          'dt' => 0 ),
-    array( 'db' => 'estatus_area',    'dt' => 1 ),
+    array( 'db' => 'cve_alterna',          'dt' => 0 ),
+    array( 'db' => 'nombre_area',          'dt' => 1 ),
+    array( 'db' => 'estatus_area',    'dt' => 2 ),
     array(
         'db'        => 'fecha_registro',
-        'dt'        => 2,
+        'dt'        => 3,
         'formatter' => function( $d, $row ) {
             return date( 'Y-m-d', strtotime($d));
         }
     ),
-    array( 'db' => 'cve_area',       'dt' => 3),
+    array( 'db' => 'cve_area',       'dt' => 4),
 );
  
 // SQL server connection information
