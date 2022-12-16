@@ -53,7 +53,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="tile">
-            <div class="card card-info">
+            <div class="card card-info" ng-show="perfilUsu.articulo_captura == 1">
                 <div class="card-header">
                     <h3 class="card-title">CAPTURA DE DATOS</h3>
                     <div class="card-tools">
@@ -128,7 +128,7 @@
                                 <label>Minimo</label>
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="text" id="inputptoreorden" name="inputptoreorden" class="form-control form-control-md validanumericos">
+                                <input type="text" id="inputempaque" name="inputempaque" class="form-control form-control-md validanumericos">
                                 <label>Empaque</label>
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
@@ -182,20 +182,8 @@
                     </div>
                     <div class="row form-group form-group-sm border-top">
                         <div class="col-sm-12" align="center">
-                            <?php
-                                if ($_SESSION['articulo_edit'] == 1) {
-                            ?>
-                                    <input type="submit" value="Guardar" href="#" onclick="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important">
-                            <?php
-                                }else{
-                            ?>
-                                    <input type="submit" value="Guardar" href="#" onclick="sinacceso()" class="btn btn-primary" style="margin-bottom: -25px !important">
-                            <?php
-                                }
-                            ?>
-
-
-                            <!-- <input type="submit" value="Guardar" href="#" onclick="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important"> -->
+                            <input type="submit" value="Guardar articulo" href="#" onclick="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important">
+                            <!-- <input type="submit" value="Guardar" href="#" onclick="sinacceso()" class="btn btn-primary" style="margin-bottom: -25px !important"> -->
                             <input type="submit" value="Limpiar" href="#" onclick="limpiarCampos()" class="btn btn-warning" style="margin-bottom: -25px !important">
                         </div>
                     </div>
@@ -235,6 +223,7 @@
                                 <tr>
                                     <th class="text-center">Codigo</th>
                                     <th class="text-center">Nombre</th>
+                                    <th class="text-center">Existencia</th>
                                     <th class="text-center">Maximo</th>
                                     <th class="text-center">Minimo</th>
                                     <th class="text-center">Fecha de Alta</th>
@@ -249,12 +238,13 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </div> <!-- ./ end card-body -->
-            </div> <!-- ./ end card-info -->
+                </div>
+            </div>
 
           </div>
         </div>

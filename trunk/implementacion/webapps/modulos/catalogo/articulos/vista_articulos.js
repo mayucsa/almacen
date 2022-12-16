@@ -7,7 +7,7 @@ function consultar(){
             "ajax": "servesideArticulos.php",
             "lengthMenu": [[30, 50, 100], [30, 50, 100]],
             "pageLength": 30,
-            "order": [4, 'desc'],
+            "order": [5, 'desc'],
             // "destroy": true,
             "searching": true,
             // bSort: false,
@@ -16,13 +16,13 @@ function consultar(){
             "bDestroy": true,
             "columnDefs":[
                             {
-                                "targets": [1, 2, 3, 4, 5],
+                                "targets": [1, 2, 3, 4, 5, 6],
                                 "className": 'dt-body-center' /*alineacion al centro th de tbody de la table*/
                             },
                             {
-                                "targets": 5,
+                                "targets": 6,
                                 "render": function(data, type, row, meta){
-                                    return row[6];
+                                    return row[7];
                                     // return  '<span class= "btn btn-info" onclick= "obtenerDatosS('+row[5]+')" title="Scanner" data-toggle="modal" data-target="#modalScanner" data-whatever="@getbootstrap"><i class="fas fa-barcode"></i> </span>' + ' ' +
                                             // '<span class= "btn btn-info" onclick= "obtenerDatosV('+row[5]+')" title="Ver" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>' + ' ' +
                                             // '<span class= "btn btn-warning" onclick= "obtenerDatos('+row[5]+')" title="Editar" data-toggle="modal" data-target="#modalEditar" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>' + ' ' +
@@ -102,7 +102,9 @@ function obtenerDatosV(cve_articulo) {
         // console.log(registros);
 
         $('#inputnombreartver').val(registros[0]['nombre_articulo']);
-        $('#inputexistenciaver').val(registros[0]['existencia']);
+        // $('#inputexistenciaver').val(registros[0]['existencia']);
+        $('#inputdescripart').val(registros[0]['descripcion']);
+        $('#inputobservaart').val(registros[0]['observaciones']);
         $('#inputpreciover').val(registros[0]['precio_unitario']);
         $('#inputcostover').val(registros[0]['costo_promedio']);
     });
@@ -126,7 +128,7 @@ function obtenerDatos(cve_articulo) {
         $('#inputmaxedit').val(registros[0]['max']);
         $('#inputminedit').val(registros[0]['min']);
         $('#inputobservacionedit').val(registros[0]['observaciones']);
-        $('#inputpuntoreordenedit').val(registros[0]['punto_reorden']);
+        $('#inputempaqueedit').val(registros[0]['empaque']);
         // $('#inputptoreordenedit').val(registros[0]['punto_reorden']);
     });
 }
@@ -155,7 +157,7 @@ function limpiarCampos(){
     $('#inputnivel').val("");
     $('#inputmax').val("");
     $('#inputmin').val("");
-    $('#inputptoreorden').val("");
+    $('#inputempaque').val("");
 }
 
 function validacionCampos() {
@@ -172,7 +174,7 @@ function validacionCampos() {
     var nivel           = $('#inputnivel').val();
     var max             = $('#inputmax').val();
     var min             = $('#inputmin').val();
-    var reorden         = $('#inputptoreorden').val();
+    var empaque         = $('#inputempaque').val();
     var msj = "";
   
     if (codigo == "") {
@@ -214,8 +216,8 @@ function validacionCampos() {
     if (nivel == "") {
         msj += '<li>Nivel</li>';
     }
-    if (reorden == "") {
-        msj += '<li>Punto de reorden</li>';
+    if (empaque == "") {
+        msj += '<li>Empaque</li>';
     }
     if (msj.length != 0) {
         $('#encabezadoModal').html('Validación de datos');
@@ -246,7 +248,7 @@ function existenciaCodigo(){
                         Swal.fire({
                                         icon: 'warning',
                                         title: '¡Error!',
-                                        text: 'El código de Máquina ya existe',
+                                        text: 'El código de articulo esta vigente',
                                         // footer: 'Favor de ingresar un código nuevo',
                                         confirmButtonColor: '#1A4672'
                                     })
@@ -293,7 +295,7 @@ function insertCaptura(){
     datos.append('nivel',           $('#inputnivel').val());
     datos.append('max',             $('#inputmax').val());
     datos.append('min',             $('#inputmin').val());
-    datos.append('reorden',         $('#inputptoreorden').val());
+    datos.append('empaque',         $('#inputempaque').val());
     datos.append('usuario',         $('#spanusuario').text());
 
     // console.log(datos.get('codigo'));
@@ -327,7 +329,7 @@ function insertCaptura(){
     }).then((result) => {
 
     if (result.isConfirmed) {    
-
+        jsShowWindowLoad('Creando articulo...');
         $.ajax({
                 type:"POST",
                 url:"modelo_articulo.php?accion=insertar",
@@ -337,6 +339,7 @@ function insertCaptura(){
         success:function(data){
                     consultar();
                     limpiarCampos();
+                    jsRemoveWindowLoad();
                     Swal.fire(
                                 '¡Agregado!',
                                 'Se ha agregado un artículo nuevo !!',
@@ -386,7 +389,7 @@ function editarArticulo(){
     var enivel          = $('#inputniveledit').val();
     var emax            = $('#inputmaxedit').val();
     var emix            = $('#inputminedit').val();
-    var ereorden            = $('#inputpuntoreordenedit').val();
+    var empaque         = $('#inputempaqueedit').val();
     // var epuntoreorden   = $('#inputptoreordenedit').val();
 
     var msj = "";
@@ -435,7 +438,7 @@ function editarArticulo(){
         // console.log(cantidad);
         msj += 'Nivel <br>';
     }
-    if (ereorden == "") {
+    if (empaque == "") {
         // console.log(cantidad);
         msj += 'Punto de reorden <br>';
     }
@@ -478,7 +481,7 @@ function editarArticulo(){
     datos.append('nivel',                   $('#inputniveledit').val());
     datos.append('max',                     $('#inputmaxedit').val());
     datos.append('min',                     $('#inputminedit').val());
-    datos.append('reorden',                 $('#inputpuntoreordenedit').val());
+    datos.append('empaque',                 $('#inputempaqueedit').val());
 
     datos.append('usuario',                 $('#spanusuario').text());
 
@@ -509,6 +512,7 @@ function editarArticulo(){
     }).then((result) => {
 
     if (result.isConfirmed) {
+        jsShowWindowLoad('Editando articulo...');
         $.ajax({
                 type:"POST",
                 url:"modelo_articulo.php?actualizar=1",
@@ -517,9 +521,9 @@ function editarArticulo(){
                 contentType:false,
         success:function(r){
             // console.log(r);
+            jsRemoveWindowLoad();
             consultar();
             cerrarModalEditar();
-            
                     Swal.fire(
                                 '¡Modificación!',
                                 'Se ha cambiado los datos del Articulo !!',
@@ -542,7 +546,7 @@ function editarArticulo(){
     }
 }
 
-function eliminarGrupo(){
+function eliminarArticulo(){
     var articulo = $('#inputnombredel').val();
     var msj = "";
    
@@ -590,6 +594,7 @@ function eliminarGrupo(){
     }).then((result) => {
 
     if (result.isConfirmed) {
+        jsShowWindowLoad('Eliminando articulo...');
         $.ajax({
                 type:"POST",
                 url:"modelo_articulo.php?eliminar=1",
@@ -598,6 +603,7 @@ function eliminarGrupo(){
                 contentType:false,
         success:function(r){
             // console.log(r);
+            jsRemoveWindowLoad();
             consultar();
             cerrarModalEliminar();
             

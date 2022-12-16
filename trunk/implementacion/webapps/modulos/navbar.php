@@ -21,8 +21,8 @@ session_start();
 
         // $vista_dashboardalma  = $objeto->vista_dashboardalma;
 
-        $vista_catalogo  = $objeto->vista_catalogo;
-        $edit_catalogo  = isset($objeto->edit_catalogo)?$objeto->edit_catalogo:'';
+        // $vista_catalogo  = $objeto->vista_catalogo;
+        // $edit_catalogo  = isset($objeto->edit_catalogo)?$objeto->edit_catalogo:'';
 
         // $vista_movimiento  = $objeto->vista_movimiento;
 
@@ -260,7 +260,7 @@ session_start();
               </ul>
             </li>
             <!-- mis datos -->
-            <li class="treeview" ng-show="perfilUsu.usuarios_vista == 1">
+            <li class="treeview">
               <a class="app-menu__item" href="#" data-toggle="treeview">
               <i class="app-menu__icon fas fa-user-cog"></i><span class="app-menu__label">Mis datos</span><i class="treeview-indicator fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
@@ -268,7 +268,7 @@ session_start();
               </ul>
             </li>
             <!-- cierre sesión -->
-            <li ng-show="perfilUsu.usuarios_vista == 1">
+            <li>
               <a class="app-menu__item" href="../../../logout.php">
                 <i class="app-menu__icon fas fa-sign-out-alt"></i>
                 <span class="app-menu__label">Cerrar sesi&oacute;n</span>

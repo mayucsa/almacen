@@ -38,13 +38,29 @@
       <div class="modal-body">
           <div class="row form-group form-group-sm">
               <div class="col-lg-12 d-lg-flex">
-                  <div style="width: 50%;" class="form-floating mx-1">
+                  <div style="width: 100%;" class="form-floating mx-1">
                       <input type="text" id="inputnombreartver" name="inputnombreartver" class="form-control form-control-md UpperCase" disabled>
                       <label>Nombre de articulo</label>
                   </div>
-                  <div style="width: 50%;" class="form-floating mx-1">
+                  <!-- <div style="width: 50%;" class="form-floating mx-1">
                       <input type="text" id="inputexistenciaver" name="inputexistenciaver" class="form-control form-control-md UpperCase" disabled>
-                      <label>Existencia</label>
+                      <label>Empaque</label>
+                  </div> -->
+              </div>
+          </div>
+          <div class="row form-group form-group-sm">
+              <div class="col-lg-12 d-lg-flex">
+                  <div style="width: 100%;" class="form-floating mx-1">
+                      <input type="text" id="inputdescripart" name="inputdescripart" class="form-control form-control-md UpperCase" disabled>
+                      <label>Descripcion</label>
+                  </div>
+              </div>
+          </div>
+          <div class="row form-group form-group-sm">
+              <div class="col-lg-12 d-lg-flex">
+                  <div style="width: 100%;" class="form-floating mx-1">
+                      <input type="text" id="inputobservaart" name="inputobservaart" class="form-control form-control-md UpperCase" disabled>
+                      <label>Observaciones</label>
                   </div>
               </div>
           </div>
@@ -142,8 +158,8 @@
                         <label>Minimo</label>
                     </div>
                     <div style="width: 23%;" class="form-floating mx-1">
-                        <input type="text" id="inputpuntoreordenedit" name="inputpuntoreordenedit" class="form-control form-control-md validanumericos">
-                        <label>Punto de reorden</label>
+                        <input type="text" id="inputempaqueedit" name="inputempaqueedit" class="form-control form-control-md validanumericos">
+                        <label>Empaque</label>
                     </div>
                      <!-- <div style="width: 50%;" class="form-floating mx-1">
                         <input type="text" id="inputobservacionedit" name="inputobservacionedit" class="form-control form-control-md UpperCase">
@@ -221,7 +237,7 @@
         <!-- </form> -->
       </div>
       <div class="modal-footer">
-        <input type="button" value="Eliminar" onclick="eliminarGrupo()" class="btn btn-danger">
+        <input type="button" value="Eliminar" onclick="eliminarArticulo()" class="btn btn-danger">
         <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

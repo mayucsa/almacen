@@ -46,10 +46,10 @@ if ( isset($_GET['accion']) && $_GET['accion'] == "insertar") {
 	$nivel 			= $_POST['nivel'];
 	$max 			= $_POST['max'];
 	$min 			= $_POST['min'];
-	$reorden 		= $_POST['reorden'];
+	$empaque 		= $_POST['empaque'];
 	$usuario 		= $_POST['usuario'];
 
-    $sql		= "INSERT INTO cat_articulos(cve_alterna, nombre_articulo, nombre_articulo_largo, cve_ctg, cve_grupo, descripcion, observaciones,  unidad_medida, precio_unitario, costo_promedio, existencia, seccion, casillero, nivel, max, min, punto_reorden, creado_por, eliminado_por, estatus_articulo, fecha_registro, fecha_eliminado) VALUES(:codigo, :nombre, :nombrelargo, :categoria, :grupo, :descripcion, :observacion, :unidadmedida, :precio, :costo, :existencia, :seccion, :casillero, :nivel, :max, :min, :reorden, :usuario, '', 'VIG', NOW(), 0);";
+    $sql		= "INSERT INTO cat_articulos(cve_alterna, nombre_articulo, nombre_articulo_largo, cve_ctg, cve_grupo, descripcion, observaciones,  unidad_medida, precio_unitario, costo_promedio, existencia, seccion, casillero, nivel, max, min, empaque, creado_por, eliminado_por, estatus_articulo, fecha_registro, fecha_eliminado) VALUES(:codigo, :nombre, :nombrelargo, :categoria, :grupo, :descripcion, :observacion, :unidadmedida, :precio, :costo, :existencia, :seccion, :casillero, :nivel, :max, :min, :empaque, :usuario, '', 'VIG', NOW(), 0);";
 
    $vquery = Conexion::conectar()->prepare($sql);
 
@@ -69,7 +69,7 @@ if ( isset($_GET['accion']) && $_GET['accion'] == "insertar") {
    $vquery->bindparam(':nivel', 		$nivel);
    $vquery->bindparam(':max', 			$max);
    $vquery->bindparam(':min', 			$min);
-   $vquery->bindparam(':reorden', 		$reorden);
+   $vquery->bindparam(':empaque', 		$empaque);
    $vquery->bindparam(':usuario', 		$usuario);
 
    $vquery->execute();
@@ -132,7 +132,7 @@ if (isset($_GET['actualizar']) ) {
 	$nivel 					= $_POST['nivel'];
 	$max 					= $_POST['max'];
 	$min 					= $_POST['min'];
-	$reorden 				= $_POST['reorden'];
+	$empaque 				= $_POST['empaque'];
 	$usuario 				= $_POST['usuario'];
 
    	$sql		= "CALL editarArticulo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -152,7 +152,7 @@ if (isset($_GET['actualizar']) ) {
    	$vquery->bindparam(11, $nivel);
    	$vquery->bindparam(12, $max);
    	$vquery->bindparam(13, $min);
-   	$vquery->bindparam(14, $reorden);
+   	$vquery->bindparam(14, $empaque);
    	$vquery->bindparam(15, $usuario);
 
    	$vquery->execute();
