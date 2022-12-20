@@ -1,7 +1,7 @@
 <?php
 include_once "../../../dbconexion/conexion.php";
 // header('Content-Type: application/json');
-
+date_default_timezone_set('America/Mexico_City');
 // DB table to use
 $table = 'cat_maquinas';
  

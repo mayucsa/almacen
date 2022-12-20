@@ -1,4 +1,5 @@
 <?php 
+date_default_timezone_set('America/Mexico_City');
 function dd($var){
     if (is_array($var) || is_object($var)) {
         die(json_encode($var));
@@ -20,7 +21,7 @@ function getMaquinas($dbcon, $cve_depto){
 	dd($dbcon->qBuilder($dbcon->conn(), 'all', $sql));
 }
 function getArticulos($dbcon, $codarticulo){
-	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida FROM cat_articulos WHERE cve_alterna = '".$codarticulo."' ";
+	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida, empaque, max, min FROM cat_articulos WHERE cve_alterna = '".$codarticulo."' ";
 	$articulo = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	if (count($articulo) > 0) {
 		if ($articulo[0]->existencia > 0) {
@@ -29,7 +30,7 @@ function getArticulos($dbcon, $codarticulo){
 			dd(['tipo'=>0, 'datos'=>$articulo[0]->cve_alterna.'-'.$articulo[0]->nombre_articulo]);
 		}
 	}
-	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida FROM cat_articulos WHERE cve_alterna LIKE '%".$codarticulo."%' AND existencia > 0
+	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida, empaque, max, min FROM cat_articulos WHERE cve_alterna LIKE '%".$codarticulo."%' AND existencia > 0
 		OR nombre_articulo LIKE '%".$codarticulo."%' AND existencia > 0 ORDER BY nombre_articulo LIMIT 20";
 	$articulos = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	dd(['tipo'=>2, 'datos'=>$articulos]);
@@ -56,6 +57,28 @@ function guardarMovimiento($dbcon, $Datos){
 		// detalle
 		$articulos = $Datos->articulos;
 		foreach ($articulos as $i => $val) {
+			$existenciaFinal = floatval($val->existencia)- floatval($val->cantidad);
+			if ( $existenciaFinal <= $val->min) {
+				// requisición automática
+				$sql = "INSERT INTO requisicion (cve_usuario, q_autoriza, comentarios, tipo, estatus_req, fecha_registro) VALUES (1, 1, 'Requisicion automatica', 'A', 1, '".$fecha."')";
+				if ($dbcon->qBuilder($conn, 'do', $sql)) {
+					$cve_req = "SELECT max(cve_req) cve_req FROM requisicion WHERE 
+					fecha_registro = '".$fecha."' 
+					AND cve_usuario = 1 
+					AND comentarios = 'Requisicion automatica' 
+					AND q_autoriza = 1 
+					AND estatus_req = 1 
+					AND tipo = 'A' ";
+					$empaque = $val->empaque;
+					$cve_req = $dbcon->qBuilder($conn, 'first', $cve_req);
+					$sql = "INSERT INTO requisicion_detalle (cve_req, cve_art, cve_maquina, cantidad, comentario, cantidad_cotizado, precio_total, surtido, prioridad, estatus_req_det, fecha_registro) VALUES ($cve_req->cve_req, $val->cve_articulo, 0, $empaque, '', 0, 0, 0, '', 1, '".$fecha."')";
+					if (!$dbcon->qBuilder($conn, 'do', $sql)) {
+						dd(['code'=>300, 'msj'=>'error al insertar requisición detalle automática.', 'sql'=>$sql]);
+					}
+				}else{
+					dd(['code'=>300, 'msj'=>'error al insertar requisición automática.', 'sql'=>$sql]);
+				}
+			}
 			$sql = "INSERT INTO movtos_salidas_detalle 
 			(cve_mov, cve_articulo, cve_cc, existencia, cantidad_salida, estatus_mov, fecha_registro)
 			VALUES(

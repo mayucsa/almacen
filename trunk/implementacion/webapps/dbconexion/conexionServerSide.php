@@ -12,7 +12,7 @@
 $sql_details = array(
     'user' => 'ismael',
     'pass' => 'Sistemas$1',
-    'db'   => 'produccionmayucsa',
+    'db'   => 'mayucsademo',
     // 'host' => '192.168.1.6'
     'host' => 'mayucsa.synology.me'
 );

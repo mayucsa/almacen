@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once "../../../dbconexion/conexion.php";
-
+date_default_timezone_set('America/Mexico_City');
 // $objeto = unserialize($_SESSION['usuario']);
  // $edit_catalogo  = $objeto->edit_catalogo;
 

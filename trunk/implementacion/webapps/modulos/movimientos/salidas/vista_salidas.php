@@ -2,6 +2,12 @@
 include_once "../../superior.php";
 include_once "../../../dbconexion/conexion.php";
 include_once "modelo_salidas.php";
+$creadoPor = '';
+foreach (unserialize($_SESSION['usuario']) as $key => $value) {
+    if ($key == 'nombre_persona' || $key == 'apellido_persona') {
+        $creadoPor .= $value. ' ';
+    }
+}
 ?>
     <head>
             <!-- <title>Grupos</title> -->
@@ -18,6 +24,9 @@ include_once "modelo_salidas.php";
             table thead{
                 background-color: #1A4672;
                 color:  white;
+            }
+            .borderedMe{
+                border-radius: 10px; border: solid;
             }
             .input-group-addon {
                 padding: 6px 12px;
@@ -163,7 +172,7 @@ include_once "modelo_salidas.php";
                                             <label>Departamentos</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <select class="form-control form-group-md" ng-model="maquinas" id="maquinas" name="maquinas" ng-disabled="arrayMaquinas.length==0">
+                                            <select class="form-control form-group-md" ng-model="maquinas" id="maquinas" name="maquinas" ng-disabled="arrayMaquinas.length==0" ng-change="setMaquina()">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                                 <option ng-repeat="(i,obj) in arrayMaquinas track by i" value="{{obj.cve_maq}}">{{obj.cve_alterna}}-{{obj.nombre_maq}}</option>
                                             </select>
@@ -189,7 +198,9 @@ include_once "modelo_salidas.php";
                                         <button ng-click="validacionCampos()"class="btn btn-primary" style="margin-bottom: -25px !important">
                                             Generar Salida
                                         </button>
-                                        <input type="submit" value="Limpiar" href="#" ng-click="limpiarCampos()" class="btn btn-warning" style="margin-bottom: -25px !important">
+                                        <input type="submit" value="Limpiar" href="#" ng-click="limpiarCampos()" id="btnLimpiar" class="btn btn-warning" style="margin-bottom: -25px !important">
+                                        <!-- <input type="button" onclick="imprSelec('paraImprimir')" value="Imprimir"> -->
+
                                     </div>
                                 </div>
                             </div>
@@ -241,19 +252,19 @@ include_once "modelo_salidas.php";
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="(i, obj) in articulos track by i">
+                                                <tr ng-repeat="(key, obj) in articulos track by key">
                                                     <td>{{obj.cve_alterna}}</td>
                                                     <td>{{obj.nombre_articulo}}</td>
                                                     <td>{{obj.unidad_medida}}</td>
                                                     <td>{{obj.existencia}}</td>
                                                     <td>
-                                                        <input type="text" class="form-control text-right" ng-model="obj.cantidad" ng-change="validarCantidad(i)">
+                                                        <input type="text" class="form-control text-right" ng-model="obj.cantidad" ng-change="validarCantidad(key)">
                                                     </td>
                                                     <td style="width:auto;">
-                                                        <input type="text" class="form-control" ng-model="obj.centroCosto" id="dropDownCC" role="button" data-bs-toggle="dropdown" aria-expanded="false" ng-keyup="getCcostos(i)">
+                                                        <input type="text" class="form-control" ng-model="obj.centroCosto" id="dropDownCC" role="button" data-bs-toggle="dropdown" aria-expanded="false" ng-keyup="getCcostos(key)">
                                                         <ul class="dropdown-menu" aria-labelledby="dropDownCC" style=" position: relative; display: block" ng-show="arrayCcostos.length > 0">
                                                             <li ng-repeat="(w, obj) in arrayCcostos track by w">
-                                                              <a class="dropdown-item" href="javascript:void(0)" ng-click="setCcosto(i, w)">
+                                                              <a ng-click="setCcosto(key, w)" class="dropdown-item" href="javascript:void(0)">
                                                                 <span class="p-2">{{obj.cve_alterna}} - {{obj.nombre_cc}}</span>
                                                               </a>
                                                             </li>
@@ -262,7 +273,7 @@ include_once "modelo_salidas.php";
                                                     <td>
                                                         <div class="div">
                                                             <div class="col-md-4 offset-md-5 text-center">
-                                                                <button class= "btn btn-danger" title="Borrar" ng-click="quitarArticulo(i)"><i class="fas fa-trash-alt"></i>
+                                                                <button class= "btn btn-danger" title="Borrar" ng-click="quitarArticulo(key)"><i class="fas fa-trash-alt"></i>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -281,6 +292,94 @@ include_once "modelo_salidas.php";
             <?php include_once "../../footer.php" ?>
 
         </main>
+        <div class="container-fluid" id="paraImprimir" style="display: none;">
+            <div class="row p-2" style="width:40%;">
+            <div class="col-md-12">
+                <center>
+                    <h4>FORMATO DE SALIDA - SAM</h4>
+                </center>
+            </div>
+            <div class="col-md-12 mb-4">
+                <center>
+                    <img src="../../../includees/imagenes/Mayucsa.png" style="width: 80%;">
+                </center>
+            </div>
+            <div style="height: 110px;">
+              <div style="position:relative;">
+                    <div class="" style="position: absolute; width: 33%;">
+                        <div class="row" style="border-radius: 10px; border: solid;">
+                            <div class="col-md-12 p-1" style="border-bottom: solid;">
+                                <h3>FOLIO</h3>
+                            </div>
+                            <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                {{folioSalida}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="" style="position: absolute; margin-left: 35%; width: 65%;">
+                        <div class="row" style="border-radius: 10px; border: solid;">
+                            <div class="col-md-12 p-2" style="border-bottom: solid;">
+                                <h3>FECHA</h3>
+                            </div>
+                            <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                <?=date('Y-m-d')?>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-2">
+                <div class="row" style="border-radius: 10px; border: solid;">
+                    <div class="col-md-12 p-2">
+                        <h3>MAQUINA</h3>
+                    </div>
+                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                        {{maquinaSeleccionada}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mt-2" style=" margin-top: 10px;">
+                <div class="row" style="border-radius: 10px; border: solid;">
+                    <div class="col-md-12 p-2">
+                        <h3>REALIZADO POR</h3>
+                    </div>
+                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                        <?=$creadoPor?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mt-2" style="border-radius: 10px; border: solid; margin-top: 10px; padding: 3px;">
+                <table class="table table-striped">
+                    <tr>
+                        <th style="text-align: left;">Clave Art.</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                    </tr>
+                    <tr ng-repeat="(key, obj) in articulos track by key">
+                        <td style="text-align: left;">{{obj.cve_alterna}}</td>
+                        <td>{{obj.nombre_articulo}}</td>
+                        <td style="text-align: right;">{{obj.cantidad}}</td>
+                        <td style="text-align: right;">{{obj.unidad_medida}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-12 mt-2" style="border-radius: 10px; border: solid; margin-top: 10px;">
+                <div class="row ">
+                    <div class="col-md-12 p-2 mb-4" style="border-bottom:solid; margin-top: 5px; margin-bottom: 5px;">
+                        Firma:
+                    </div>
+                    <div class="col-md-12 mt-4 pb-4 pt-4" style="border-bottom:solid; margin-top: 35px; padding-bottom: 35px;">
+                        
+                    </div>
+                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                        {{concepto}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
     </div>
 
     <script src="../../../includes/js/adminlte.min.js"></script>

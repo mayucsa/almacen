@@ -3,7 +3,7 @@
 include_once "../../../includes/librerias/fpdf/fpdf.php";
 include_once "../../../dbconexion/conexion.php";
 include_once "modelo_ordencompra.php";
-
+date_default_timezone_set('America/Mexico_City');
 class PDF extends FPDF
 {
 // Cabecera de página

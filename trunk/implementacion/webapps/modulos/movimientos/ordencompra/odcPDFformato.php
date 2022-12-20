@@ -6,6 +6,7 @@
  * @author    Ismael López ilopez@lcdevelopers.com.mx
  *
  */
+date_default_timezone_set('America/Mexico_City');
 	function getPDF_odc($datos){
 		$estilos ='<style>
 		.p-4{

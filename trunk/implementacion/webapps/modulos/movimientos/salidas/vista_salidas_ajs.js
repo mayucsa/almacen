@@ -20,6 +20,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		}).then(function (response){
 			response = response.data;
 			if (response.tipo == 1) {
+				console.log('response.datos', response.datos);
 				$scope.setArticulos = response.datos;
 				$scope.setArticulo(0, 1);
 				return;
@@ -61,6 +62,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		}
 		if ($scope.auxArticulos.indexOf($scope.findArticulos[i].cve_articulo) < 0) {
 			$scope.findArticulos[i].cantidad = 1;
+			console.log('$scope.findArticulos[i]', $scope.findArticulos[i]);
 			$scope.articulos.push(
 				$scope.findArticulos[i]
 			);
@@ -121,6 +123,9 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		$scope.maquinas = '';
 		$scope.horometro = '';
 		$scope.comentarios = '';
+		$scope.articulos = [];
+		$scope.auxArticulos = [];
+		$scope.findArticulos = [];
 	}
 
 	$scope.validacionCampos = function() {
@@ -164,6 +169,17 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 			);
 			return;
 		}
+		for (var i = 0; i < $scope.articulos.length; i++) {
+			console.log('$scope.articulos[i].cve_cc '+i, $scope.articulos[i]);
+			if ($scope.articulos[i].cve_cc == undefined || $scope.articulos[i].cve_cc == '') {
+				Swal.fire(
+				  'Sin centro de costo seleccionado',
+				  'Es necesario seleccionar centro de costo por artículo.',
+				  'warning'
+				);
+				return;
+			}
+		}
 		Swal.fire({
 		  title: 'Estás a punto de generar una salida.',
 		  text: '¿Es correcta la información agregada?',
@@ -191,6 +207,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 					console.log('response', response);
 					jsRemoveWindowLoad();
 					if (response.code == 200) {
+						$scope.folioSalida = response.folio;
 						Swal.fire({
 						  title: '¡Éxito!',
 						  html: 'La salida se generó correctamente.\n <b>Folio: ' +response.folio + '</b>',
@@ -200,9 +217,13 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 						  confirmButtonText: 'Aceptar'
 						}).then((result) => {
 							if (result.isConfirmed) {
-								location.reload();
+								// location.reload();
+								imprSelec('paraImprimir');
+								$('#btnLimpiar').click();
 							}else{
-								location.reload();
+								// location.reload();
+								imprSelec('paraImprimir');
+								$('#btnLimpiar').click();
 							}
 						})
 					}else{
@@ -212,7 +233,11 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 			}
 		})
 	}
+	$scope.setMaquina = function(){
+		$scope.maquinaSeleccionada = $('#maquinas option:selected').html();
+	}
 	$scope.getCcostos = function(i){
+		console.log('getCcostos', i);
 		if ($scope.departamento == undefined || $scope.departamento == '') {
 			Swal.fire('Sin departamento','Es necesario seleccionar un departamento','warning');
 			$scope.articulos[i].centroCosto = '';
@@ -224,16 +249,27 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 			'cve_depto': $scope.departamento
 		}).then(function (response){
 			response = response.data;
-			console.log(response);
+			// console.log(response);
+			$scope.keySeleccionado = i;
 			$scope.arrayCcostos = response;
 			
 		},function(error){
 			console.log('error', error);
 		});
 	}
-	$scope.setCcosto = function(i, w){
-		$scope.articulos[i].centroCosto = $scope.arrayCcostos[w].cve_alterna+'-'+$scope.arrayCcostos[w].nombre_cc;
-		$scope.articulos[i].cve_cc = $scope.arrayCcostos[w].cve_cc;
+	$scope.setCcosto = function(key, w){
+		key = $scope.keySeleccionado;
+		console.log('setCcosto', key, w);
+		$scope.articulos[key].centroCosto = $scope.arrayCcostos[w].cve_alterna+'-'+$scope.arrayCcostos[w].nombre_cc;
+		$scope.articulos[key].cve_cc = $scope.arrayCcostos[w].cve_cc;
 		$scope.arrayCcostos = [];
 	}
 })
+function imprSelec(id) {
+	var div = document.getElementById(id);
+    var ventimp = window.open(' ', 'popimpr');
+    ventimp.document.write( div.innerHTML );
+    ventimp.document.close();
+    ventimp.print( );
+    ventimp.close();
+}

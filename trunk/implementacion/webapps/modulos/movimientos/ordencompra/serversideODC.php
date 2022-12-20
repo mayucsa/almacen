@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('America/Mexico_City');
 include_once "../../../dbconexion/conexion.php";
 // header('Content-Type: application/json');
 

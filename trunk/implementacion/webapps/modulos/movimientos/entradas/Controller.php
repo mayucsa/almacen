@@ -1,4 +1,5 @@
 <?php 
+date_default_timezone_set('America/Mexico_City');
 function dd($var){
     if (is_array($var) || is_object($var)) {
         die(json_encode($var));
