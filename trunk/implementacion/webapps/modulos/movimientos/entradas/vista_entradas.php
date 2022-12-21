@@ -145,6 +145,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                     <div class="col-sm-12" align="center">
                                         <input type="submit" value="Generar Entrada" href="#" ng-click="validacionCampos()"class="btn btn-primary" style="margin-bottom: -25px !important">
                                         <input type="submit" value="Limpiar" href="#" ng-click="limpiarCampos()" class="btn btn-warning" style="margin-bottom: -25px !important">
+                                        <input type="submit" value="Ver entradas" onclick ="location.href='entradas_global.php'; " class="btn btn-info" style="margin-bottom: -25px !important">
                                         <!-- <input type="button" class="btn" value="imprimir" onclick="imprSelec('inicial_container')"> -->
                                     </div>
                                 </div>
