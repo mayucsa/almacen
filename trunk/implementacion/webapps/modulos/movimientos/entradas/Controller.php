@@ -54,6 +54,12 @@ function envioCorreo($dbcon, $cve_mov){
 		return 'error '.$email;
 	}
 }
+function getProveedor($dbcon, $cve_odc){
+	$sql = "SELECT nombre_proveedor FROM cat_proveedores 
+		INNER JOIN orden_compra ON orden_compra.cve_proveedor = cat_proveedores.cve_proveedor
+	WHERE orden_compra.cve_odc = ".$cve_odc;
+	dd($dbcon->qBuilder($dbcon->conn(), 'first', $sql));
+}
 function validaFolio($dbcon, $folio){
 	$sql = "SELECT cve_odc, cve_art, nombre_articulo, unidad_medida, cantidad_cotizada, precio_unidad, cve_req, false as chkd FROM orden_compra_detalle odcd
 	INNER JOIN cat_articulos ca on ca.cve_articulo = odcd.cve_art WHERE odcd.estatus_req_det = 1 AND odcd.cve_odc = ".$folio;
@@ -166,6 +172,9 @@ switch ($tarea){
 		break;
 	case 'validaFolio':
 		validaFolio($dbcon, $objDatos->folio);
+		break;
+	case 'getProveedor':
+		getProveedor($dbcon, $objDatos->cve_odc);
 		break;
 }
 

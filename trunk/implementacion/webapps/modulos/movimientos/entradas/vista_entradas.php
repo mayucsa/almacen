@@ -1,6 +1,12 @@
 <?php
 include_once "../../superior.php";
 include_once "../../../dbconexion/conexion.php";
+$creadoPor = '';
+foreach (unserialize($_SESSION['usuario']) as $key => $value) {
+    if ($key == 'nombre_persona' || $key == 'apellido_persona') {
+        $creadoPor .= $value. ' ';
+    }
+}
 ?>
     <head>
             <!-- <title>Grupos</title> -->
@@ -139,6 +145,7 @@ include_once "../../../dbconexion/conexion.php";
                                     <div class="col-sm-12" align="center">
                                         <input type="submit" value="Generar Entrada" href="#" ng-click="validacionCampos()"class="btn btn-primary" style="margin-bottom: -25px !important">
                                         <input type="submit" value="Limpiar" href="#" ng-click="limpiarCampos()" class="btn btn-warning" style="margin-bottom: -25px !important">
+                                        <!-- <input type="button" class="btn" value="imprimir" onclick="imprSelec('inicial_container')"> -->
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +207,372 @@ include_once "../../../dbconexion/conexion.php";
                     </div>                    
                 </div>
             </div>
-
+            <div id="inicial_container" style="position: relative; height: 520px; display: none;">
+                <div class="row" style="position: absolute; width: 48%;">
+                    <table style="width: 49%;">
+                        <header>
+                            <tr>
+                                <td nowrap="nowrap">
+                                    <span style="font-size:10px;">
+                                        <strong>FORMATO DE ENTRADAS - SAM</strong>
+                                    </span>
+                                    <br>
+                                    <img src="../../../includees/imagenes/Mayucsa.png" style="width: 100%;">
+                                </td>
+                                <td nowrap="nowrap" style="padding-left: 2px;">
+                                    <br><br>
+                                    <span style="font-size:9px;">
+                                        MATERIALES DE YUCATAN S.A DE CV<br>
+                                        CARR. MERIDA-TIXKOKOB, KM. 10.5<br>
+                                        YUCATAN<br><br>
+                                        Tels: 9501057<br>
+                                        RFC: MYU7407096Q9   
+                                    </span>
+                                </td>
+                                <td nowrap="nowrap" style="padding-left: 2px;">
+                                    <br>
+                                    <span style="font-size:9px;">
+                                        OFICINA:<br>
+                                        CALLE 19 X 18 LOCAL 6<br>
+                                        COL. MEXICO<br>
+                                        TELS. 944-63-53 Y 944-63-77 FAX 944-63-69<br>
+                                        MERIDA, YUC., CP 97128
+                                    </span>
+                                </td>
+                            </tr>
+                        </header>
+                    </table>
+                    <table>
+                        <tr>
+                            <th style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-1" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">FOLIO</span>
+                                    </div>
+                                    <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            {{folioEntrada}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 20%;"></th>
+                            <th style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-2" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">FOLIO DE LA FACTURA</span>
+                                    </div>
+                                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            {{foliofactura}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-2" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">FECHA DE LA FACTURA</span>
+                                    </div>
+                                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            {{fechafactura}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-1" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">PROVEEDOR</span>
+                                    </div>
+                                    <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            {{proveedor}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-2" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">ORDEN DE COMPRA</span>
+                                    </div>
+                                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            {{cve_odc}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-2" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">FECHA DE ENTREGA</span>
+                                    </div>
+                                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            <?=date('Y-m-d')?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </table>
+                    <table style="width:100%">
+                        <tr style="width:100%; border: solid 1px red; border-radius: 10px;">
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Req. N°.</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Clave Art</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Descripción</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Cantidad</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Unidad</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Importe</th>
+                        </tr>
+                        <tr ng-repeat="(i, obj) in ordenCompraDetalle track by i">
+                            <td style="font-size: 9px; text-align: center;">{{obj.cve_req}}</td>
+                            <td style="font-size: 9px; text-align: center;">{{obj.cve_art}}</td>
+                            <td style="font-size: 9px;">{{obj.nombre_articulo}}</td>
+                            <td style="font-size: 9px; text-align: right;">{{obj.cantidad}}</td>
+                            <td style="font-size: 9px; text-align: right;">{{obj.unidad_medida}}</td>
+                            <td style="font-size: 9px; text-align: right;">{{obj.total}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="margin-top: 650px; position: fixed; width: 45%; margin-left: 1%;">
+                    <div style="position: relative; width: 100%">
+                        <div style="position: absolute; width: 70%; margin-left: 2%;">
+                            <div style="position:relative;">
+                                <div style="position: absolute; width: 50%;">
+                                    <div class="row" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top: solid 1px; border-bottom: solid 1px; border-left: solid 1px;">
+                                        <div class="col-md-12 p-1" style="border-bottom: solid 1px;">
+                                            <span style="font-size:9px; padding: 10px;">Entregado por:</span>
+                                        </div>
+                                        <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px; border-bottom: solid 1px;">
+                                            <br>
+                                            <br>
+                                            <br>
+                                        </div>
+                                        <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                            <span style="font-size:9px;">
+                                                &nbsp;
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="position: absolute; width: 50%; margin-left: 50%;">
+                                    <div class="row" style="border-top-right-radius: 10px; border-bottom-right-radius: 10px; border: solid 1px;">
+                                        <div class="col-md-12 p-1" style="border-bottom: solid 1px;">
+                                            <span style="font-size:9px; padding: 10px;">Recibido por:</span>
+                                        </div>
+                                        <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px; border-bottom: solid 1px;">
+                                            <br>
+                                            <br>
+                                            <br>
+                                        </div>
+                                        <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                            <span style="font-size:9px;">
+                                                <?=$creadoPor?>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: absolute; width: 25%; margin-left: 75%;">
+                            <div style="border-radius: 10px; border: solid 1px; padding: 20px; margin-top: 25px;">
+                                <span style="font-size:10px;">
+                                    <strong>Total: {{totalFact | number:4}}</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+                <div class="row" style="position: absolute; width: 48%; margin-left: 51%;">
+                    <table style="width: 49%;">
+                        <header>
+                            <tr>
+                                <td nowrap="nowrap">
+                                    <span style="font-size:10px;">
+                                        <strong>FORMATO DE ENTRADAS - SAM</strong>
+                                    </span>
+                                    <br>
+                                    <img src="../../../includees/imagenes/Mayucsa.png" style="width: 100%;">
+                                </td>
+                                <td nowrap="nowrap" style="padding-left: 2px;">
+                                    <br><br>
+                                    <span style="font-size:9px;">
+                                        MATERIALES DE YUCATAN S.A DE CV<br>
+                                        CARR. MERIDA-TIXKOKOB, KM. 10.5<br>
+                                        YUCATAN<br><br>
+                                        Tels: 9501057<br>
+                                        RFC: MYU7407096Q9   
+                                    </span>
+                                </td>
+                                <td nowrap="nowrap" style="padding-left: 2px;">
+                                    <br>
+                                    <span style="font-size:9px;">
+                                        OFICINA:<br>
+                                        CALLE 19 X 18 LOCAL 6<br>
+                                        COL. MEXICO<br>
+                                        TELS. 944-63-53 Y 944-63-77 FAX 944-63-69<br>
+                                        MERIDA, YUC., CP 97128
+                                    </span>
+                                </td>
+                            </tr>
+                        </header>
+                    </table>
+                    <table>
+                        <tr>
+                            <th style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-1" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">FOLIO</span>
+                                    </div>
+                                    <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            {{folioEntrada}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 20%;"></th>
+                            <th style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-2" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">FOLIO DE LA FACTURA</span>
+                                    </div>
+                                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            {{foliofactura}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-2" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">FECHA DE LA FACTURA</span>
+                                    </div>
+                                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            {{fechafactura}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-1" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">PROVEEDOR</span>
+                                    </div>
+                                    <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            {{proveedor}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-2" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">ORDEN DE COMPRA</span>
+                                    </div>
+                                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            {{cve_odc}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="width: 20%;">
+                                <div class="row" style="border-radius: 10px; border: solid 1px;">
+                                    <div class="col-md-12 p-2" style="border-bottom: solid 1px;">
+                                        <span style="font-size:9px;">FECHA DE ENTREGA</span>
+                                    </div>
+                                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        <span style="font-size:9px;">
+                                            <?=date('Y-m-d')?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </table>
+                    <table style="width:100%">
+                        <tr style="width:100%; border: solid 1px red; border-radius: 10px;">
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Req. N°.</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Clave Art</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Descripción</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Cantidad</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Unidad</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Importe</th>
+                        </tr>
+                        <tr ng-repeat="(i, obj) in ordenCompraDetalle track by i">
+                            <td style="font-size: 9px; text-align: center;">{{obj.cve_req}}</td>
+                            <td style="font-size: 9px; text-align: center;">{{obj.cve_art}}</td>
+                            <td style="font-size: 9px;">{{obj.nombre_articulo}}</td>
+                            <td style="font-size: 9px; text-align: right;">{{obj.cantidad}}</td>
+                            <td style="font-size: 9px; text-align: right;">{{obj.unidad_medida}}</td>
+                            <td style="font-size: 9px; text-align: right;">{{obj.total}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="margin-top: 650px; position: fixed; width: 45%; margin-left: 52%;">
+                    <div style="position: relative; width: 100%">
+                        <div style="position: absolute; width: 70%; margin-left: 2%;">
+                            <div style="position:relative;">
+                                <div style="position: absolute; width: 50%;">
+                                    <div class="row" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top: solid 1px; border-bottom: solid 1px; border-left: solid 1px;">
+                                        <div class="col-md-12 p-1" style="border-bottom: solid 1px;">
+                                            <span style="font-size:9px; padding: 10px;">Entregado por:</span>
+                                        </div>
+                                        <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px; border-bottom: solid 1px;">
+                                            <br>
+                                            <br>
+                                            <br>
+                                        </div>
+                                        <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                            <span style="font-size:9px;">
+                                                &nbsp;
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="position: absolute; width: 50%; margin-left: 50%;">
+                                    <div class="row" style="border-top-right-radius: 10px; border-bottom-right-radius: 10px; border: solid 1px;">
+                                        <div class="col-md-12 p-1" style="border-bottom: solid 1px;">
+                                            <span style="font-size:9px; padding: 10px;">Recibido por:</span>
+                                        </div>
+                                        <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px; border-bottom: solid 1px;">
+                                            <br>
+                                            <br>
+                                            <br>
+                                        </div>
+                                        <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                            <span style="font-size:9px;">
+                                                <?=$creadoPor?>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: absolute; width: 25%; margin-left: 75%;">
+                            <div style="border-radius: 10px; border: solid 1px; padding: 20px; margin-top: 25px;">
+                                <span style="font-size:10px;">
+                                    <strong>Total: {{totalFact | number:4}}</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+            </div>
 
             <?php include_once "../../footer.php" ?>
 

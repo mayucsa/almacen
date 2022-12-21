@@ -3,7 +3,7 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 	$scope.tipo = '';
 	$scope.foliofactura = '';
 	$scope.fechafactura = '';
-
+	$scope.totalFact = 0;
 	$scope.limpiarCampos = function() {
 		$scope.folioodc = '';
 		$scope.tipo = '';
@@ -154,6 +154,10 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 					// console.log('response', response);
 					jsRemoveWindowLoad();
 					if (response.code == 200) {
+						$scope.folioEntrada = response.folio;
+						for (var i = 0; i < $scope.ordenCompraDetalle.length; i++) {
+							$scope.totalFact += parseFloat($scope.ordenCompraDetalle[i].total);
+						}
 						Swal.fire({
 						  title: '¡Éxito!',
 						  html: 'La entrada se generó correctamente.\n <b>Folio: ' +response.folio + '</b>',
@@ -163,8 +167,10 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 						  confirmButtonText: 'Aceptar'
 						}).then((result) => {
 							if (result.isConfirmed) {
+								imprSelec('inicial_container');
 								location.reload();
 							}else{
+								imprSelec('inicial_container')
 								location.reload();
 							}
 						})
@@ -219,10 +225,20 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 			'folio': folio
 		}).then(function (response) {
 			jsRemoveWindowLoad();
-			// console.log(response.data);
+			console.log('ordenCompraDetalle',response.data);
 			$scope.ordenCompraDetalle = response.data;
 			if (response.data.length == 0) {
 				Swal.fire('Sin información','No existe información asociada al folio ingresado. ','error');
+			}else{
+				$http.post('Controller.php', {
+					'task': 'getProveedor',
+					'cve_odc': response.data[0].cve_odc
+				}).then(function (result) {
+					$scope.cve_odc = response.data[0].cve_odc;
+					$scope.proveedor = result.data.nombre_proveedor;
+				}, function(error){
+					console.log('error', error);
+				});
 			}
 		}, function(error){
 			console.log('error', error);
@@ -230,3 +246,13 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 		});
 	}
 })
+
+function imprSelec(id) {
+	var div = document.getElementById(id);
+    var ventimp = window.open(' ', 'popimpr');
+    ventimp.document.write( div.innerHTML );
+    ventimp.document.close();
+    ventimp.print( );
+    ventimp.close();
+}
+
