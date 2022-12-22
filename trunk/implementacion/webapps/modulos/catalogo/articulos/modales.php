@@ -14,16 +14,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-          <!-- <div class="row form-group form-group-sm"> -->
-              <!-- <div class="col-lg-12 d-lg-flex"> -->
-                <!-- <img data-value="12345" data-text="Soy el texto" class="codigo" id="imgcodigo" name="imgcodigo" /> -->
-                <img class="codigo" id="imgcodigo" name="imgcodigo" data-value="123456" />
-              <!-- </div> -->
-          <!-- </div> -->
+      <div class="modal-body text-center" id="modalBarCode">
+        <!-- <img class="codigo" id="imgcodigo" name="imgcodigo"/> -->
       </div>
       <div class="modal-footer">
-        <input type="button" value="Imprimir" onclick="editarArticulo()" class="btn btn-primary">
+        <input type="button" value="Imprimir" onclick="imprSelec('modalBarCode')" class="btn btn-primary">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
@@ -43,13 +38,29 @@
       <div class="modal-body">
           <div class="row form-group form-group-sm">
               <div class="col-lg-12 d-lg-flex">
-                  <div style="width: 50%;" class="form-floating mx-1">
+                  <div style="width: 100%;" class="form-floating mx-1">
                       <input type="text" id="inputnombreartver" name="inputnombreartver" class="form-control form-control-md UpperCase" disabled>
                       <label>Nombre de articulo</label>
                   </div>
-                  <div style="width: 50%;" class="form-floating mx-1">
+                  <!-- <div style="width: 50%;" class="form-floating mx-1">
                       <input type="text" id="inputexistenciaver" name="inputexistenciaver" class="form-control form-control-md UpperCase" disabled>
-                      <label>Existencia</label>
+                      <label>Empaque</label>
+                  </div> -->
+              </div>
+          </div>
+          <div class="row form-group form-group-sm">
+              <div class="col-lg-12 d-lg-flex">
+                  <div style="width: 100%;" class="form-floating mx-1">
+                      <input type="text" id="inputdescripart" name="inputdescripart" class="form-control form-control-md UpperCase" disabled>
+                      <label>Descripcion</label>
+                  </div>
+              </div>
+          </div>
+          <div class="row form-group form-group-sm">
+              <div class="col-lg-12 d-lg-flex">
+                  <div style="width: 100%;" class="form-floating mx-1">
+                      <input type="text" id="inputobservaart" name="inputobservaart" class="form-control form-control-md UpperCase" disabled>
+                      <label>Observaciones</label>
                   </div>
               </div>
           </div>
@@ -92,9 +103,13 @@
                         <input type="text" id="inputnombreartedit" name="inputnombreartedit" class="form-control form-control-md UpperCase">
                         <label>Nombre de articulo</label>
                     </div>
-                    <div style="width: 25%;" class="form-floating mx-1">
+                    <!-- <div style="width: 25%;" class="form-floating mx-1">
                         <input type="text" id="inputnombrelargeedit" name="inputnombrelargeedit" class="form-control form-control-md UpperCase">
                         <label>Nombre de articulo - Largo</label>
+                    </div> -->
+                    <div style="width: 50%;" class="form-floating mx-1">
+                        <input type="text" id="inputobservacionedit" name="inputobservacionedit" class="form-control form-control-md UpperCase">
+                        <label>Observaciones</label>
                     </div>
                 </div>
             </div>
@@ -135,6 +150,26 @@
             <div class="row form-group form-group-sm">
                 <div class="col-lg-12 d-lg-flex">
                     <div style="width: 25%;" class="form-floating mx-1">
+                        <input type="text" id="inputmaxedit" name="inputmaxedit" class="form-control form-control-md validanumericos">
+                        <label>Maximo</label>
+                    </div>
+                    <div style="width: 23%;" class="form-floating mx-1">
+                        <input type="text" id="inputminedit" name="inputminedit" class="form-control form-control-md validanumericos">
+                        <label>Minimo</label>
+                    </div>
+                    <div style="width: 23%;" class="form-floating mx-1">
+                        <input type="text" id="inputempaqueedit" name="inputempaqueedit" class="form-control form-control-md validanumericos">
+                        <label>Empaque</label>
+                    </div>
+                     <!-- <div style="width: 50%;" class="form-floating mx-1">
+                        <input type="text" id="inputobservacionedit" name="inputobservacionedit" class="form-control form-control-md UpperCase">
+                        <label>Observaciones</label>
+                    </div> -->
+                </div>
+            </div>
+            <div class="row form-group form-group-sm">
+                <div class="col-lg-12 d-lg-flex">
+                    <div style="width: 25%;" class="form-floating mx-1">
                         <select class="form-control form-group-md" id="selectunidadmedidaedit" name="selectunidadmedidaedit">
                             <option selected="selected" value="0">[Seleccione una opción..]</option>
                             <option value="KG">KG</option>
@@ -156,22 +191,6 @@
                         <input type="text" id="inputniveledit" name="inputniveledit" class="form-control form-control-md UpperCase">
                         <label>Nivel</label>
                     </div>
-                </div>
-            </div>
-            <div class="row form-group form-group-sm">
-                <div class="col-lg-12 d-lg-flex">
-                    <div style="width: 25%;" class="form-floating mx-1">
-                        <input type="text" id="inputmaxedit" name="inputmaxedit" class="form-control form-control-md validanumericos">
-                        <label>Maximo</label>
-                    </div>
-                    <div style="width: 23%;" class="form-floating mx-1">
-                        <input type="text" id="inputminedit" name="inputminedit" class="form-control form-control-md validanumericos">
-                        <label>Minimo</label>
-                    </div>
-<!--                     <div style="width: 25%;" class="form-floating mx-1">
-                        <input type="text" id="inputptoreordenedit" name="inputptoreordenedit" class="form-control form-control-md validanumericos">
-                        <label>Punto de reorden</label>
-                    </div> -->
                 </div>
             </div>
         <label hidden for="message-text" class="col-form-label">Usuario:</label>
@@ -218,7 +237,7 @@
         <!-- </form> -->
       </div>
       <div class="modal-footer">
-        <input type="button" value="Eliminar" onclick="eliminarGrupo()" class="btn btn-danger">
+        <input type="button" value="Eliminar" onclick="eliminarArticulo()" class="btn btn-danger">
         <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

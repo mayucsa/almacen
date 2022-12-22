@@ -1,22 +1,18 @@
 <?php 
 
-include_once "../../../dbconexion/conexion.php";
+include_once "../../../dbconexion/conn.php";
 
 class Modelo_login{
 	function consulta_usuario_existencia($usuario){
 		$resultado 	= false;
 		try {
-			$dbcon	= 	new Conexion;
-			$con 	= 	$dbcon->conectar();
-
-			$sql 	= 	"SELECT nombre_usuario FROM cat_usuarios WHERE nombre_usuario = '$usuario'";
-
-			$vquery =	$con->prepare($sql);
-			$vquery	->execute();
-
-			foreach ($vquery as $d) {
-			 	$resultado = true;
-			 } 
+			$dbcon	= 	new MysqlConn;
+			$con 	= 	$dbcon->conn();
+			$sql 	= 	"SELECT nombre_usuario FROM cat_usuarios WHERE nombre_usuario = '".$usuario."'";
+            $usuario = $dbcon->qBuilder($con, 'first', $sql);
+            if ($usuario) {
+                $resultado = true;
+            }
 		} catch (Exception $ex) {
 			echo $ex->getMessage();
 		}
@@ -26,17 +22,13 @@ class Modelo_login{
 	function consulta_contrasenia_correcta($usuario, $contrasenia){
 		$resultado = false;
 		try {
-			$dbcon	= 	new Conexion;
-			$con 	= 	$dbcon->conectar();
-
-			$sql	=	"SELECT nombre_usuario FROM cat_usuarios WHERE nombre_usuario = '$usuario' AND contrasenia = '$contrasenia'";
-
-			$vquery	= $con->prepare($sql);
-			$vquery->execute();
-
-			foreach ($vquery as $d) {
-				$resultado = true;
-			}
+			$dbcon	= 	new MysqlConn;
+			$con 	= 	$dbcon->conn();
+			$sql	=	"SELECT nombre_usuario FROM cat_usuarios WHERE nombre_usuario = '".$usuario."' AND contrasenia = '".$contrasenia."'";
+            $pass = $dbcon->qBuilder($con, 'first', $sql);
+            if ($pass) {
+                $resultado = true;
+            }
 		} catch (Exception $ex) {
 			echo $ex->getMessage();
 		}
@@ -62,20 +54,18 @@ class Modelo_login{
     //         return false;
     //     }
     // }
-        function consulta_usuario_persona($usuario, $contrasenia) {
+    function consulta_usuario_persona($usuario, $contrasenia) {
         try {
-            $dbcon = new Conexion;
-            $con = $dbcon->conectar();
+            $dbcon = new MysqlConn;
+            $con = $dbcon->conn();
             $sql = "SELECT 	*
-            		FROM 	cat_usuarios
-            		WHERE 	nombre_usuario = '$usuario' AND contrasenia = '$contrasenia'";
-
-            $vquery = $con->prepare($sql);
-            $vquery->execute();
-
-            if ($vquery) {
-                return $vquery;
-            } else {
+            		FROM cat_usuarios cu
+                    INNER JOIN permisos_almacen pa ON pa.cve_usuario =cu.cve_usuario
+            		WHERE 	nombre_usuario = '".$usuario."' AND contrasenia = '".$contrasenia."'";
+            $persona = $dbcon->qBuilder($con, 'first', $sql);
+            if ($persona) {
+                return $persona;
+            }else{
                 return false;
             }
         } catch (excepcion $e) {
@@ -83,8 +73,5 @@ class Modelo_login{
             return false;
         }
     }
-
 }
-
-
- ?>
+?>

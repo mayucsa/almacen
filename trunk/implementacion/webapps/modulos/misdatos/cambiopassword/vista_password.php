@@ -50,45 +50,61 @@
         </ul>
       </div>
 
-      <div class="row">
+      <div class="row" ng-controller="cambioPssCtrl">
         <div class="col-md-12">
-          <div class="tile">
-            <div class="card">
-                <div class="card-header">
-                    <div align="right" class="form-group form-group-sm" style="margin-bottom: 0px !important">
-                        <button id="btnsave" type="button" class="btn btn-warning" onclick="validacion()"><span class="fas fa-edit"></span> Guardar cambios</button>
-                        <button id="btnsave" type="button" class="btn btn-warning" onclick="actualizaPasswordUsuario()"><span class="fas fa-edit"></span> Modal</button>
-                        <!-- <input type="submit" value="Guardar cambios" href="#" onclick="comprobacion()" class="btn btn-warning" style="margin-bottom: -25px !important"> -->
+            <div class="tile">
+                <div class="card">
+                    <div class="card-header">
+                        <div align="right" class="form-group form-group-sm" style="margin-bottom: 0px !important">
+                            <button id="btnsave" type="button" class="btn btn-info" ng-click="validacion()" ng-disabled="bloquear">
+                                <span class="fas fa-save"></span> Guardar cambios 
+                            </button></div>
                     </div>
-                </div>
-                <div class="card-body">
+                    <div class="card-body">
 
 
-                    <div class="row form-group form-group-sm">
-                        <div class="col-lg-12 d-lg-flex">
-                            <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="password" id="inputnueva" name="inputnueva" class="form-control form-control-md">
-                                <label>Nueva Contrase&ntilde;a</label>
+                        <div class="row form-group form-group-sm">
+                            <div class="col-lg-4 col-md-4">
+                                <div class="form-floating mx-1">
+                                    <div class="row">
+                                        <div class="col-md-10 col-lg-10">
+                                            <label>Nueva Contrase&ntilde;a</label>
+                                        </div>
+                                        <div class="col-md-1 col-lg-2">
+                                            <a href="javascript:void(0)" ng-click="fnPassword('inputnueva')">
+                                                <i id="i_inputnueva" class="fa fa-eye"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <input type="password" id="inputnueva" ng-model="inputnueva" ng-keyup="getInputNueva()" class="form-control form-control-md">
+                                </div>
                             </div>
-                            <div style="width: 25%;" >
-                                <input type="checkbox" id="mostrar_contrasena" title="clic para mostrar contraseña"/>
-                                <label>&nbsp;&nbsp;Mostrar Contraseña</label>
+
+                            <div class="col-lg-4 col-md-4 offset-lg-2 offset-md-2 col-md-4">
+                                <div class="form-floating mx-1">
+                                    <div class="row">
+                                        <div class="col-md-10 col-lg-10">
+                                            <label>Confirmar Contrase&ntilde;a</label>
+                                        </div>
+                                        <div class="col-md-1 col-lg-2" ng-show="inputnueva != ''">
+                                            <a href="javascript:void(0)" ng-click="fnPassword('inputconfirmar')">
+                                                <i id="i_inputconfirmar" class="fa fa-eye"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <input type="password" id="inputconfirmar" ng-model="inputconfirmar" class="form-control form-control-md" ng-keyup="comparaPasswords()" ng-disabled="inputnueva == ''">
+                                </div>
                             </div>
-                            <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="password" id="inputconfirmar" name="inputconfirmar" class="form-control form-control-md">
-                                <label>Confirmar contrase&ntilde;a</label>
-                            </div>
-                            <div style="width: 25%;" >
-                                <input type="checkbox" id="mostrar_contrasenados" title="clic para mostrar contraseña"/>
-                                <label>&nbsp;&nbsp;Mostrar Contraseña</label>
+                            <div class="col-lg-12 col-md-12 p-2 ml-4" ng-show="msj != []">
+                                <span style="color: {{msj.code=='200'?'green':'red';}}">{{msj.msj}}</span>
                             </div>
                         </div>
                     </div>
-                <span hidden id="spaniduser" name="spaniduser" class="form-control" style="background-color: #E9ECEF;"><?php echo $id?></span>
-                <span hidden id="spanuser" name="spanuser" class="form-control" style="background-color: #E9ECEF;"><?php echo $nombre." ".$apellido?></span>
+                    <span hidden id="spaniduser" name="spaniduser" class="form-control" style="background-color: #E9ECEF;"><?php echo $id?></span>
+                    <span hidden id="spanuser" name="spanuser" class="form-control" style="background-color: #E9ECEF;"><?php echo $nombre." ".$apellido?></span>
+                    </div>
+                    </div>
                 </div>
-                </div>
-            </div>
           </div>
         </div>
       </div>
@@ -99,7 +115,7 @@
 
     <script src="../../../includes/js/jquery351.min.js"></script>
 
-    <script src="vista_password.js"></script>
+    <script src="vista_password_anjs.js"></script>
 
 <?php include_once "../../inferior.php" ?>
 

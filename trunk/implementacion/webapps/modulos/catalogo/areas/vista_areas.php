@@ -64,8 +64,12 @@
                     <div class="row form-group form-group-sm">
                         <div class="col-lg-12 d-lg-flex">
                             <div style="width: 25%;" class="form-floating mx-1">
+                                <input type="text" id="inputcodarea" name="inputcodarea" class="form-control form-control-md validanumericos">
+                                <label>C&oacute;digo de &aacute;rea</label>
+                            </div>
+                            <div style="width: 25%;" class="form-floating mx-1">
                                 <input type="text" id="inputarea" name="inputarea" class="form-control form-control-md UpperCase">
-                                <label>Nombre de área</label>
+                                <label>Nombre de &aacute;rea</label>
                             </div>
 
                             <span hidden id="spanusuario" name="spanusuario" class="form-control form-control-sm" style="background-color: #E9ECEF;"><?php echo $nombre." ".$apellido?></span>
@@ -98,7 +102,7 @@
                                         type="text" 
                                         id="iptNombre"
                                         class="form-control"
-                                        data-index="0">
+                                        data-index="1">
                                 <label for="iptNombre">Nombre</label>
                             </div>
                         </div>
@@ -112,6 +116,7 @@
                         <table class="table table-striped table-bordered table-hover w-100 shadow" id="tablaAreas">
                             <thead>
                                 <tr>
+                                    <th class="text-center">C&oacute;digo</th>
                                     <th class="text-center">Nombre</th>
                                     <th class="text-center">Estatus</th>
                                     <th class="text-center">Fecha de Alta</th>

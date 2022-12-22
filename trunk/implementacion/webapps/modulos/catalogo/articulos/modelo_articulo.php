@@ -32,10 +32,11 @@ if ( isset($_GET['accion']) && $_GET['accion'] == "insertar") {
 	// die (json_encode($_REQUEST));
 	$codigo 		= $_POST['codigo'];
 	$nombre 		= $_POST['nombre'];
-	$nombrelargo 	= $_POST['nombrelargo'];
+	$nombrelargo 	= '';
 	$categoria 		= $_POST['categoria'];
 	$grupo 			= $_POST['grupo'];
 	$descripcion 	= $_POST['descripcion'];
+	$observacion 	= $_POST['observacion'];
 	$unidadmedida	= $_POST['unidadmedida'];
 	$precio			= $_POST['precio'];
 	$costo			= $_POST['costo'];
@@ -45,10 +46,10 @@ if ( isset($_GET['accion']) && $_GET['accion'] == "insertar") {
 	$nivel 			= $_POST['nivel'];
 	$max 			= $_POST['max'];
 	$min 			= $_POST['min'];
-	// $reorden 		= $_POST['reorden'];
+	$empaque 		= $_POST['empaque'];
 	$usuario 		= $_POST['usuario'];
 
-    $sql		= "INSERT INTO cat_articulos(cve_alterna, nombre_articulo, nombre_articulo_largo, cve_ctg, cve_grupo, descripcion, unidad_medida, precio_unitario, costo_promedio, existencia, seccion, casillero, nivel, max, min, punto_reorden, creado_por, eliminado_por, estatus_articulo, fecha_registro, fecha_eliminado) VALUES(:codigo, :nombre, :nombrelargo, :categoria, :grupo, :descripcion, :unidadmedida, :precio, :costo, :existencia, :seccion, :casillero, :nivel, :max, :min, 0, :usuario, '', 'VIG', NOW(), 0);";
+    $sql		= "INSERT INTO cat_articulos(cve_alterna, nombre_articulo, nombre_articulo_largo, cve_ctg, cve_grupo, descripcion, observaciones,  unidad_medida, precio_unitario, costo_promedio, existencia, seccion, casillero, nivel, max, min, empaque, creado_por, eliminado_por, estatus_articulo, fecha_registro, fecha_eliminado) VALUES(:codigo, :nombre, :nombrelargo, :categoria, :grupo, :descripcion, :observacion, :unidadmedida, :precio, :costo, :existencia, :seccion, :casillero, :nivel, :max, :min, :empaque, :usuario, '', 'VIG', NOW(), 0);";
 
    $vquery = Conexion::conectar()->prepare($sql);
 
@@ -58,6 +59,7 @@ if ( isset($_GET['accion']) && $_GET['accion'] == "insertar") {
    $vquery->bindparam(':categoria', 	$categoria);
    $vquery->bindparam(':grupo', 		$grupo);
    $vquery->bindparam(':descripcion', 	$descripcion);
+   $vquery->bindparam(':observacion', 	$observacion);
    $vquery->bindparam(':unidadmedida',	$unidadmedida);
    $vquery->bindparam(':precio',		$precio);
    $vquery->bindparam(':costo',			$costo);
@@ -67,7 +69,7 @@ if ( isset($_GET['accion']) && $_GET['accion'] == "insertar") {
    $vquery->bindparam(':nivel', 		$nivel);
    $vquery->bindparam(':max', 			$max);
    $vquery->bindparam(':min', 			$min);
-   // $vquery->bindparam(':reorden', 		$reorden);
+   $vquery->bindparam(':empaque', 		$empaque);
    $vquery->bindparam(':usuario', 		$usuario);
 
    $vquery->execute();
@@ -119,19 +121,21 @@ if (isset($_GET['eliminar']) ) {
 if (isset($_GET['actualizar']) ) {
 	$cve_articulo 			= $_POST['cve_articulo'];
 	$nombre_articulo 		= $_POST['nombre_articulo'];
-	$nombre_articulo_largo	= $_POST['nombre_articulo_largo'];
+	$nombre_articulo_largo	= 0;
 	$categoria 				= $_POST['categoria'];
 	$grupo 					= $_POST['grupo'];
 	$descripcion 			= $_POST['descripcion'];
+	$observacion 			= $_POST['observacion'];
 	$unidadmedida 			= $_POST['unidadmedida'];
 	$seccion 				= $_POST['seccion'];
 	$casillero 				= $_POST['casillero'];
 	$nivel 					= $_POST['nivel'];
 	$max 					= $_POST['max'];
 	$min 					= $_POST['min'];
+	$empaque 				= $_POST['empaque'];
 	$usuario 				= $_POST['usuario'];
 
-   	$sql		= "CALL editarArticulo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+   	$sql		= "CALL editarArticulo(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
    	$vquery = Conexion::conectar()->prepare($sql);
 
@@ -141,13 +145,15 @@ if (isset($_GET['actualizar']) ) {
    	$vquery->bindparam(4, $categoria);
    	$vquery->bindparam(5, $grupo);
    	$vquery->bindparam(6, $descripcion);
-   	$vquery->bindparam(7, $unidadmedida);
-   	$vquery->bindparam(8, $seccion);
-   	$vquery->bindparam(9, $casillero);
-   	$vquery->bindparam(10, $nivel);
-   	$vquery->bindparam(11, $max);
-   	$vquery->bindparam(12, $min);
-   	$vquery->bindparam(13, $usuario);
+   	$vquery->bindparam(7, $observacion);
+   	$vquery->bindparam(8, $unidadmedida);
+   	$vquery->bindparam(9, $seccion);
+   	$vquery->bindparam(10, $casillero);
+   	$vquery->bindparam(11, $nivel);
+   	$vquery->bindparam(12, $max);
+   	$vquery->bindparam(13, $min);
+   	$vquery->bindparam(14, $empaque);
+   	$vquery->bindparam(15, $usuario);
 
    	$vquery->execute();
 

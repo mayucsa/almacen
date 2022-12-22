@@ -13,7 +13,7 @@
                 <a class="back-to-top" href="#page" title="Volver arriba"><i class="fa fa-angle-double-up wow flash" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: flash;"></i></a>
             </div> 
                 Copyright © 2022 Mayucsa / Mayamat        
-                <span class="sep"> – </span>  Hecho por Ing. Alfredo Chan
+                <span class="sep"> – </span>  Hecho por Depto. de Sistemas
         </div>
     </div>
 </footer>

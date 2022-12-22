@@ -88,14 +88,12 @@ if (isset($_GET['actualizar']) ) {
     $erfc           = $_POST['erfc'];
     $edireccion     = $_POST['edireccion'];
     $ecolonia       = $_POST['ecolonia'];
+    $ecp            = $_POST['ecp'];
     $ecdestado      = $_POST['ecdestado'];
-    $econtacto      = $_POST['econtacto'];
-    $ecorreo        = $_POST['ecorreo'];
-    $etelefono      = $_POST['etelefono'];
     $ecredito       = $_POST['ecredito'];
     $usuario        = $_POST['usuario'];
 
-    $sql        = "CALL editarProveedor(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql        = "CALL editarProveedor(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $vquery = Conexion::conectar()->prepare($sql);
 
@@ -105,12 +103,10 @@ if (isset($_GET['actualizar']) ) {
     $vquery->bindparam(4, $erfc);
     $vquery->bindparam(5, $edireccion);
     $vquery->bindparam(6, $ecolonia);
-    $vquery->bindparam(7, $ecdestado);
-    $vquery->bindparam(8, $econtacto);
-    $vquery->bindparam(9, $ecorreo);
-    $vquery->bindparam(10, $etelefono);
-    $vquery->bindparam(11, $ecredito);
-    $vquery->bindparam(12, $usuario);
+    $vquery->bindparam(7, $ecp);
+    $vquery->bindparam(8, $ecdestado);
+    $vquery->bindparam(9, $ecredito);
+    $vquery->bindparam(10, $usuario);
 
     $vquery->execute();
 
@@ -142,6 +138,29 @@ if (isset($_GET["accion"]) && $_GET['accion'] == "verificar") {
 
 }
 
+if (isset($_GET["accion"]) && $_GET['accion'] == "verificarrfc") {
+    // die (json_encode($_REQUEST));
+    $rfc = $_REQUEST["rfc"];
+
+    $sql    = " SELECT count(*) as existe 
+                FROM cat_proveedores 
+                WHERE rfc ='".$rfc."'";
+    // $sql = " SELECT * FROM seg_entradas ORDER BY fecha_registro DESC";
+
+    $vquery = Conexion::conectar()->prepare($sql);
+    $vquery ->execute();
+    $lista = $vquery->fetchAll(PDO::FETCH_ASSOC);
+    // echo json_encode($lista);
+    $existenciarfc = $lista[0]['existe'];
+    if ($existenciarfc > 0) {
+        echo "correcto";
+    }else{
+        echo "error";
+    }
+    exit();
+
+}
+
 if ( isset($_GET['accion']) && $_GET['accion'] == "insertarContacto") {
     // die (json_encode($_REQUEST));
     $cve_proveedor  = $_POST['cve_proveedor'];
@@ -163,6 +182,23 @@ if ( isset($_GET['accion']) && $_GET['accion'] == "insertarContacto") {
    $vquery->execute();
 
    exit();
+
+}
+
+if (isset($_GET["consultarcontacto"])) {
+    $cve_proveedor = $_GET["consultarcontacto"];
+
+    $sql    = " SELECT P.nombre_proveedor AS Proveedor, C.nombre_contacto AS Contacto, C.correo AS Correo, C.telefono AS Telefono
+                FROM contacto_proveedores C
+                INNER JOIN cat_proveedores P ON P.cve_proveedor = C.cve_proveedor
+                WHERE C.cve_proveedor =" .$cve_proveedor;
+    // $sql = " SELECT * FROM seg_entradas ORDER BY fecha_registro DESC";
+
+    $vquery = Conexion::conectar()->prepare($sql);
+    $vquery ->execute();
+    $lista = $vquery->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($lista);
+    exit();
 
 }
 

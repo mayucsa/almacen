@@ -38,12 +38,12 @@
     <main class="app-content">
       <div class="app-title">
         <div>
-          <h1><i class="fas fa-boxes"></i> Categorias</h1>
+          <h1><i class="fas fa-boxes"></i> Almacenes</h1>
           <!-- <p>Mayucsa / Mayamat</p> -->
         </div>
         <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-          <li class="breadcrumb-item"><a href="vista_categorias.php">Categorias</a></li>
+          <li class="breadcrumb-item"><a href="vista_categorias.php">Almacenes</a></li>
         </ul>
       </div>
 
@@ -64,7 +64,7 @@
                         <div class="col-lg-12 d-lg-flex">
                             <div style="width: 25%;" class="form-floating mx-1">
                                 <input type="text" id="inputnamectg" name="inputnamectg" class="form-control form-control-md UpperCase">
-                                <label>Nombre de categoria</label>
+                                <label>Nombre de almacén</label>
                             </div>
                             <span hidden id="spanusuario" name="spanusuario" class="form-control form-control-sm" style="background-color: #E9ECEF;"><?php echo $nombre." ".$apellido?></span>
                             <!-- <input type="text" class="form-control" id="inputnombregpo" name="inputnombregpo" required="" > -->

@@ -1,4 +1,5 @@
-<?php 
+<?php
+session_start();
     include_once "../../../modulos/seguridad/login/datos_usuario.php";
 
     if (empty($_SESSION['usuario'])) {
@@ -18,15 +19,16 @@
         $clave  = $objeto->rol_persona;
         $id  = $objeto->clave_usuario;
 
-        $vista_dashboardalma  = $objeto->vista_dashboardalma;
+        // $vista_dashboardalma  = $objeto->vista_dashboardalma;
 
-        $vista_catalogo  = $objeto->vista_catalogo;
+        // $vista_catalogo  = $objeto->vista_catalogo;
+        // $edit_catalogo  = isset($objeto->edit_catalogo)?$objeto->edit_catalogo:'';
 
-        $vista_movimiento  = $objeto->vista_movimiento;
+        // $vista_movimiento  = $objeto->vista_movimiento;
 
-        $vista_autorizacion  = $objeto->vista_autorizacion;
+        // $vista_autorizacion  = $objeto->vista_autorizacion;
 
-        $vista_seguridad  = $objeto->vista_seguridad;
+        // $vista_seguridad  = $objeto->vista_seguridad;
  ?>
 <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
@@ -43,7 +45,7 @@
       </div>
     <!-- </div> -->
       <?php
-        $padre = '';
+        /*$padre = '';
         $padre .= '<ul class="app-menu">';
 
         $hijo = '';
@@ -55,11 +57,32 @@
               <a class="app-menu__item" href="../../dashboard/dashboard/dashboard.php"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a>
           </li>';
 
+
+          $hijosC = '';
+          $hijosC .='
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="../../catalogo/categorias/vista_categorias.php"><i class="icon fa fa-circle-o"></i> Almacenes</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/grupos/vista_grupos.php"><i class="icon fa fa-circle-o"></i> Grupos</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/articulos/vista_articulos.php"><i class="icon fa fa-circle-o"></i> Articulos</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/proveedores/vista_proveedores.php"><i class="icon fa fa-circle-o"></i> Proveedores</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/areas/vista_areas.php"><i class="icon fa fa-circle-o"></i> Áreas</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/departamentos/vista_departamentos.php"><i class="icon fa fa-circle-o"></i> Departamentos</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/maquinas/vista_maquinas.php"><i class="icon fa fa-circle-o"></i> Máquinas</a></li>
+
+              <li><a class="treeview-item" href="../../catalogo/centrocostos/vista_centrocostos.php"><i class="icon fa fa-circle-o"></i> Centro de costos</a></li>
+            </ul>';
+
         $catalogo = '';
         $catalogo .= '
           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-folder-open"></i><span class="app-menu__label">Catalogos</span><i class="treeview-indicator fas fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="../../catalogo/categorias/vista_categorias.php"><i class="icon fa fa-circle-o"></i> Categorias</a></li>
+              <li><a class="treeview-item" href="../../catalogo/categorias/vista_categorias.php"><i class="icon fa fa-circle-o"></i> Almacenes</a></li>
 
               <li><a class="treeview-item" href="../../catalogo/grupos/vista_grupos.php"><i class="icon fa fa-circle-o"></i> Grupos</a></li>
 
@@ -77,20 +100,19 @@
             </ul>
           </li>';
 
-
         $movimientos = '';
         $movimientos .= '
           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-pen-square"></i><span class="app-menu__label">Movimientos</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="../../movimientos/requisicion/vista_requisicion.php"><i class="icon fa fa-circle-o"></i> Requisiciones</a></li>
 
-              <li><a class="treeview-item" href="../../morteros/captura/vista_captura.php"><i class="icon fa fa-circle-o"></i> Cotización</a></li>
+              <li><a class="treeview-item" href="../../movimientos/cotizacion/vista_cotizacion.php"><i class="icon fa fa-circle-o"></i> Cotización</a></li>
             
-              <li><a class="treeview-item" href="../../morteros/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Orden de compra</a></li>
+              <li><a class="treeview-item" href="../../movimientos/ordencompra/vista_ordencompra.php"><i class="icon fa fa-circle-o"></i> Orden de compra</a></li>
             
-              <li><a class="treeview-item" href="../../morteros/salidas/vista_salidas.php"><i class="icon fa fa-circle-o"></i> Entradas</a></li>
+              <li><a class="treeview-item" href="../../movimientos/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Entradas</a></li>
 
-              <li><a class="treeview-item" href="../../morteros/seguridad/vista_seguridad.php"><i class="icon fa fa-circle-o"></i> Salidas</a></li>
+              <li><a class="treeview-item" href="../../movimientos/salidas/vista_salidas.php"><i class="icon fa fa-circle-o"></i> Salidas</a></li>
             </ul>
           </li>';
 
@@ -98,9 +120,9 @@
         $autorizacion .= '
           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-check-circle"></i><span class="app-menu__label">Autorización</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="../../laboratorio/captura/vista_laboratorio.php"><i class="icon fa fa-circle-o"></i> Requisiciones</a></li>
+              <li><a class="treeview-item" href="../../autorizaciones/requisiciones/vista_requisiciones.php"><i class="icon fa fa-circle-o"></i> Orden de compra</a></li>
             
-              <li><a class="treeview-item" href="../../laboratorio/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Servicios</a></li>
+               <li><a class="treeview-item" href="../../autorizaciones/terminacion/vista_terminacion.php"><i class="icon fa fa-circle-o"></i> Terminación de servicios</a></li>
             </ul>
           </li>';
 
@@ -108,13 +130,7 @@
         $seguridad .= '
           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-key"></i><span class="app-menu__label">Seguridad</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-            <li><a class="treeview-item" href="../../besser/captura/vista_besser.php"><i class="icon fa fa-circle-o"></i> Producción</a></li>
-            
-              <li><a class="treeview-item" href="../../besser/curado/vista_curado.php""><i class="icon fa fa-circle-o"></i> Cuarto Curado</a></li>
 
-              <li><a class="treeview-item" href="../../besser/entradas/vista_entradas.php"><i class="icon fa fa-circle-o"></i> Entradas</a></li>
-            
-              <li><a class="treeview-item" href="../../besser/desalojo/vista_desalojo.php"><i class="icon fa fa-circle-o"></i> Desalojos</a></li>
             </ul>
           </li>';
 
@@ -131,26 +147,154 @@
           <li><a class="app-menu__item" href="../../../logout.php"><i class="app-menu__icon fas fa-sign-out-alt"></i><span class="app-menu__label">Cerrar sesi&oacute;n</span></a>
           </li>';
 
-          echo $padre;
+          echo $padre;*/
+          ?>
+          <ul class="app-menu">
+            <!-- dashboard -->
+            <li ng-show="perfilUsu.dashboard_principal == 1">
+                <a class="app-menu__item" href="../../dashboard/dashboard/dashboard.php"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a>
+            </li>
+            <!-- catalogo -->
+            <li class="treeview" ng-show="perfilUsu.catalogo_principal == 1">
+              <a class="app-menu__item" href="#" data-toggle="treeview">
+                <i class="app-menu__icon fas fa-folder-open"></i><span class="app-menu__label">Catalogos</span><i class="treeview-indicator fas fa-angle-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li ng-show="perfilUsu.almacen_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/categorias/vista_categorias.php"><i class="icon fa fa-circle-o"></i> Almacenes
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.grupo_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/grupos/vista_grupos.php"><i class="icon fa fa-circle-o"></i> Grupos
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.articulo_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/articulos/vista_articulos.php"><i class="icon fa fa-circle-o"></i> Articulos
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.provedores_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/proveedores/vista_proveedores.php"><i class="icon fa fa-circle-o"></i> Proveedores
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.areas_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/areas/vista_areas.php"><i class="icon fa fa-circle-o"></i> Áreas
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.deptos_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/departamentos/vista_departamentos.php"><i class="icon fa fa-circle-o"></i> Departamentos
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.maquinas_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/maquinas/vista_maquinas.php"><i class="icon fa fa-circle-o"></i> Máquinas
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.centrocostos_vista == 1">
+                  <a class="treeview-item" href="../../catalogo/centrocostos/vista_centrocostos.php">
+                    <i class="icon fa fa-circle-o"></i> Centro de costos
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!-- movimientos -->
+            <li class="treeview" ng-show="perfilUsu.movimientos_principal == 1">
+              <a class="app-menu__item" href="#" data-toggle="treeview">
+                <i class="app-menu__icon fas fa-pen-square"></i><span class="app-menu__label">Movimientos</span><i class="treeview-indicator fa fa-angle-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li ng-show="perfilUsu.requisicion_vista == 1">
+                  <a class="treeview-item" href="../../movimientos/requisicion/vista_requisicion.php">
+                    <i class="icon fa fa-circle-o"></i> Requisiciones
+                  </a>
+                </li>
 
-          if ($vista_dashboardalma == 1) {
+                <li ng-show="perfilUsu.cotizacion_vista == 1">
+                  <a class="treeview-item" href="../../movimientos/cotizacion/vista_cotizacion.php">
+                    <i class="icon fa fa-circle-o"></i> Cotización
+                  </a>
+                </li>
+                <li ng-show="perfilUsu.ordencompra_vista == 1">
+                  <a class="treeview-item" href="../../movimientos/ordencompra/vista_ordencompra.php">
+                    <i class="icon fa fa-circle-o"></i> Orden de compra
+                  </a>
+                </li>
+              
+                <li ng-show="perfilUsu.entradas_vista == 1">
+                  <a class="treeview-item" href="../../movimientos/entradas/vista_entradas.php">
+                    <i class="icon fa fa-circle-o"></i> Entradas
+                  </a>
+                </li>
+
+                <li ng-show="perfilUsu.salidas_vista == 1">
+                  <a class="treeview-item" href="../../movimientos/salidas/vista_salidas.php">
+                    <i class="icon fa fa-circle-o"></i> Salidas
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!-- autorizacion -->
+            <li class="treeview" ng-show="perfilUsu.autorizacion_principal == 1">
+              <a class="app-menu__item" href="#" data-toggle="treeview">
+                <i class="app-menu__icon fas fa-check-circle"></i><span class="app-menu__label">Autorización</span><i class="treeview-indicator fa fa-angle-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li ng-show="perfilUsu.autocotizacion_vista == 1">
+                  <a class="treeview-item" href="../../autorizaciones/requisiciones/vista_requisiciones.php">
+                    <i class="icon fa fa-circle-o"></i> Orden de compra
+                  </a>
+                </li>
+              
+                <li ng-show="perfilUsu.terminacion_vista == 1">
+                  <a class="treeview-item" href="../../autorizaciones/terminacion/vista_terminacion.php">
+                    <i class="icon fa fa-circle-o"></i> Terminación de servicios
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!-- seguridad -->
+            <li class="treeview" ng-show="perfilUsu.seguridad_principal == 1">
+              <a class="app-menu__item" href="#" data-toggle="treeview">
+                <i class="app-menu__icon fas fa-key"></i><span class="app-menu__label">Seguridad</span><i class="treeview-indicator fa fa-angle-right"></i>
+              </a>
+              <ul class="treeview-menu">
+
+              </ul>
+            </li>
+            <!-- mis datos -->
+            <li class="treeview">
+              <a class="app-menu__item" href="#" data-toggle="treeview">
+              <i class="app-menu__icon fas fa-user-cog"></i><span class="app-menu__label">Mis datos</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a class="treeview-item" href="../../misdatos/cambiopassword/vista_password.php"><i class="icon fa fa-circle-o"></i> Cambio de contraseña</a></li>
+              </ul>
+            </li>
+            <!-- cierre sesión -->
+            <li>
+              <a class="app-menu__item" href="../../../logout.php">
+                <i class="app-menu__icon fas fa-sign-out-alt"></i>
+                <span class="app-menu__label">Cerrar sesi&oacute;n</span>
+              </a>
+            </li>
+          </ul>
+          <?php
+
+          /*if ($_SESSION['dashboardalma_vista'] == 1) {
             echo $dashboard;
           }
-          if ($vista_catalogo == 1) {
+          if ($_SESSION['catalogo_vista'] == 1) {
             echo $catalogo;
           }
-          if ($vista_movimiento == 1) {
+          if ($_SESSION['movimientos_vista'] == 1) {
             echo $movimientos;
           }
-          if ($vista_autorizacion == 1) {
+          if ($_SESSION['autorizacion_vista'] == 1) {
             echo $autorizacion;
           }
-          if ($vista_seguridad == 1) {
+          if ($_SESSION['seguridad_vista'] == 1) {
             echo $seguridad;
           }
 
 
-          echo $misdatos.$cierresesion.$hijo;
+          echo $misdatos.$cierresesion.$hijo;*/
 
       // switch ($clave){
       //   case 1:

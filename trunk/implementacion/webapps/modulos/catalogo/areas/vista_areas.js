@@ -14,7 +14,7 @@ function consultar(){
             "ajax": "serverSideAreas.php",
             "lengthMenu": [[30, 50, 100], [30, 50, 100]],
             "pageLength": 30,
-            "order": [2, 'desc'],
+            "order": [0, 'asc'],
             // "destroy": true,
             "searching": true,
             // bSort: false,
@@ -23,26 +23,26 @@ function consultar(){
             "bDestroy": true,
             "columnDefs":[
                             {
-                                "targets": [1, 2, 3],
+                                "targets": [1, 2, 3, 4],
                                 "className": 'dt-body-center' /*alineacion al centro th de tbody de la table*/
                             },
                             {
-                                "targets": 3,
+                                "targets": 4,
                                 "render": function(data, type, row, meta){
                                     // const primaryKey = data;
                                     // "data": 'cve_entrada',
-                                    return  '<span class= "btn btn-warning" onclick= "obtenerDatos('+row[3]+')" title="Editar" data-toggle="modal" data-target="#modalEditar" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>' + ' ' + 
-                                            '<span class= "btn btn-danger" onclick= "obtenerDatosE('+row[3]+')" title="Eliminar" data-toggle="modal" data-target="#modalEliminar" data-whatever="@getbootstrap"><i class="fas fa-trash-alt"></i> </span>';
+                                    return  '<span class= "btn btn-warning" onclick= "obtenerDatos('+row[4]+')" title="Editar" data-toggle="modal" data-target="#modalEditar" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>' + ' ' + 
+                                            '<span class= "btn btn-danger" onclick= "obtenerDatosE('+row[4]+')" title="Eliminar" data-toggle="modal" data-target="#modalEliminar" data-whatever="@getbootstrap"><i class="fas fa-trash-alt"></i> </span>';
                                 }
                                 // "data": null,
                                 // "defaultContent": '<span class= "btn btn-warning" onclick= "obtenerDatos(".$value["cve_entrada"].")" data-toggle="modal" data-target="#modalMatPrimaUpdate" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>'
                             },
                             {
-                                "targets": 1,
+                                "targets": 2,
                                 "render": function(data, type, row, meta){
                                     // const primaryKey = data;
                                     // "data": 'cve_entrada',
-                                    if (row[1] == 'VIG') {
+                                    if (row[2] == 'VIG') {
                                         return '<span class= "badge badge-success">Activo</span>';
                                     }else{
                                         return '<span class= "badge badge-danger">Inactivo</span>';
@@ -106,13 +106,18 @@ function obtenerDatosE(cve_area) {
 function limpiarCampos(){
 
     $('#inputarea').val("");
+    $('#inputcodarea').val("");
 
 }
 
 function validacionCampos() {
     var area = $('#inputarea').val();
+    var codarea = $('#inputcodarea').val();
     var msj = "";
   
+    if (codarea == "") {
+        msj += '<li>Código de área</li>';
+    }
     if (area == "") {
         msj += '<li>Nombre de área</li>';
     }
@@ -122,19 +127,52 @@ function validacionCampos() {
         $('#modalMensajes').modal('toggle');
 
     } else{
-        insertCaptura();
+        existenciaCodigo();
     }
+}
+
+function existenciaCodigo(){
+    var codarea = $('#inputcodarea').val();
+    var msj = "";
+
+    var datos   = new FormData();
+
+    datos.append('codarea', $('#inputcodarea').val());
+
+        $.ajax({
+                type:"POST",
+                url:"modelo_areas.php?accion=verificar&codarea=" + codarea,
+                data: codarea,
+                processData:false,
+                contentType:false,
+        success:function(data){
+                    if (data == 'correcto') {
+                        Swal.fire({
+                                        icon: 'warning',
+                                        title: '¡Error!',
+                                        text: 'El código de Área ya existe',
+                                        // footer: 'Favor de ingresar un código nuevo',
+                                        confirmButtonColor: '#1A4672'
+                                    })
+                    }else{
+                        insertCaptura();
+                        }
+                    }
+            })
 }
 
 function insertCaptura(){
     var datos   = new FormData();
     var mgs = "";
     var area        = $('#inputarea').val();
+    var area        = $('#inputcodarea').val();
 
     datos.append('area',   $('#inputarea').val());
+    datos.append('codarea',   $('#inputcodarea').val());
     datos.append('usuario', $('#spanusuario').text());
 
     console.log(datos.get('area'));
+    console.log(datos.get('codarea'));
     // console.log($(this).data(nombre));
     console.log(datos.get('usuario'));
     // grupo.charAt(0).toUpperCase();

@@ -1,4 +1,5 @@
 <?php
+// session_start();
     include_once "../../superior.php";
     include_once "../../../dbconexion/conexion.php";
     include_once "modelo_articulo.php";
@@ -19,22 +20,23 @@
             </style>
         </head>
        <!-- MODAL DE MENSAJES -->
-<div class="modal fade" id="modalMensajes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding-top:10%; overflow-y:visible;" >
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header modal-danger">
-                <h5 class="modal-title" id="encabezadoModal"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="cuerpoModal"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
-            </div>
+<div ng-controller="vistaArticulosCtrl">
+    <div class="modal fade" id="modalMensajes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding-top:10%; overflow-y:visible;" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-danger">
+                    <h5 class="modal-title" id="encabezadoModal"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="cuerpoModal"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>3
         </div>
     </div>
-</div>
 
     <main class="app-content">
       <div class="app-title">
@@ -51,7 +53,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="tile">
-            <div class="card card-info">
+            <div class="card card-info" ng-show="perfilUsu.articulo_captura == 1">
                 <div class="card-header">
                     <h3 class="card-title">CAPTURA DE DATOS</h3>
                     <div class="card-tools">
@@ -72,9 +74,13 @@
                                 <label>Nombre de articulo</label>
                             </div>
                             <div style="width: 50%;" class="form-floating mx-1">
+                                <input type="text" id="inputobservacion" name="inputobservacion" class="form-control form-control-md UpperCase">
+                                <label>Observaciones</label>
+                            </div>
+                            <!-- <div style="width: 50%;" class="form-floating mx-1">
                                 <input type="text" id="inputnombrelarge" name="inputnombrelarge" class="form-control form-control-md UpperCase">
                                 <label>Nombre de articulo - Largo</label>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="row form-group form-group-sm">
@@ -90,7 +96,7 @@
                                             }
                                         ?>
                                 </select>
-                                <label>Categoria</label>
+                                <label>Almacenes</label>
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
                                 <select class="form-control form-group-md" id="selectgrupo" name="selectgrupo">
@@ -113,7 +119,38 @@
                     </div>
                     <div class="row form-group form-group-sm">
                         <div class="col-lg-12 d-lg-flex">
+                           <div style="width: 25%;" class="form-floating mx-1">
+                                <input type="text" id="inputmax" name="inputmax" class="form-control form-control-md validanumericos">
+                                <label>Maximo</label>
+                            </div>
                             <div style="width: 25%;" class="form-floating mx-1">
+                                <input type="text" id="inputmin" name="inputmin" class="form-control form-control-md validanumericos">
+                                <label>Minimo</label>
+                            </div>
+                            <div style="width: 25%;" class="form-floating mx-1">
+                                <input type="text" id="inputempaque" name="inputempaque" class="form-control form-control-md validanumericos">
+                                <label>Empaque</label>
+                            </div>
+                            <div style="width: 25%;" class="form-floating mx-1">
+                                <select class="form-control form-group-md" id="selectunidadmedida" name="selectunidadmedida">
+                                    <option selected="selected" value="0">[Seleccione una opción..]</option>
+                                    <option value="KG">KG</option>
+                                    <option value="LTS">LTS</option>
+                                    <option value="PZA">PZA</option>
+                                    <option value="SACO">SACO</option>
+                                    <option value="SERVICIO">SERVICIO</option>
+                                </select>
+                                <label>Unidad de medida</label>
+                            </div>
+                             <!-- <div style="width: 50%;" class="form-floating mx-1">
+                                <input type="text" id="inputobservacion" name="inputobservacion" class="form-control form-control-md UpperCase">
+                                <label>Observaciones</label>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="row form-group form-group-sm">
+                        <div class="col-lg-12 d-lg-flex">
+                            <!-- <div style="width: 25%;" class="form-floating mx-1">
                                 <select class="form-control form-group-md" id="selectunidadmedida" name="selectunidadmedida">
                                     <option selected="selected" value="0">[Seleccione una opción..]</option>
                                     <option value="KG">KG</option>
@@ -122,7 +159,7 @@
                                     <option value="SACO">SACO</option>
                                 </select>
                                 <label>Unidad de medida</label>
-                            </div>
+                            </div> -->
                              <div style="width: 25%;" class="form-floating mx-1">
                                 <input type="text" id="inputseccion" name="inputseccion" class="form-control form-control-md UpperCase">
                                 <label>Sección</label>
@@ -139,29 +176,14 @@
                     </div>
                     <div class="row form-group form-group-sm">
                         <div class="col-lg-12 d-lg-flex">
-                            <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="text" id="inputmax" name="inputmax" class="form-control form-control-md validanumericos">
-                                <label>Maximo</label>
-                            </div>
-                            <div style="width: 23%;" class="form-floating mx-1">
-                                <input type="text" id="inputmin" name="inputmin" class="form-control form-control-md validanumericos">
-                                <label>Minimo</label>
-                            </div>
-<!--                             <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="text" id="inputptoreorden" name="inputptoreorden" class="form-control form-control-md validanumericos">
-                                <label>Punto de reorden</label>
-                            </div> -->
-                        </div>
-                    </div>
-                    <div class="row form-group form-group-sm">
-                        <div class="col-lg-12 d-lg-flex">
                             <span hidden id="spanusuario" name="spanusuario" class="form-control form-control-sm" style="background-color: #E9ECEF;"><?php echo $nombre." ".$apellido?></span>
                             <!-- <img data-value="12345" data-text="Soy el texto" class="codigo"/> -->
                         </div>
                     </div>
                     <div class="row form-group form-group-sm border-top">
                         <div class="col-sm-12" align="center">
-                            <input type="submit" value="Guardar" href="#" onclick="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important">
+                            <input type="submit" value="Guardar articulo" href="#" onclick="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important">
+                            <!-- <input type="submit" value="Guardar" href="#" onclick="sinacceso()" class="btn btn-primary" style="margin-bottom: -25px !important"> -->
                             <input type="submit" value="Limpiar" href="#" onclick="limpiarCampos()" class="btn btn-warning" style="margin-bottom: -25px !important">
                         </div>
                     </div>
@@ -201,6 +223,7 @@
                                 <tr>
                                     <th class="text-center">Codigo</th>
                                     <th class="text-center">Nombre</th>
+                                    <th class="text-center">Existencia</th>
                                     <th class="text-center">Maximo</th>
                                     <th class="text-center">Minimo</th>
                                     <th class="text-center">Fecha de Alta</th>
@@ -215,12 +238,13 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </div> <!-- ./ end card-body -->
-            </div> <!-- ./ end card-info -->
+                </div>
+            </div>
 
           </div>
         </div>
@@ -230,7 +254,7 @@
         <?php include_once "../../footer.php" ?>
 
     </main>
-
+</div>
 <script src="../../../includes/js/adminlte.min.js"></script>
 
 <script src="../../../includes/js/jquery351.min.js"></script>

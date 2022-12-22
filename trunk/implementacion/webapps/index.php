@@ -56,7 +56,7 @@
 							<!-- <a class="forgot text-muted" href="#">¿Has olvidado su contraseña?</a> -->
 							<input type="submit" name="" value="Acceso" href="#" onclick="iniciarSesion()">
 							<!-- <button class="btn btn-primary" onclick="iniciarSesion('p_usuario', 'p_password')"> Acceso</button> -->
-							<img src="includes/imagenes/juntos2.png">
+							<img class="img-fluid" src="includes/imagenes/Mayucsap.png">
 					</form>
 				</div>
 			</div>

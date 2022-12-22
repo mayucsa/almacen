@@ -31,7 +31,6 @@ include_once "../../../dbconexion/conexionServerSide.php";
  */
  
 require( '../../../includes/js/data_tables_js/ssp.class.php' );
- 
 echo json_encode(
     SSP::complex( $_GET, $sql_details, $table, $primaryKey, $columns, $var )
 );
