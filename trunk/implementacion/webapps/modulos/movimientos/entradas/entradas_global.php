@@ -505,7 +505,7 @@ include_once "../../../dbconexion/conexion.php";
                 </table>
             </div>
             <div style="margin-top: 650px; position: fixed; width: 45%; margin-left: 52%;">
-                div style="position: relative; width: 100%">
+                <div style="position: relative; width: 100%">
                     <div style="position: absolute; width: 70%; margin-left: 2%;">
                         <div style="position:relative;">
                             <div style="position: absolute; width: 50%;">
