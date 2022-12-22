@@ -199,7 +199,8 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                             Generar Salida
                                         </button>
                                         <input type="submit" value="Limpiar" href="#" ng-click="limpiarCampos()" id="btnLimpiar" class="btn btn-warning" style="margin-bottom: -25px !important">
-                                        <!-- <input type="button" onclick="imprSelec('paraImprimir')" value="Imprimir"> -->
+                                        <input type="submit" value="Ver salidas" onclick ="location.href='salidas_global.php'; " class="btn btn-info" style="margin-bottom: -25px !important">
+                                        <input type="button" onclick="imprSelec('paraImprimir')" value="Imprimir">
 
                                     </div>
                                 </div>
@@ -293,7 +294,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
 
         </main>
         <div class="container-fluid" id="paraImprimir" style="display: none;">
-            <div class="row p-2" style="width:40%;">
+            <div class="row p-2" style="width:100%;">
             <div class="col-md-12">
                 <center>
                     <h4>FORMATO DE SALIDA - SAM</h4>
