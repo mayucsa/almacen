@@ -200,7 +200,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                         </button>
                                         <input type="submit" value="Limpiar" href="#" ng-click="limpiarCampos()" id="btnLimpiar" class="btn btn-warning" style="margin-bottom: -25px !important">
                                         <input type="submit" value="Ver salidas" onclick ="location.href='salidas_global.php'; " class="btn btn-info" style="margin-bottom: -25px !important">
-                                        <input type="button" onclick="imprSelec('paraImprimir')" value="Imprimir">
+                                        <!-- <input type="button" onclick="imprSelec('paraImprimir')" value="Imprimir"> -->
 
                                     </div>
                                 </div>
@@ -295,91 +295,91 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
         </main>
         <div class="container-fluid" id="paraImprimir" style="display: none;">
             <div class="row p-2" style="width:100%;">
-            <div class="col-md-12">
-                <center>
-                    <h4>FORMATO DE SALIDA - SAM</h4>
-                </center>
-            </div>
-            <div class="col-md-12 mb-4">
-                <center>
-                    <img src="../../../includees/imagenes/Mayucsa.png" style="width: 80%;">
-                </center>
-            </div>
-            <div style="height: 110px;">
-              <div style="position:relative;">
-                    <div class="" style="position: absolute; width: 33%;">
-                        <div class="row" style="border-radius: 10px; border: solid;">
-                            <div class="col-md-12 p-1" style="border-bottom: solid;">
-                                <h3>FOLIO</h3>
-                            </div>
-                            <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
-                                {{folioSalida}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="" style="position: absolute; margin-left: 35%; width: 65%;">
-                        <div class="row" style="border-radius: 10px; border: solid;">
-                            <div class="col-md-12 p-2" style="border-bottom: solid;">
-                                <h3>FECHA</h3>
-                            </div>
-                            <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
-                                <?=date('Y-m-d')?>
+                <div class="col-md-12">
+                    <center>
+                        <h4>FORMATO DE SALIDA - SAM</h4>
+                    </center>
+                </div>
+                <div class="col-md-12 mb-4">
+                    <center>
+                        <img src="../../../includees/imagenes/Mayucsa.png" style="width: 80%;">
+                    </center>
+                </div>
+                <div style="height: 110px;">
+                  <div style="position:relative;">
+                        <div class="" style="position: absolute; width: 33%;">
+                            <div class="row" style="border-radius: 10px; border: solid;">
+                                <div class="col-md-12 p-1" style="border-bottom: solid;">
+                                    <h3>FOLIO</h3>
+                                </div>
+                                <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                    {{folioSalida}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-              </div>
-            </div>
+                        <div class="" style="position: absolute; margin-left: 35%; width: 65%;">
+                            <div class="row" style="border-radius: 10px; border: solid;">
+                                <div class="col-md-12 p-2" style="border-bottom: solid;">
+                                    <h3>FECHA</h3>
+                                </div>
+                                <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                    <?=date('Y-m-d')?>
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+                </div>
 
-            <div class="col-md-12 mt-2">
-                <div class="row" style="border-radius: 10px; border: solid;">
-                    <div class="col-md-12 p-2">
-                        <h3>MAQUINA</h3>
+                <div class="col-md-12 mt-2">
+                    <div class="row" style="border-radius: 10px; border: solid;">
+                        <div class="col-md-12 p-2">
+                            <h3>MAQUINA</h3>
+                        </div>
+                        <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                            {{maquinaSeleccionada}}
+                        </div>
                     </div>
-                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
-                        {{maquinaSeleccionada}}
+                </div>
+                <div class="col-md-12 mt-2" style=" margin-top: 10px;">
+                    <div class="row" style="border-radius: 10px; border: solid;">
+                        <div class="col-md-12 p-2">
+                            <h3>REALIZADO POR</h3>
+                        </div>
+                        <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                            <?=$creadoPor?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 mt-2" style="border-radius: 10px; border: solid; margin-top: 10px; padding: 3px;">
+                    <table class="table table-striped">
+                        <tr>
+                            <th style="text-align: left;">Clave Art.</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Unidad</th>
+                        </tr>
+                        <tr ng-repeat="(key, obj) in articulos track by key">
+                            <td style="text-align: left;">{{obj.cve_alterna}}</td>
+                            <td>{{obj.nombre_articulo}}</td>
+                            <td style="text-align: right;">{{obj.cantidad}}</td>
+                            <td style="text-align: right;">{{obj.unidad_medida}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-12 mt-2" style="border-radius: 10px; border: solid; margin-top: 10px;">
+                    <div class="row ">
+                        <div class="col-md-12 p-2 mb-4" style="border-bottom:solid; margin-top: 5px; margin-bottom: 5px;">
+                            Firma:
+                        </div>
+                        <div class="col-md-12 mt-4 pb-4 pt-4" style="border-bottom:solid; margin-top: 35px; padding-bottom: 35px;">
+                            
+                        </div>
+                        <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                            {{concepto}}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 mt-2" style=" margin-top: 10px;">
-                <div class="row" style="border-radius: 10px; border: solid;">
-                    <div class="col-md-12 p-2">
-                        <h3>REALIZADO POR</h3>
-                    </div>
-                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
-                        <?=$creadoPor?>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 mt-2" style="border-radius: 10px; border: solid; margin-top: 10px; padding: 3px;">
-                <table class="table table-striped">
-                    <tr>
-                        <th style="text-align: left;">Clave Art.</th>
-                        <th>Descripción</th>
-                        <th>Cantidad</th>
-                        <th>Unidad</th>
-                    </tr>
-                    <tr ng-repeat="(key, obj) in articulos track by key">
-                        <td style="text-align: left;">{{obj.cve_alterna}}</td>
-                        <td>{{obj.nombre_articulo}}</td>
-                        <td style="text-align: right;">{{obj.cantidad}}</td>
-                        <td style="text-align: right;">{{obj.unidad_medida}}</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-md-12 mt-2" style="border-radius: 10px; border: solid; margin-top: 10px;">
-                <div class="row ">
-                    <div class="col-md-12 p-2 mb-4" style="border-bottom:solid; margin-top: 5px; margin-bottom: 5px;">
-                        Firma:
-                    </div>
-                    <div class="col-md-12 mt-4 pb-4 pt-4" style="border-bottom:solid; margin-top: 35px; padding-bottom: 35px;">
-                        
-                    </div>
-                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
-                        {{concepto}}
-                    </div>
-                </div>
-            </div>
-        </div>
         </div>
     </div>
 

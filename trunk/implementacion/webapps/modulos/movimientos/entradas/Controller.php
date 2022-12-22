@@ -7,6 +7,39 @@ function dd($var){
         die($var);
     }
 }
+function cancelar($dbcon, $cve_mov, $usuario){
+	// insertar en movtos_entradas
+	$sql = "UPDATE movtos_entradas SET estatus_mov = 0 WHERE cve_mov = ".$cve_mov;
+	if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+		dd(['code'=>400, 'msj'=>'error al cancelar.', 'sql'=>$sql]);
+	}
+	// Eliminar del stock
+	$sql = "SELECT * FROM movtos_entradas_detalle WHERE cve_mov = ".$cve_mov;
+	$articulos = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
+	foreach ($articulos as $i => $val) {
+		$sql = "UPDATE cat_articulos SET existencia = existencia - ".$val->cantidad_entrada." WHERE cve_articulo = ".$val->cve_articulo;
+		if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+			dd(['code'=>400, 'msj'=>'error al actualizar existencia.', 'sql'=>$sql]);
+		}
+	}
+	$fecha = date('Y-m-d H:i:s');
+	$sql = "INSERT INTO ctrl_dlt_movtos(cve_mov, tipo_mov, usuario, fecha_delete) VALUES (
+		".$cve_mov.",
+		'E',
+		".$usuario.",
+		'".$fecha."'
+	)";
+	if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+		dd(['code'=>400, 'msj'=>'error al insertar en ctrl_dlt_movtos.', 'sql'=>$sql]);
+	}
+	$sql = "SELECT * FROM ctrl_dlt_movtos WHERE 
+	usuario = ".$usuario." 
+	AND fecha_delete = '".$fecha."' 
+	AND tipo_mov = 'E' 
+	AND cve_mov = ".$cve_mov;
+	$getFolio = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
+	dd(['code'=>200,'msj'=>'Cancelación correcta', 'folio'=>$getFolio->cve_dlt]);
+}
 function envioCorreo($dbcon, $cve_mov){
 	include_once "../../../correo/EnvioSMTP.php";
 	$envioSMTP = new EnvioSMTP;
@@ -53,6 +86,31 @@ function envioCorreo($dbcon, $cve_mov){
 	}else{
 		return 'error '.$email;
 	}
+}
+function getDatosImprimir($dbcon, $cve_mov){
+	$sql = "SELECT me.cve_mov, me.folio_documento, me.fecha_documento, cp.nombre_proveedor, oc.fecha_entrega, me.cve_odc, me.creado_por, CONCAT(cu.nombre, ' ', cu.apellido) as creadoPor
+	FROM movtos_entradas me
+	INNER JOIN orden_compra oc ON oc.cve_odc = me.cve_odc
+	INNER JOIN cat_proveedores cp ON cp.cve_proveedor = oc.cve_proveedor
+	INNER JOIN cat_usuarios cu ON cu.cve_usuario = me.creado_por
+	WHERE me.cve_mov = ".$cve_mov;
+	
+	$ENTRADA = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
+	$sql = "SELECT cve_req, cve_art, nombre_articulo, cantidad_entrada, unidad_medida, precio_unidad, (precio_unidad * cantidad_entrada) as total 
+	FROM movtos_entradas_detalle med
+	INNER JOIN orden_compra_detalle ocd on ocd.cve_art = med.cve_articulo 
+	INNER JOIN cat_articulos ca ON ca.cve_articulo = med.cve_articulo
+	AND cve_odc = ".$ENTRADA->cve_odc." WHERE cve_mov = ".$cve_mov;
+	$ENTRADAS_DET = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
+	$totalFact = 0;
+	foreach ($ENTRADAS_DET as $i => $val) {
+		$totalFact += floatval($val->total);
+	}
+	dd([
+		'ENTRADA' => $ENTRADA,
+		'DETALLE' => $ENTRADAS_DET,
+		'totalFact' => $totalFact
+	]);
 }
 function getProveedor($dbcon, $cve_odc){
 	$sql = "SELECT nombre_proveedor FROM cat_proveedores 
@@ -175,6 +233,12 @@ switch ($tarea){
 		break;
 	case 'getProveedor':
 		getProveedor($dbcon, $objDatos->cve_odc);
+		break;
+	case 'getDatosImprimir':
+		getDatosImprimir($dbcon, $objDatos->cve_mov);
+		break;
+	case 'cancelar':
+		cancelar($dbcon, $objDatos->cve_mov, $objDatos->ID);
 		break;
 }
 

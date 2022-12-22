@@ -68,7 +68,7 @@ include_once "../../../dbconexion/conexion.php";
             }
         </style>
     </head>
-    <!-- <div ng-controller="vistaEntradasGlobal"> -->
+    <div ng-controller="vistaSalidasGlobal">
 
         <!-- MODAL VER ENTRADAS -->
         <div id="modalVer" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -149,7 +149,7 @@ include_once "../../../dbconexion/conexion.php";
                             <div class="card-body">
                                 <div class="row form-group form-group-sm">
                                     <div class="col-lg-12 d-lg-flex ">
-                                        <table class="table table-striped table-bordered table-hover table-responsive" id="tablaSalidas">
+                                        <table class="table table-striped table-bordered table-hover table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>Folio</th>
@@ -162,13 +162,24 @@ include_once "../../../dbconexion/conexion.php";
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                <tr ng-repeat="(i,obj) in salidas track by i">
+                                                    <td>{{obj[0]}}</td>
+                                                    <td>{{obj[1]}}</td>
+                                                    <td>{{obj[2]}}</td>
+                                                    <td>{{obj[3]}}</td>
+                                                    <td>{{obj[4]}}</td>
+                                                    <td>{{obj[5]}}</td>
+                                                    <td nowrap="nowrap">
+                                                        <button class="btn btn-info btn-sm" title="Ver" ng-click= "Versalidas(obj[0])" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap">
+                                                            <i class="fa fa-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-warning btn-sm" title="Imprimir PDF" ng-click="startImprSelec(i, 'paraImprimir')">
+                                                            <i class="fas fa-file-pdf"></i>
+                                                        </button>
+                                                        <button class="btn btn-danger btn-sm" title="Cancelar" ng-click="cancelar(i)">
+                                                            <i class="fas fa-window-close"></i>
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -179,12 +190,99 @@ include_once "../../../dbconexion/conexion.php";
                     </div>                    
                 </div>
             </div>
+            <div class="container-fluid" id="paraImprimir" style="display: none;">
+                <div class="row p-2" style="width:100%;">
+                    <div class="col-md-12">
+                        <center>
+                            <h4>FORMATO DE SALIDA - SAM</h4>
+                        </center>
+                    </div>
+                    <div class="col-md-12 mb-4">
+                        <center>
+                            <img src="../../../includees/imagenes/Mayucsa.png" style="width: 80%;">
+                        </center>
+                    </div>
+                    <div style="height: 110px;">
+                      <div style="position:relative;">
+                            <div class="" style="position: absolute; width: 33%;">
+                                <div class="row" style="border-radius: 10px; border: solid;">
+                                    <div class="col-md-12 p-1" style="border-bottom: solid;">
+                                        <h3>FOLIO</h3>
+                                    </div>
+                                    <div class="col-md-12 p-1" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        {{datosImprimir.SALIDA.cve_mov}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="" style="position: absolute; margin-left: 35%; width: 65%;">
+                                <div class="row" style="border-radius: 10px; border: solid;">
+                                    <div class="col-md-12 p-2" style="border-bottom: solid;">
+                                        <h3>FECHA</h3>
+                                    </div>
+                                    <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                        {{datosImprimir.SALIDA.fecha_registro}}
+                                    </div>
+                                </div>
+                            </div>
+                      </div>
+                    </div>
 
+                    <div class="col-md-12 mt-2">
+                        <div class="row" style="border-radius: 10px; border: solid;">
+                            <div class="col-md-12 p-2">
+                                <h3>MAQUINA</h3>
+                            </div>
+                            <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                {{datosImprimir.SALIDA.nombre_maq}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-2" style=" margin-top: 10px;">
+                        <div class="row" style="border-radius: 10px; border: solid;">
+                            <div class="col-md-12 p-2">
+                                <h3>REALIZADO POR</h3>
+                            </div>
+                            <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                {{datosImprimir.SALIDA.creadoPor}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-2" style="border-radius: 10px; border: solid; margin-top: 10px; padding: 3px;">
+                        <table class="table table-striped" style="width:100%">
+                            <tr>
+                                <th style="text-align: left;">Clave Art.</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Unidad</th>
+                            </tr>
+                            <tr ng-repeat="(key, obj) in datosImprimir.DETALLE track by key">
+                                <td style="text-align: center;">{{obj.cve_alterna}}</td>
+                                <td>{{obj.nombre_articulo}}</td>
+                                <td style="text-align: right;">{{obj.cantidad_salida | number:4}}</td>
+                                <td style="text-align: center;">{{obj.unidad_medida}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-12 mt-2" style="border-radius: 10px; border: solid; margin-top: 10px;">
+                        <div class="row ">
+                            <div class="col-md-12 p-2 mb-4" style="border-bottom:solid; margin-top: 5px; margin-bottom: 5px;">
+                                Firma:
+                            </div>
+                            <div class="col-md-12 mt-4 pb-4 pt-4" style="border-bottom:solid; margin-top: 35px; padding-bottom: 35px;">
+                                
+                            </div>
+                            <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                                {{datosImprimir.SALIDA.concepto}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <?php include_once "../../footer.php" ?>
 
         </main>
-    <!-- </div> -->
+    </div>
 
     <script src="../../../includes/js/adminlte.min.js"></script>
 
@@ -199,7 +297,7 @@ include_once "../../inferior.php";
     <script src="vista_salidas.js"></script>
     <!-- <script src="vista_salidas_ajs.js"></script> -->
 
-    <!-- <script src="vista_requisicion.js"></script> -->
+    <script src="vista_salidas_global_ajs.js"></script>
 
     <script src="../../../includes/js/jquery331.min.js"></script>
 

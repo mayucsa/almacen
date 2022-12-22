@@ -7,6 +7,57 @@ function dd($var){
         die($var);
     }
 }
+function cancelar($dbcon, $cve_mov, $usuario){
+	// insertar en movtos_entradas
+	$sql = "UPDATE movtos_salidas SET estatus_mov = 0 WHERE cve_mov = ".$cve_mov;
+	if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+		dd(['code'=>400, 'msj'=>'error al cancelar.', 'sql'=>$sql]);
+	}
+	// Eliminar del stock
+	$sql = "SELECT * FROM movtos_salidas_detalle WHERE cve_mov = ".$cve_mov;
+	$articulos = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
+	foreach ($articulos as $i => $val) {
+		$sql = "UPDATE cat_articulos SET existencia = existencia + ".$val->cantidad_salida." WHERE cve_articulo = ".$val->cve_articulo;
+		if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+			dd(['code'=>400, 'msj'=>'error al actualizar existencia.', 'sql'=>$sql]);
+		}
+	}
+	$fecha = date('Y-m-d H:i:s');
+	$sql = "INSERT INTO ctrl_dlt_movtos(cve_mov, tipo_mov, usuario, fecha_delete) VALUES (
+		".$cve_mov.",
+		'S',
+		".$usuario.",
+		'".$fecha."'
+	)";
+	if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+		dd(['code'=>400, 'msj'=>'error al insertar en ctrl_dlt_movtos.', 'sql'=>$sql]);
+	}
+	$sql = "SELECT * FROM ctrl_dlt_movtos WHERE 
+	usuario = ".$usuario." 
+	AND fecha_delete = '".$fecha."' 
+	AND tipo_mov = 'S' 
+	AND cve_mov = ".$cve_mov;
+	$getFolio = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
+	dd(['code'=>200,'msj'=>'Cancelación correcta', 'folio'=>$getFolio->cve_dlt]);
+}
+function getDatosImprimir($dbcon, $cve_mov){
+	$sql = "SELECT ms.cve_mov, ms.fecha_registro, ms.cve_maq, cm.nombre_maq, ms.concepto, ms.creado_por, CONCAT(cu.nombre, ' ', cu.apellido) as creadoPor
+	FROM movtos_salidas ms
+	INNER JOIN cat_maquinas cm ON cm.cve_maq = ms.cve_maq
+	INNER JOIN cat_usuarios cu ON cu.cve_usuario = ms.creado_por
+	WHERE ms.cve_mov = ".$cve_mov;
+	
+	$SALIDA = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
+	$sql = "SELECT msd.cve_articulo, ca.cve_alterna, nombre_articulo, cantidad_salida, unidad_medida
+	FROM movtos_salidas_detalle msd
+	INNER JOIN cat_articulos ca ON ca.cve_articulo = msd.cve_articulo
+	WHERE cve_mov = ".$cve_mov;
+	$SALIDAS_DET = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
+	dd([
+		'SALIDA' => $SALIDA,
+		'DETALLE' => $SALIDAS_DET
+	]);
+}
 function getCcostos($dbcon, $centroCosto, $cve_depto){
 	$sql = "SELECT cve_cc, cve_alterna, nombre_cc FROM cat_centro_costos WHERE 
 	cve_depto = ".$cve_depto." AND cve_alterna LIKE '%".$centroCosto."%'
@@ -128,6 +179,12 @@ switch ($tarea){
 		break;
 	case 'getCcostos':
 		getCcostos($dbcon, $objDatos->centroCosto, $objDatos->cve_depto);
+		break;
+	case 'getDatosImprimir':
+		getDatosImprimir($dbcon, $objDatos->cve_mov);
+		break;
+	case 'cancelar':
+		cancelar($dbcon, $objDatos->cve_mov, $objDatos->ID);
 		break;
 }
 
