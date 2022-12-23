@@ -176,6 +176,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                                     <th>Unidad medida</th>
                                                     <th>Cantidad original</th>
                                                     <th>Cantidad a recibir</th>
+                                                    <th>Precio unidad</th>
                                                     <th>Precio total</th>
                                                     <th>Check</th>
                                                 </tr>
@@ -190,6 +191,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                                     <td>
                                                         <input type="text" class="form-control text-right" ng-model="obj.cantidad" ng-keyup="calculaTotal(i)">
                                                     </td>
+                                                    <td>{{obj.precio_unidad | currency}}</td>
                                                     <td>{{obj.total}}</td>
                                                     <td>
                                                         <div class="div">
@@ -326,7 +328,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                         <tr style="width:100%; border: solid 1px red; border-radius: 10px;">
                             <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Req. N°.</th>
                             <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Clave Art</th>
-                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Descripción</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Descripción / sección</th>
                             <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Cantidad</th>
                             <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Unidad</th>
                             <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Importe</th>
@@ -334,10 +336,10 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                         <tr ng-repeat="(i, obj) in ordenCompraDetalle track by i">
                             <td style="font-size: 9px; text-align: center;">{{obj.cve_req}}</td>
                             <td style="font-size: 9px; text-align: center;">{{obj.cve_art}}</td>
-                            <td style="font-size: 9px;">{{obj.nombre_articulo}}</td>
+                            <td style="font-size: 9px;">{{obj.nombre_articulo}} / {{obj.seccion}}</td>
                             <td style="font-size: 9px; text-align: right;">{{obj.cantidad}}</td>
                             <td style="font-size: 9px; text-align: right;">{{obj.unidad_medida}}</td>
-                            <td style="font-size: 9px; text-align: right;">{{obj.total}}</td>
+                            <td style="font-size: 9px; text-align: right;">{{obj.total | currency}}</td>
                         </tr>
                     </table>
                 </div>
@@ -508,7 +510,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                         <tr style="width:100%; border: solid 1px red; border-radius: 10px;">
                             <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Req. N°.</th>
                             <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Clave Art</th>
-                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Descripción</th>
+                            <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Descripción / sección</th>
                             <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Cantidad</th>
                             <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Unidad</th>
                             <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Importe</th>
@@ -516,10 +518,10 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                         <tr ng-repeat="(i, obj) in ordenCompraDetalle track by i">
                             <td style="font-size: 9px; text-align: center;">{{obj.cve_req}}</td>
                             <td style="font-size: 9px; text-align: center;">{{obj.cve_art}}</td>
-                            <td style="font-size: 9px;">{{obj.nombre_articulo}}</td>
+                            <td style="font-size: 9px;">{{obj.nombre_articulo}} / {{obj.seccion}}</td>
                             <td style="font-size: 9px; text-align: right;">{{obj.cantidad}}</td>
                             <td style="font-size: 9px; text-align: right;">{{obj.unidad_medida}}</td>
-                            <td style="font-size: 9px; text-align: right;">{{obj.total}}</td>
+                            <td style="font-size: 9px; text-align: right;">{{obj.total | currency}}</td>
                         </tr>
                     </table>
                 </div>

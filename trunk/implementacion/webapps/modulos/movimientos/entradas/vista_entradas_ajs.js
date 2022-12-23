@@ -225,11 +225,17 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 			'folio': folio
 		}).then(function (response) {
 			jsRemoveWindowLoad();
-			console.log('ordenCompraDetalle',response.data);
+			console.log('ordenCompraDetalle: ',response.data);
 			$scope.ordenCompraDetalle = response.data;
 			if (response.data.length == 0) {
 				Swal.fire('Sin información','No existe información asociada al folio ingresado. ','error');
 			}else{
+				for (var i = 0; i < $scope.ordenCompraDetalle.length; i++) {
+					$scope.ordenCompraDetalle[i].cantidad = $scope.ordenCompraDetalle[i].cantidad_cotizada;
+					$scope.ordenCompraDetalle[i].chkd = true;
+					$scope.ordenCompraDetalle[i].total = parseFloat($scope.ordenCompraDetalle[i].cantidad) * parseFloat($scope.ordenCompraDetalle[i].precio_unidad)
+				}
+				console.log('$scope.ordenCompraDetalle', $scope.ordenCompraDetalle);
 				$http.post('Controller.php', {
 					'task': 'getProveedor',
 					'cve_odc': response.data[0].cve_odc

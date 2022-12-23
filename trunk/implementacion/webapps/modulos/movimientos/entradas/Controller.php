@@ -96,7 +96,7 @@ function getDatosImprimir($dbcon, $cve_mov){
 	WHERE me.cve_mov = ".$cve_mov;
 	
 	$ENTRADA = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
-	$sql = "SELECT cve_req, cve_art, nombre_articulo, cantidad_entrada, unidad_medida, precio_unidad, (precio_unidad * cantidad_entrada) as total 
+	$sql = "SELECT cve_req, cve_art, nombre_articulo, ca.seccion, cantidad_entrada, unidad_medida, precio_unidad, (precio_unidad * cantidad_entrada) as total 
 	FROM movtos_entradas_detalle med
 	INNER JOIN orden_compra_detalle ocd on ocd.cve_art = med.cve_articulo 
 	INNER JOIN cat_articulos ca ON ca.cve_articulo = med.cve_articulo
@@ -119,7 +119,7 @@ function getProveedor($dbcon, $cve_odc){
 	dd($dbcon->qBuilder($dbcon->conn(), 'first', $sql));
 }
 function validaFolio($dbcon, $folio){
-	$sql = "SELECT cve_odc, cve_art, nombre_articulo, unidad_medida, cantidad_cotizada, precio_unidad, cve_req, false as chkd FROM orden_compra_detalle odcd
+	$sql = "SELECT cve_odc, cve_art, nombre_articulo, ca.seccion, unidad_medida, cantidad_cotizada, precio_unidad, cve_req, false as chkd FROM orden_compra_detalle odcd
 	INNER JOIN cat_articulos ca on ca.cve_articulo = odcd.cve_art WHERE odcd.estatus_req_det = 1 AND odcd.cve_odc = ".$folio;
 	$detalle = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	foreach ($detalle as $i => $val) {

@@ -307,7 +307,7 @@ include_once "../../../dbconexion/conexion.php";
                     <tr style="width:100%; border: solid 1px red; border-radius: 10px;">
                         <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Req. N°.</th>
                         <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Clave Art</th>
-                        <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Descripción</th>
+                        <th nowrap="nowrap" style="border: solid 1px; border-radius: 10px; font-size: 9px;">Descripción / sección</th>
                         <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Cantidad</th>
                         <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Unidad</th>
                         <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Importe</th>
@@ -315,10 +315,10 @@ include_once "../../../dbconexion/conexion.php";
                     <tr ng-repeat="(i, obj) in datosImprimir.DETALLE track by i">
                         <td style="font-size: 9px; text-align: center;">{{obj.cve_req}}</td>
                         <td style="font-size: 9px; text-align: center;">{{obj.cve_art}}</td>
-                        <td style="font-size: 9px;">{{obj.nombre_articulo}}</td>
-                        <td style="font-size: 9px; text-align: right;">{{obj.cantidad}}</td>
+                        <td style="font-size: 9px;">{{obj.nombre_articulo}} / {{obj.seccion}}</td>
+                        <td style="font-size: 9px; text-align: right;">{{obj.cantidad_entrada}}</td>
                         <td style="font-size: 9px; text-align: right;">{{obj.unidad_medida}}</td>
-                        <td style="font-size: 9px; text-align: right;">{{obj.total | number:4}}</td>
+                        <td style="font-size: 9px; text-align: right;">{{obj.total | currency}}</td>
                     </tr>
                 </table>
             </div>
@@ -365,7 +365,7 @@ include_once "../../../dbconexion/conexion.php";
                     <div style="position: absolute; width: 25%; margin-left: 75%;">
                         <div style="border-radius: 10px; border: solid 1px; padding: 20px; margin-top: 25px;">
                             <span style="font-size:10px;">
-                                <strong>Total: {{datosImprimir.totalFact | number:4}}</strong>
+                                <strong>Total: {{datosImprimir.totalFact | currency}}</strong>
                             </span>
                         </div>
                     </div>
@@ -489,7 +489,7 @@ include_once "../../../dbconexion/conexion.php";
                     <tr style="width:100%; border: solid 1px red; border-radius: 10px;">
                         <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Req. N°.</th>
                         <th style="border: solid 1px; border-radius: 10px; font-size: 9px;" nowrap="nowrap">Clave Art</th>
-                        <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Descripción</th>
+                        <th nowrap="nowrap" style="border: solid 1px; border-radius: 10px; font-size: 9px;">Descripción / sección</th>
                         <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Cantidad</th>
                         <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Unidad</th>
                         <th style="border: solid 1px; border-radius: 10px; font-size: 9px;">Importe</th>
@@ -497,10 +497,10 @@ include_once "../../../dbconexion/conexion.php";
                     <tr ng-repeat="(i, obj) in datosImprimir.DETALLE track by i">
                         <td style="font-size: 9px; text-align: center;">{{obj.cve_req}}</td>
                         <td style="font-size: 9px; text-align: center;">{{obj.cve_art}}</td>
-                        <td style="font-size: 9px;">{{obj.nombre_articulo}}</td>
-                        <td style="font-size: 9px; text-align: right;">{{obj.cantidad}}</td>
+                        <td style="font-size: 9px;">{{obj.nombre_articulo}} / {{obj.seccion}}</td>
+                        <td style="font-size: 9px; text-align: right;">{{obj.cantidad_entrada}}</td>
                         <td style="font-size: 9px; text-align: right;">{{obj.unidad_medida}}</td>
-                        <td style="font-size: 9px; text-align: right;">{{obj.total | number:4}}</td>
+                        <td style="font-size: 9px; text-align: right;">{{obj.total | currency}}</td>
                     </tr>
                 </table>
             </div>
@@ -547,7 +547,7 @@ include_once "../../../dbconexion/conexion.php";
                     <div style="position: absolute; width: 25%; margin-left: 75%;">
                         <div style="border-radius: 10px; border: solid 1px; padding: 20px; margin-top: 25px;">
                             <span style="font-size:10px;">
-                                <strong>Total: {{datosImprimir.totalFact | number:4}}</strong>
+                                <strong>Total: {{datosImprimir.totalFact | currency}}</strong>
                             </span>
                         </div>
                     </div>
