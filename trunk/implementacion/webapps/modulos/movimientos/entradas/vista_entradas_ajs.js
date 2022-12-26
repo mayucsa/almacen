@@ -251,6 +251,15 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 			jsRemoveWindowLoad();
 		});
 	}
+
+	$scope.inputCharacters = function(i) {
+		i++;
+		if (i == $scope.ordenCompraDetalle.length ) {
+			$('#nextFocus0').focus();
+		}else{
+			$('#nextFocus'+i).focus();
+		}
+	}
 })
 
 function imprSelec(id) {

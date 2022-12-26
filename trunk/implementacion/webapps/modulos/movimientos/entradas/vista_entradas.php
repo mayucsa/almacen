@@ -189,7 +189,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                                     <td>{{obj.unidad_medida}}</td>
                                                     <td>{{obj.cantidad_cotizada}}</td>
                                                     <td>
-                                                        <input type="text" class="form-control text-right" ng-model="obj.cantidad" ng-keyup="calculaTotal(i)">
+                                                        <input type="text" id="nextFocus{{i}}" class="form-control text-right" ng-model="obj.cantidad" ng-keyup="$event.keyCode == 13 ? inputCharacters(i) : calculaTotal(i)">
                                                     </td>
                                                     <td>{{obj.precio_unidad | currency}}</td>
                                                     <td>{{obj.total}}</td>
