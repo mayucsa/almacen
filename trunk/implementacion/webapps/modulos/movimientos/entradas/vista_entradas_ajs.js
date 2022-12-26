@@ -35,7 +35,7 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 			);
 			return;
 		}
-		$scope.fechafactura = $('#fechafactura').val();
+		$scope.fechafactura = $('#nextFocusHeader3').val();
 		// console.log('fecha', $scope.fechafactura);
 		if ($scope.fechafactura == '' || $scope.fechafactura == null) {
 			Swal.fire(

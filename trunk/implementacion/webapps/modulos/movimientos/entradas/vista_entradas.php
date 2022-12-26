@@ -136,7 +136,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                             <label>Folio de Factura/Remisi&oacute;n</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input class="date-picker form-control" id="nextFocusHeader3" ng-model="fechafactura" id="fechafactura" onchange="$('#nextFocus0').focus()">
+                                            <input class="date-picker form-control" id="nextFocusHeader3" ng-model="fechafactura" onchange="$('#nextFocus0').focus()">
                                             <label>Fecha de Factura/Remisi&oacute;n</label>
                                         </div>
                                     </div>
