@@ -245,6 +245,8 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 				}, function(error){
 					console.log('error', error);
 				});
+				$('#nextFocusHeader1').focus();
+				$('#nextFocusHeader1').click();
 			}
 		}, function(error){
 			console.log('error', error);
@@ -252,10 +254,19 @@ app.controller('vistaEntradas', function(BASEURL, ID, $scope, $http) {
 		});
 	}
 
-	$scope.inputCharacters = function(i) {
+	$scope.inputCharacters = function(i, tipo = '') {
 		i++;
+		if (tipo != '') {
+			if (i == 1) {
+				$('#nextFocusHeader1').focus();
+				$('#nextFocusHeader1').click();
+			}else{
+				$('#nextFocusHeader'+i).focus();
+			}
+			return;
+		}
 		if (i == $scope.ordenCompraDetalle.length ) {
-			$('#nextFocus0').focus();
+			$('#nextFocusHeader0').focus();
 		}else{
 			$('#nextFocus'+i).focus();
 		}

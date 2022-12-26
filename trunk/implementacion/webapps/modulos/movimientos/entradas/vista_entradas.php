@@ -120,11 +120,11 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                 <div class="row form-group form-group-sm">
                                     <div class="col-lg-12 d-lg-flex">
                                          <div style="width: 25%;" class="form-floating mx-1">
-                                            <input type="text" ng-model="folioodc" class="form-control form-control-md validanumericos" maxlength="500" ng-blur="validaFolio(folioodc)">
+                                            <input type="text" id="nextFocusHeader0" ng-model="folioodc" class="form-control form-control-md validanumericos" maxlength="500" ng-blur="validaFolio(folioodc)" ng-keyup="$event.keyCode == 13 ? inputCharacters(0, 'h') : null">
                                             <label>Folio de Orden de Compra</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <select class="form-control form-group-md" ng-model="tipo">
+                                            <select class="form-control form-group-md" id="nextFocusHeader1" ng-model="tipo" ng-change="inputCharacters(1, 'h')">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                                 <option value="Factura">Factura</option>
                                                 <option value="Remision">Remisi&oacute;n</option>
@@ -132,11 +132,11 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                             <label>Tipo de documento</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input type="text" ng-model="foliofactura" class="form-control form-control-md UpperCase" maxlength="500">
+                                            <input type="text" ng-model="foliofactura" id="nextFocusHeader2" class="form-control form-control-md UpperCase" maxlength="500" ng-keyup="$event.keyCode == 13 ? inputCharacters(2, 'h') : null">
                                             <label>Folio de Factura/Remisi&oacute;n</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input class="date-picker form-control" ng-model="fechafactura" id="fechafactura">
+                                            <input class="date-picker form-control" id="nextFocusHeader3" ng-model="fechafactura" id="fechafactura" onchange="$('#nextFocus0').focus()">
                                             <label>Fecha de Factura/Remisi&oacute;n</label>
                                         </div>
                                     </div>
