@@ -264,6 +264,24 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		$scope.articulos[key].cve_cc = $scope.arrayCcostos[w].cve_cc;
 		$scope.arrayCcostos = [];
 	}
+
+	$scope.inputCharacters = function(i, tipo = '') {
+		i++;
+		if (tipo != '') {
+			if (i == 1) {
+				$('#nextFocusHeader1').focus();
+				$('#nextFocusHeader1').click();
+			}else{
+				$('#nextFocusHeader'+i).focus();
+			}
+			return;
+		}
+		if (i == $scope.ordenCompraDetalle.length ) {
+			$('#nextFocusHeader0').focus();
+		}else{
+			$('#nextFocus'+i).focus();
+		}
+	}
 })
 function imprSelec(id) {
 	var div = document.getElementById(id);

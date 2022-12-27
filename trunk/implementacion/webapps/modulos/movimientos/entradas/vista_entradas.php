@@ -174,8 +174,8 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                                     <th>Cve articulo</th>
                                                     <th>Nombre de articulo</th>
                                                     <th>Unidad medida</th>
-                                                    <th>Cantidad original</th>
-                                                    <th>Cantidad a recibir</th>
+                                                    <th>Cantidad solicitada</th>
+                                                    <th>Cantidad recibida</th>
                                                     <th>Precio unidad</th>
                                                     <th>Precio total</th>
                                                     <th>Check</th>

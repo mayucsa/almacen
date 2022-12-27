@@ -174,6 +174,11 @@ function guardarMovimiento($dbcon, $Datos){
 				if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
 					dd(['code'=>400, 'msj'=>'error al insertar detalle.', 'sql'=>$sql]);
 				}
+				// Store procedure costeo
+				$sql = "CALL costeoentrada(".$val->cve_art.",".$val->cantidad.",".$Datos->folioodc." )";
+				if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+					dd(['code'=>400, 'msj'=>'error al ejecutar Store Procedure.', 'sql'=>$sql]);
+				}
 				// Agregamos el stock en catalogo de articulos
 				$sql = "UPDATE cat_articulos set existencia = existencia + ".$val->cantidad." WHERE cve_articulo = ".$val->cve_art;
 				if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {

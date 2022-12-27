@@ -48,7 +48,7 @@ function getDatosImprimir($dbcon, $cve_mov){
 	WHERE ms.cve_mov = ".$cve_mov;
 	
 	$SALIDA = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
-	$sql = "SELECT msd.cve_articulo, ca.cve_alterna, nombre_articulo, cantidad_salida, unidad_medida
+	$sql = "SELECT msd.cve_articulo, ca.cve_alterna, nombre_articulo, seccion, cantidad_salida, unidad_medida
 	FROM movtos_salidas_detalle msd
 	INNER JOIN cat_articulos ca ON ca.cve_articulo = msd.cve_articulo
 	WHERE cve_mov = ".$cve_mov;
@@ -72,7 +72,7 @@ function getMaquinas($dbcon, $cve_depto){
 	dd($dbcon->qBuilder($dbcon->conn(), 'all', $sql));
 }
 function getArticulos($dbcon, $codarticulo){
-	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida, empaque, max, min FROM cat_articulos WHERE cve_alterna = '".$codarticulo."' ";
+	$sql = "SELECT cve_articulo, cve_alterna, nombre_articulo, existencia, unidad_medida, seccion, empaque, max, min FROM cat_articulos WHERE cve_alterna = '".$codarticulo."' ";
 	$articulo = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	if (count($articulo) > 0) {
 		if ($articulo[0]->existencia > 0) {
@@ -147,6 +147,11 @@ function guardarMovimiento($dbcon, $Datos){
 			$sql = "UPDATE cat_articulos set existencia = existencia - ".$val->cantidad." WHERE cve_articulo = ".$val->cve_articulo;
 			if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
 				dd(['code'=>400, 'msj'=>'error al restar existencia.', 'sql'=>$sql]);
+			}
+			// Store procedure costeo
+			$sql = "CALL costeosalida(".$val->cve_articulo.")";
+			if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+				dd(['code'=>400, 'msj'=>'error al ejecutar Store Procedure.', 'sql'=>$sql]);
 			}
 		}
 		dd(['code'=>200,'msj'=>'Carga ok', 'folio'=>$getId->cve_mov]);

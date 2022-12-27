@@ -155,15 +155,15 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                 <div class="row form-group form-group-sm">
                                     <div class="col-lg-12 d-lg-flex">
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input type="text" ng-model="foliovale" class="form-control form-control-md validanumericos" maxlength="100">
+                                            <input type="text" id="nextFocusHeader0" ng-model="foliovale" class="form-control form-control-md validanumericos" maxlength="100" ng-keyup="$event.keyCode == 13 ? inputCharacters(0, 'h') : null">
                                             <label>Folio de Vale</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input type="text" ng-model="concepto" class="form-control form-control-md UpperCase" maxlength="100">
+                                            <input type="text" id="nextFocusHeader1" ng-model="concepto" class="form-control form-control-md UpperCase" maxlength="100" ng-keyup="$event.keyCode == 13 ? inputCharacters(1, 'h') : null">
                                             <label>Concepto</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <select class="form-control form-group-md" ng-model="departamento" id="departamento" name="departamento" ng-change="getMaquinas()">
+                                            <select class="form-control form-group-md" id="nextFocusHeader2" ng-model="departamento" id="departamento" name="departamento" ng-change="getMaquinas()" ng-change="inputCharacters(2, 'h')">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                                 <?php foreach (ModeloSalidas::ShowDepartamentos() as $value) { ?>
                                                 <option value="<?=$value['cve_depto']?>"><?=$value['cve_alterna']?> <?=$value['nombre_depto']?></option>
@@ -172,7 +172,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                             <label>Departamentos</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <select class="form-control form-group-md" ng-model="maquinas" id="maquinas" name="maquinas" ng-disabled="arrayMaquinas.length==0" ng-change="setMaquina()">
+                                            <select class="form-control form-group-md" id="nextFocusHeader3" ng-model="maquinas" id="maquinas" name="maquinas" ng-disabled="arrayMaquinas.length==0" ng-change="setMaquina()" ng-change="inputCharacters(3, 'h')">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                                 <option ng-repeat="(i,obj) in arrayMaquinas track by i" value="{{obj.cve_maq}}">{{obj.cve_alterna}}-{{obj.nombre_maq}}</option>
                                             </select>
@@ -183,11 +183,11 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                 <div class="row form-group form-group-sm">
                                     <div class="col-lg-12 d-lg-flex">
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input type="text" ng-model="horometro" class="form-control form-control-md validanumericos" maxlength="100">
+                                            <input type="text" id="nextFocusHeader4" ng-model="horometro" class="form-control form-control-md validanumericos" maxlength="100" ng-keyup="$event.keyCode == 13 ? inputCharacters(4, 'h') : null">
                                             <label>Hor&oacute;metro</label>
                                         </div>
                                         <div style="width: 75%;" class="form-floating mx-1">
-                                            <input type="text" ng-model="comentarios" class="form-control form-control-md UpperCase" maxlength="100">
+                                            <input type="text" id="nextFocusHeader5" ng-model="comentarios" class="form-control form-control-md UpperCase" maxlength="100" onchange="$('#nextFocus0').focus()">
                                             <label>Comentarios</label>
                                         </div>
                                     </div>
@@ -354,13 +354,13 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                     <table class="table table-striped">
                         <tr>
                             <th style="text-align: left;">Clave Art.</th>
-                            <th>Descripción</th>
+                            <th>Descripción / sección</th>
                             <th>Cantidad</th>
                             <th>Unidad</th>
                         </tr>
                         <tr ng-repeat="(key, obj) in articulos track by key">
                             <td style="text-align: left;">{{obj.cve_alterna}}</td>
-                            <td>{{obj.nombre_articulo}}</td>
+                            <td>{{obj.nombre_articulo}} / {{obj.seccion}}</td>
                             <td style="text-align: right;">{{obj.cantidad}}</td>
                             <td style="text-align: right;">{{obj.unidad_medida}}</td>
                         </tr>
