@@ -165,32 +165,34 @@
                         <input type="text" id="inputobservacionedit" name="inputobservacionedit" class="form-control form-control-md UpperCase">
                         <label>Observaciones</label>
                     </div> -->
-                </div>
-            </div>
-            <div class="row form-group form-group-sm">
-                <div class="col-lg-12 d-lg-flex">
                     <div style="width: 25%;" class="form-floating mx-1">
                         <select class="form-control form-group-md" id="selectunidadmedidaedit" name="selectunidadmedidaedit">
                             <option selected="selected" value="0">[Seleccione una opción..]</option>
                             <option value="KG">KG</option>
                             <option value="LTS">LTS</option>
                             <option value="PZA">PZA</option>
+                            <option value="EMPAQUE">EMPAQUE</option>
                             <option value="SACO">SACO</option>
+                            <option value="SERVICIO">SERVICIO</option>
                         </select>
                         <label>Unidad de medida</label>
                     </div>
+                </div>
+            </div>
+            <div class="row form-group form-group-sm">
+                <div class="col-lg-12 d-lg-flex">
                      <div style="width: 25%;" class="form-floating mx-1">
                         <input type="text" id="inputseccionedit" name="inputseccionedit" class="form-control form-control-md UpperCase">
                         <label>Sección</label>
                     </div>
-                    <div style="width: 25%;" class="form-floating mx-1">
+<!--                     <div style="width: 25%;" class="form-floating mx-1">
                         <input type="text" id="inputcasilleroedit" name="inputcasilleroedit" class="form-control form-control-md UpperCase">
                         <label>Casillero</label>
                     </div>
                     <div style="width: 25%;" class="form-floating mx-1">
                         <input type="text" id="inputniveledit" name="inputniveledit" class="form-control form-control-md UpperCase">
                         <label>Nivel</label>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         <label hidden for="message-text" class="col-form-label">Usuario:</label>

@@ -128,8 +128,8 @@ if (isset($_GET['actualizar']) ) {
 	$observacion 			= $_POST['observacion'];
 	$unidadmedida 			= $_POST['unidadmedida'];
 	$seccion 				= $_POST['seccion'];
-	$casillero 				= $_POST['casillero'];
-	$nivel 					= $_POST['nivel'];
+	$casillero 				= 0;
+	$nivel 					= 0;
 	$max 					= $_POST['max'];
 	$min 					= $_POST['min'];
 	$empaque 				= $_POST['empaque'];
@@ -168,7 +168,7 @@ if (isset($_GET["accion"]) && $_GET['accion'] == "verificar") {
 
 	$sql	= "	SELECT count(*) as existe 
 				FROM cat_articulos 
-				WHERE cve_alterna ='".$codigoart."'";
+				WHERE cve_alterna ='".$codigoart."' AND estatus_articulo = 'VIG'";
 
 	$vquery = Conexion::conectar()->prepare($sql);
 	$vquery ->execute();

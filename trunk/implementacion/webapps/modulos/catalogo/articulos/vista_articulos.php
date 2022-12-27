@@ -66,7 +66,7 @@
                     <div class="row form-group form-group-sm">
                         <div class="col-lg-12 d-lg-flex">
                             <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="text" id="inputcodart" name="inputcodart" class="form-control form-control-md UpperCase">
+                                <input type="text" id="inputcodart" name="inputcodart" class="form-control form-control-md UpperCase" onchange="existenciaCodigo()">
                                 <label>Código de artículo</label>
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
@@ -137,6 +137,7 @@
                                     <option value="KG">KG</option>
                                     <option value="LTS">LTS</option>
                                     <option value="PZA">PZA</option>
+                                    <option value="EMPAQUE">EMPAQUE</option>
                                     <option value="SACO">SACO</option>
                                     <option value="SERVICIO">SERVICIO</option>
                                 </select>
@@ -164,14 +165,14 @@
                                 <input type="text" id="inputseccion" name="inputseccion" class="form-control form-control-md UpperCase">
                                 <label>Sección</label>
                             </div>
-                            <div style="width: 25%;" class="form-floating mx-1">
+<!--                             <div style="width: 25%;" class="form-floating mx-1">
                                 <input type="text" id="inputcasillero" name="inputcasillero" class="form-control form-control-md UpperCase">
                                 <label>Casillero</label>
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
                                 <input type="text" id="inputnivel" name="inputnivel" class="form-control form-control-md UpperCase">
                                 <label>Nivel</label>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="row form-group form-group-sm">
@@ -223,9 +224,11 @@
                                 <tr>
                                     <th class="text-center">Codigo</th>
                                     <th class="text-center">Nombre</th>
+                                    <th class="text-center">Ubicaci&oacute;n</th>
+                                    <th class="text-center">Unidad medida</th>
                                     <th class="text-center">Existencia</th>
-                                    <th class="text-center">Maximo</th>
                                     <th class="text-center">Minimo</th>
+                                    <th class="text-center">Maximo</th>
                                     <th class="text-center">Fecha de Alta</th>
                                     <th class="text-center">Opciones</th>
                                 </tr>

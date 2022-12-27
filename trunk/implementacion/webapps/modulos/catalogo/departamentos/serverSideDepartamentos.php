@@ -12,21 +12,36 @@ $primaryKey = 'cve_depto';
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
-// $var    = "creado_por = 'Alfredo Chan'";
-$columns = array(
-    array( 'db' => 'cve_alterna',          'dt' => 0 ),
-    array( 'db' => 'nombre_depto',          'dt' => 1 ),
-    array( 'db' => 'estatus_depto',    'dt' => 2 ),
-    array(
-        'db'        => 'fecha_registro',
-        'dt'        => 3,
-        'formatter' => function( $d, $row ) {
-            return date( 'Y-m-d', strtotime($d));
-        }
-    ),
-    array( 'db' => 'cve_depto',       'dt' => 4),
-);
- 
+$var    = "depto.estatus_depto = 'VIG'";
+// $columns = array(
+//     array( 'db' => 'cve_alterna',          'dt' => 0 ),
+//     array( 'db' => 'nombre_depto',          'dt' => 1 ),
+//     array( 'db' => 'estatus_depto',    'dt' => 2 ),
+//     array(
+//         'db'        => 'fecha_registro',
+//         'dt'        => 3,
+//         'formatter' => function( $d, $row ) {
+//             return date( 'Y-m-d', strtotime($d));
+//         }
+//     ),
+//     array( 'db' => 'cve_depto',       'dt' => 4),
+// );
+
+$columns = [
+    ['db' => '`depto`.`cve_alterna`', 'dt' => 0, 'field' => 'cve_alterna'],
+    ['db' => '`area`.`nombre_area`', 'dt' => 1, 'field' => 'nombre_area'],
+    ['db' => '`depto`.`nombre_depto`', 'dt' => 2, 'field' => 'nombre_depto'],
+    // ['db' => '`depto`.`estatus_depto`', 'dt' => 2, 'field' => 'estatus_depto'],
+    ['db' => '`depto`.`fecha_registro`', 'dt' => 3, 'formatter' => function( $d, $row ) {
+            return date( 'Y-M-d', strtotime($d));
+        }, 'field' => 'fecha_registro'],
+    ['db' => '`depto`.`cve_depto`', 'dt' => 4, 'field' => 'cve_depto'],
+];
+
+ $joinQuery = " FROM `{$table}` AS `depto` 
+                INNER JOIN `cat_areas` AS `area` ON (`depto`.`cve_area` = `area`.`cve_area`)
+                ";
+
 // SQL server connection information
 
 
@@ -37,9 +52,10 @@ include_once "../../../dbconexion/conexionServerSide.php";
  * server-side, there is no need to edit below this line.
  */
  
-require( '../../../includes/js/data_tables_js/ssp.class.php' );
+// require( '../../../includes/js/data_tables_js/ssp.class.php' );
+require( '../../../includes/js/data_tables_js/sspjoin.php' );
  
 echo json_encode(
-    SSP::complex( $_GET, $sql_details, $table, $primaryKey, $columns )
+    SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $var )
 );
 ?>

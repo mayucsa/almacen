@@ -36,19 +36,20 @@ function consultar(){
                                 }
                                 // "data": null,
                                 // "defaultContent": '<span class= "btn btn-warning" onclick= "obtenerDatos(".$value["cve_entrada"].")" data-toggle="modal" data-target="#modalMatPrimaUpdate" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>'
-                            },
-                            {
-                                "targets": 2,
-                                "render": function(data, type, row, meta){
-                                    // const primaryKey = data;
-                                    // "data": 'cve_entrada',
-                                    if (row[2] == 'VIG') {
-                                        return '<span class= "badge badge-success">Activo</span>';
-                                    }else{
-                                        return '<span class= "badge badge-danger">Inactivo</span>';
-                                    }
-                                }
                             }
+                            // ,
+                            // {
+                            //     "targets": 2,
+                            //     "render": function(data, type, row, meta){
+                            //         // const primaryKey = data;
+                            //         // "data": 'cve_entrada',
+                            //         if (row[2] == 'VIG') {
+                            //             return '<span class= "badge badge-success">Activo</span>';
+                            //         }else{
+                            //             return '<span class= "badge badge-danger">Inactivo</span>';
+                            //         }
+                            //     }
+                            // }
                         ],
 
          "language": {
@@ -198,7 +199,7 @@ function insertCaptura(){
     }).then((result) => {
 
     if (result.isConfirmed) {    
-
+    jsShowWindowLoad('Creando Departamento...');
         $.ajax({
                 type:"POST",
                 url:"modelo_departamentos.php?accion=insertar",
@@ -208,6 +209,7 @@ function insertCaptura(){
         success:function(data){
                     consultar();
                     limpiarCampos();
+                    jsRemoveWindowLoad();
                     Swal.fire(
                                 '¡Agregado!',
                                 'Se ha agregado un Departamento Nuevo !!',
@@ -281,6 +283,7 @@ function editarDepto(){
     }).then((result) => {
 
     if (result.isConfirmed) {
+        jsShowWindowLoad('Editando departamento...');
         $.ajax({
                 type:"POST",
                 url:"modelo_departamentos.php?actualizar=1",
@@ -291,7 +294,7 @@ function editarDepto(){
             // console.log(r);
             consultar();
             cerrarModalEditar();
-            
+            jsRemoveWindowLoad();
                     Swal.fire(
                                 '¡Modificación!',
                                 'Se ha cambiado el nombre del Departamento !!',
@@ -362,6 +365,7 @@ function eliminarDepto(){
     }).then((result) => {
 
     if (result.isConfirmed) {
+        jsShowWindowLoad('Eliminando articulo...');
         $.ajax({
                 type:"POST",
                 url:"modelo_departamentos.php?eliminar=1",
@@ -372,7 +376,7 @@ function eliminarDepto(){
             // console.log(r);
             consultar();
             cerrarModalEliminar();
-            
+            jsRemoveWindowLoad();            
                     Swal.fire(
                                 '¡Eliminación!',
                                 'Se ha elimnado el Departamento !!',

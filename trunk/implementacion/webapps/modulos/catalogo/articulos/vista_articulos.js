@@ -7,7 +7,7 @@ function consultar(){
             "ajax": "servesideArticulos.php",
             "lengthMenu": [[30, 50, 100], [30, 50, 100]],
             "pageLength": 30,
-            "order": [5, 'desc'],
+            "order": [7, 'desc'],
             // "destroy": true,
             "searching": true,
             // bSort: false,
@@ -20,9 +20,9 @@ function consultar(){
                                 "className": 'dt-body-center' /*alineacion al centro th de tbody de la table*/
                             },
                             {
-                                "targets": 6,
+                                "targets": 8,
                                 "render": function(data, type, row, meta){
-                                    return row[7];
+                                    return row[9];
                                     // return  '<span class= "btn btn-info" onclick= "obtenerDatosS('+row[5]+')" title="Scanner" data-toggle="modal" data-target="#modalScanner" data-whatever="@getbootstrap"><i class="fas fa-barcode"></i> </span>' + ' ' +
                                             // '<span class= "btn btn-info" onclick= "obtenerDatosV('+row[5]+')" title="Ver" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>' + ' ' +
                                             // '<span class= "btn btn-warning" onclick= "obtenerDatos('+row[5]+')" title="Editar" data-toggle="modal" data-target="#modalEditar" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>' + ' ' +
@@ -170,8 +170,8 @@ function validacionCampos() {
     var observacion     = $('#inputobservacion').val();
     var unidadmedida    = $('#selectunidadmedida').val();
     var seccion         = $('#inputseccion').val();
-    var casillero       = $('#inputcasillero').val();
-    var nivel           = $('#inputnivel').val();
+    // var casillero       = $('#inputcasillero').val();
+    // var nivel           = $('#inputnivel').val();
     var max             = $('#inputmax').val();
     var min             = $('#inputmin').val();
     var empaque         = $('#inputempaque').val();
@@ -210,12 +210,12 @@ function validacionCampos() {
     if (seccion == "") {
         msj += '<li>Sección</li>';
     }
-    if (casillero == "") {
-        msj += '<li>Casillero</li>';
-    }
-    if (nivel == "") {
-        msj += '<li>Nivel</li>';
-    }
+    // if (casillero == "") {
+    //     msj += '<li>Casillero</li>';
+    // }
+    // if (nivel == "") {
+    //     msj += '<li>Nivel</li>';
+    // }
     if (empaque == "") {
         msj += '<li>Empaque</li>';
     }
@@ -225,11 +225,11 @@ function validacionCampos() {
         $('#modalMensajes').modal('toggle');
 
     } else{
-        existenciaCodigo();
+        existenciaCod();
     }
 }
 
-function existenciaCodigo(){
+function existenciaCod(){
     var codigoart = $('#inputcodart').val();
     var msj = "";
 
@@ -255,6 +255,37 @@ function existenciaCodigo(){
                     }else{
                         insertCaptura();
                         }
+                    }
+            })
+}
+
+function existenciaCodigo(){
+    var codigoart = $('#inputcodart').val();
+    var msj = "";
+
+    var datos   = new FormData();
+
+    datos.append('codigoart', $('#inputcodart').val());
+
+        $.ajax({
+                type:"POST",
+                url:"modelo_articulo.php?accion=verificar&codigoart=" + codigoart,
+                data: codigoart,
+                processData:false,
+                contentType:false,
+        success:function(data){
+                    if (data == 'correcto') {
+                        Swal.fire({
+                                        icon: 'warning',
+                                        title: '¡Error!',
+                                        text: 'El código de articulo esta vigente',
+                                        // footer: 'Favor de ingresar un código nuevo',
+                                        confirmButtonColor: '#1A4672'
+                                    })
+                    }
+                    // else{
+                    //     insertCaptura();
+                    //     }
                     }
             })
 }
@@ -291,8 +322,10 @@ function insertCaptura(){
     datos.append('costo',        0);
     datos.append('existencia',   0);
     datos.append('seccion',         $('#inputseccion').val());
-    datos.append('casillero',       $('#inputcasillero').val());
-    datos.append('nivel',           $('#inputnivel').val());
+    datos.append('casillero',    0);
+    // datos.append('casillero',       $('#inputcasillero').val());
+    datos.append('nivel',        0);
+    // datos.append('nivel',           $('#inputnivel').val());
     datos.append('max',             $('#inputmax').val());
     datos.append('min',             $('#inputmin').val());
     datos.append('empaque',         $('#inputempaque').val());
@@ -385,8 +418,8 @@ function editarArticulo(){
     var eobservacion    = $('#inputobservacionedit').val();
     var eunidadmedida   = $('#selectunidadmedidaedit').val();
     var eseccion        = $('#inputseccionedit').val();
-    var ecasillero      = $('#inputcasilleroedit').val();
-    var enivel          = $('#inputniveledit').val();
+    // var ecasillero      = $('#inputcasilleroedit').val();
+    // var enivel          = $('#inputniveledit').val();
     var emax            = $('#inputmaxedit').val();
     var emix            = $('#inputminedit').val();
     var empaque         = $('#inputempaqueedit').val();
@@ -430,14 +463,14 @@ function editarArticulo(){
         // console.log(cantidad);
         msj += 'Sección <br>';
     }
-    if (ecasillero == "") {
-        // console.log(cantidad);
-        msj += 'Casillero <br>';
-    }
-    if (enivel == "") {
-        // console.log(cantidad);
-        msj += 'Nivel <br>';
-    }
+    // if (ecasillero == "") {
+    //     // console.log(cantidad);
+    //     msj += 'Casillero <br>';
+    // }
+    // if (enivel == "") {
+    //     // console.log(cantidad);
+    //     msj += 'Nivel <br>';
+    // }
     if (empaque == "") {
         // console.log(cantidad);
         msj += 'Punto de reorden <br>';

@@ -138,8 +138,8 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">Código</th>
-                                    <th class="text-center">Nombre</th>
-                                    <th class="text-center">Estatus</th>
+                                    <th class="text-center">&Aacute;rea que pertenece</th>
+                                    <th class="text-center">Departamento</th>
                                     <th class="text-center">Fecha de Alta</th>
                                     <th class="text-center">Opciones</th>
                                 </tr>
