@@ -28,7 +28,7 @@ function getMisRequisiciones($dbcon, $cve_usuario){
 function envioCorreo($dbcon, $folio){
 	include_once "../../../correo/EnvioSMTP.php";
 	$envioSMTP = new EnvioSMTP;
-	$sql = "SELECT u.nombre_usuario FROM requisicion r INNER JOIN cat_usuarios u ON u.cve_usuario = r.cve_usuario WHERE cve_req = ".$folio;
+	$sql = "SELECT u.nombre_usuario, u.nombre, u.apellido FROM requisicion r INNER JOIN cat_usuarios u ON u.cve_usuario = r.cve_usuario WHERE cve_req = ".$folio;
 	$requisicion = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
 	$title = 'Nueva requisición';
 	$Subject = 'Nueva requisición generada';
@@ -48,7 +48,7 @@ function envioCorreo($dbcon, $folio){
 	$Body .= '<h1>Se ha creado una nueva requisición.</h1>';
 	$Body .= '<br><hr style="width:30%;">';
 	$Body .= '<br><p>Requisición #'.$folio.'</p>';
-	$Body .= '<br><p>Creado por usuario: '.$requisicion->nombre_usuario.'</p>';
+	$Body .= '<br><p>Creado por '.$requisicion->nombre.' '.$requisicion->apellido.'</p>';
 	$Body .= '<br><p>Acceda al sistema (SAM) para Generar cotizaciones.</p>';
 	$Body .= '</center>';
 	$Body .= '</div>';

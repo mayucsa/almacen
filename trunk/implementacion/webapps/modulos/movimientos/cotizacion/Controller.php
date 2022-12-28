@@ -10,12 +10,12 @@ function dd($var){
 function envioCorreo($dbcon, $cve_odc){
 	include_once "../../../correo/EnvioSMTP.php";
 	$envioSMTP = new EnvioSMTP;
-	$sql = "SELECT odc.q_autoriza, u.nombre_usuario FROM orden_compra odc 
+	$sql = "SELECT odc.q_autoriza, u.nombre_usuario, u.nombre, u.apellido FROM orden_compra odc 
 	INNER JOIN cat_usuarios u ON u.cve_usuario = odc.cve_usuario 
 	WHERE cve_odc = ".$cve_odc;
 	$odc = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
-	$title = 'Nueva orden de compra';
-	$Subject = 'Aprobación orden de compra pendiente';
+	$title = 'Autorización de orden de compra';
+	$Subject = 'Autorización orden de compra';
 	$Body = '<!doctype html>';
 	$Body .= '<html lang="es" >';
 	$Body .= '<head>';
@@ -29,17 +29,18 @@ function envioCorreo($dbcon, $cve_odc){
 	$Body .= '<br><br>';
 	$Body .= '<div class="container" style="border-radius: 15px; background-color: white; margin-top:2vH;margin-bottom:2vH; width:70%; margin-left:15%; text-align:center;">';
 	$Body .= '<center>';
-	$Body .= '<h1>Se ha creado una nueva orden de compra.</h1>';
+	// $Body .= '<h1>Se ha creado una nueva orden de compra.</h1>';
+	$Body .= '<h1>Autorización de orden de compra.</h1>';
 	$Body .= '<br><hr style="width:30%;">';
 	$Body .= '<br><p>Orden de compra #'.$cve_odc.'</p>';
-	$Body .= '<br><p>Creado por usuario: '.$odc->nombre_usuario.'</p>';
-	$Body .= '<br><p>Acceda al sistema (SAM) para Generar cotizaciones.</p>';
+	$Body .= '<br><p>Generado por '.$odc->nombre.' '.$odc->apellido.'</p>';
+	$Body .= '<br><p>Acceda al sistema (SAM) para Autorizar la orden de compra.</p>';
 	$Body .= '</center>';
 	$Body .= '</div>';
 	$Body .= '<br><br>';
 	$Body .= '</body>';
 	$Body .= '</html>';
-	$claveRol2 = "SELECT correo FrOM cat_usuarios WHERE cve_usuario = ".$odc->q_autoriza;
+	$claveRol2 = "SELECT correo FROM cat_usuarios WHERE cve_usuario = ".$odc->q_autoriza;
 	$correos = $dbcon->qBuilder($dbcon->conn(), 'all', $claveRol2);
 	// $correos = ['a.chan@mayucsa.com.mx'];
 	$email = $envioSMTP->correo($title, $Subject, $Body, $correos);

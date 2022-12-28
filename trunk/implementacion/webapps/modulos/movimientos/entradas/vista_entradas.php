@@ -183,7 +183,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="(i, obj) in ordenCompraDetalle track by i">
-                                                    <td>{{obj.cve_odc}}</td>
+                                                    <td>{{obj.cve_req}}</td>
                                                     <td>{{obj.cve_art}}</td>
                                                     <td>{{obj.nombre_articulo}}</td>
                                                     <td>{{obj.unidad_medida}}</td>

@@ -43,12 +43,15 @@ function cancelar($dbcon, $cve_mov, $usuario){
 function envioCorreo($dbcon, $cve_mov){
 	include_once "../../../correo/EnvioSMTP.php";
 	$envioSMTP = new EnvioSMTP;
-	$sql = "SELECT creado_por, correo, nombre, apellido FROM movtos_entradas mv
+	$sql = "SELECT mv.creado_por, correo, nombre, apellido, ocd.cve_odc, r.cve_req, ca.cve_alterna, ca.nombre_articulo FROM movtos_entradas mv
 	INNER JOIN cat_usuarios cu ON cu.cve_usuario = mv.creado_por
+	INNER JOIN orden_compra_detalle ocd ON mv.cve_odc = ocd.cve_odc
+	INNER JOIN requisicion r ON ocd.cve_req = r.cve_req
+	INNER JOIN cat_articulos ca ON ocd.cve_art = ca.cve_articulo
 	WHERE cve_mov = ".$cve_mov;
 	$mvto = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
-	$title = 'Captura de entrada';
-	$Subject = 'Se ha generado una nueva captura de entrada';
+	$title = 'Entrada al Almacen - Mayucsa';
+	$Subject = 'Entrada al Almacen - Mayucsa';
 	$Body = '<!doctype html>';
 	$Body .= '<html lang="es" >';
 	$Body .= '<head>';
@@ -62,11 +65,14 @@ function envioCorreo($dbcon, $cve_mov){
 	$Body .= '<br><br>';
 	$Body .= '<div class="container" style="border-radius: 15px; background-color: white; margin-top:2vH;margin-bottom:2vH; width:70%; margin-left:15%; text-align:center;">';
 	$Body .= '<center>';
-	$Body .= '<h1>Se ha generado nueva captura de entrada.</h1>';
+	$Body .= '<h1>Se ha generado una entrada al almacen de refacciones</h1>';
 	$Body .= '<br><hr style="width:30%;">';
-	$Body .= '<br><p>Clave de movimiento #'.$cve_mov.'</p>';
-	$Body .= '<br><p>Creado por usuario: '.$mvto->nombre.' '.$mvto->apellido.'</p>';
-	$Body .= '<br><p>Acceda al sistema (SAM) para Generar cotizaciones.</p>';
+	$Body .= '<br><p>Clave de entrada #'.$cve_mov.'</p>';
+	$Body .= '<br><p>Entrada realizada por '.$mvto->nombre.' '.$mvto->apellido.'</p>';
+	$Body .= '<br><p>Entrada correspondiente a la requisición # '.$mvto->cve_req.'</p>';
+	// $Body .= '<br><p>Verifique con el área de almacén los articulos que entraron</p>';
+	$Body .= '<br><p>Articulo: '.$mvto->cve_alterna.' - '.$mvto->nombre_articulo.'</p>';
+	$Body .= '<br><p>Verifique con el área de almacén los articulos que se le dio entrada.</p>';
 	$Body .= '</center>';
 	$Body .= '</div>';
 	$Body .= '<br><br>';
@@ -119,7 +125,7 @@ function getProveedor($dbcon, $cve_odc){
 	dd($dbcon->qBuilder($dbcon->conn(), 'first', $sql));
 }
 function validaFolio($dbcon, $folio){
-	$sql = "SELECT cve_odc, cve_art, nombre_articulo, ca.seccion, unidad_medida, cantidad_cotizada, precio_unidad, cve_req, false as chkd FROM orden_compra_detalle odcd
+	$sql = "SELECT cve_odc, cve_req, cve_art, nombre_articulo, ca.seccion, unidad_medida, cantidad_cotizada, precio_unidad, cve_req, false as chkd FROM orden_compra_detalle odcd
 	INNER JOIN cat_articulos ca on ca.cve_articulo = odcd.cve_art WHERE odcd.estatus_req_det = 1 AND odcd.cve_odc = ".$folio;
 	$detalle = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	foreach ($detalle as $i => $val) {

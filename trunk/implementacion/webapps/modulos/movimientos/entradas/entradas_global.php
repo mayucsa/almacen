@@ -135,7 +135,7 @@ include_once "../../../dbconexion/conexion.php";
                     <div class="tile" id="captura_entrada">
                         <div class="card card-info">
                             <div class="card-header">
-                                 <h3 class="card-title">ORDEN DE COMPRA</h3>
+                                 <h3 class="card-title">ENTRADAS</h3>
                                  <div class="card-tools">
                                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                          <i class="fas fa-minus"></i>
