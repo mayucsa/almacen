@@ -20,7 +20,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		}).then(function (response){
 			response = response.data;
 			if (response.tipo == 1) {
-				console.log('response.datos', response.datos);
+				// console.log('response.datos', response.datos);
 				$scope.setArticulos = response.datos;
 				$scope.setArticulo(0, 1);
 				return;
@@ -62,7 +62,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		}
 		if ($scope.auxArticulos.indexOf($scope.findArticulos[i].cve_articulo) < 0) {
 			$scope.findArticulos[i].cantidad = 1;
-			console.log('$scope.findArticulos[i]', $scope.findArticulos[i]);
+			// console.log('$scope.findArticulos[i]', $scope.findArticulos[i]);
 			$scope.articulos.push(
 				$scope.findArticulos[i]
 			);
@@ -170,7 +170,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 			return;
 		}
 		for (var i = 0; i < $scope.articulos.length; i++) {
-			console.log('$scope.articulos[i].cve_cc '+i, $scope.articulos[i]);
+			// console.log('$scope.articulos[i].cve_cc '+i, $scope.articulos[i]);
 			if ($scope.articulos[i].cve_cc == undefined || $scope.articulos[i].cve_cc == '') {
 				Swal.fire(
 				  'Sin centro de costo seleccionado',
@@ -204,7 +204,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 					'articulos': $scope.articulos
 				}).then(function (response){
 					response = response.data;
-					console.log('response', response);
+					// console.log('response', response);
 					jsRemoveWindowLoad();
 					if (response.code == 200) {
 						$scope.folioSalida = response.folio;
@@ -234,10 +234,10 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		})
 	}
 	$scope.setMaquina = function(){
-		$scope.maquinaSeleccionada = $('#maquinas option:selected').html();
+		$scope.maquinaSeleccionada = $('#nextFocusHeader3 option:selected').html();
 	}
 	$scope.getCcostos = function(i){
-		console.log('getCcostos', i);
+		// console.log('getCcostos', i);
 		if ($scope.departamento == undefined || $scope.departamento == '') {
 			Swal.fire('Sin departamento','Es necesario seleccionar un departamento','warning');
 			$scope.articulos[i].centroCosto = '';
@@ -259,7 +259,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 	}
 	$scope.setCcosto = function(key, w){
 		key = $scope.keySeleccionado;
-		console.log('setCcosto', key, w);
+		// console.log('setCcosto', key, w);
 		$scope.articulos[key].centroCosto = $scope.arrayCcostos[w].cve_alterna+'-'+$scope.arrayCcostos[w].nombre_cc;
 		$scope.articulos[key].cve_cc = $scope.arrayCcostos[w].cve_cc;
 		$scope.arrayCcostos = [];

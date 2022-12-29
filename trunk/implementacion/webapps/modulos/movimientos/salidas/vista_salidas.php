@@ -172,7 +172,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                             <label>Departamentos</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <select class="form-control form-group-md" id="nextFocusHeader3" ng-model="maquinas" id="maquinas" name="maquinas" ng-disabled="arrayMaquinas.length==0" ng-change="setMaquina()" ng-change="inputCharacters(3, 'h')">
+                                            <select class="form-control form-group-md" id="nextFocusHeader3" ng-model="maquinas" name="maquinas" ng-disabled="arrayMaquinas.length==0" ng-change="inputCharacters(3, 'h'); setMaquina()">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                                 <option ng-repeat="(i,obj) in arrayMaquinas track by i" value="{{obj.cve_maq}}">{{obj.cve_alterna}}-{{obj.nombre_maq}}</option>
                                             </select>
