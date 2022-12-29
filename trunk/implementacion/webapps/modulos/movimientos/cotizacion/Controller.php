@@ -101,7 +101,9 @@ function generaOrdenCompra($dbcon, $datos){
 	$cve_cfdi = $datos->cve_cfdi;
 	$formapago = $datos->formapago;
 	$metodopago = $datos->metodopago;
+	$tipoRequisicion = $datos->tipoRequisicion;
 	$fecha = date('Y-m-d H:i:s');
+	$estatus_autorizado = $tipoRequisicion=='A'?1:0;
 	$sql = "INSERT INTO orden_compra (cve_usuario, cve_proveedor, q_autoriza, fecha_entrega, cve_cfdi, forma_pago, metodo_pago, estatus_autorizado, estatus_odc, fecha_registro)
 		VALUES(
 			".$cve_usuario.",
@@ -111,7 +113,7 @@ function generaOrdenCompra($dbcon, $datos){
 			'".$cve_cfdi."',
 			'".$formapago."',
 			'".$metodopago."',
-			0,
+			".$estatus_autorizado.",
 			1,
 			'".$fecha."'
 		)

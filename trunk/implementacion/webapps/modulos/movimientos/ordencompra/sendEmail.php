@@ -1,7 +1,7 @@
 <?php 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
+date_default_timezone_set('America/Mexico_City');
 include_once "PHPMailer/Exception.php";
 include_once "PHPMailer/PHPMailer.php";
 include_once "PHPMailer/SMTP.php";
@@ -57,6 +57,10 @@ try {
     // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
+    $sql = "UPDATE orden_compra SET fechaCorreoProv = '".date('Y-m-d H:i:s')."' WHERE cve_odc = ".$cve_odc;
+    if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+        die('error');
+    }
     echo 'Mensaje Enviado Correctamente';
 } catch (Exception $e) {
     echo "No se pudo enviar el mensaje. Mailer Error: {$mail->ErrorInfo}";

@@ -123,6 +123,7 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 					'metodopago': $scope.metodopago,
 					'cve_usuario': ID,
 					'q_autoriza': $scope.q_autoriza,
+					'tipoRequisicion': $scope.tipoRequisicion,
 					'task': 'generaOrdenCompra'
 				}).then(function (response) {
 					console.log('response', response.data);
@@ -243,6 +244,7 @@ app.controller('vistaCotizacion', function(BASEURL, ID, $scope, $http){
 			if ($scope.seleccionados.length == 0) {
 				$scope.arrayRequisiciones[i][15] = false;
 			}else{
+				$scope.tipoRequisicion = tipo;
 				if ($scope.arrayRequisiciones[i][1] != tipo) {
 					// el disabled de lo que no sean del mismo tipo se habilitara
 					$scope.arrayRequisiciones[i][15] = true;

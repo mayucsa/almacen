@@ -58,12 +58,13 @@ $var    = "estatus_odc = '1' ";
                 if ($d == '1') {
                    return   '<span class= "btn btn-info" onclick= "obtenerDatos('.$row[0].')" title="Ver detalle" data-toggle="modal" data-target="#modalVerMP" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>'. ' '.
                         '<a class= "btn btn-danger" href="odcPDFformato.php?cve_odc='.$row[0].'" target="_blank" title="Descargar PDF"><i class="fas fa-file-pdf"></i> </a>'. ' '.
-                        '<span class= "btn btn-warning" onclick="EnviarCorreo('.$row[0].')" title="Enviar correo a proveedor"><i class="fas fa-envelope"></i> </span>';
+                        '<span class= "btn btn-'.($row[7]?'success':'warning').'" onclick="EnviarCorreo('.$row[0].')" title="Enviar correo a proveedor"><i class="fas fa-envelope"></i> </span>';
                 }else{
                     return  '<span class= "btn btn-info" onclick= "obtenerDatos('.$row[0].')" title="Ver detalle" data-toggle="modal" data-target="#modalVerMP" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>';
                 }
             }, 'field' => 'estatus_autorizado'],
             ['db' => '`prov`.`nombre_proveedor`', 'dt' => 6, 'field' => 'nombre_proveedor'],
+            ['db' => '`odc`.`fechaCorreoProv`', 'dt' => 7, 'field' => 'fechaCorreoProv'],
             ];
         // $columns = [
         //     ['db' => '`req`.`cve_req`', 'dt' => 0, 'field' => 'cve_req'],

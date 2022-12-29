@@ -239,12 +239,13 @@ function EnviarCorreo(cve_odc){
             processData:false,
             contentType:false,
             success:function(data){
+                console.log(data);
                 jsRemoveWindowLoad();
                 Swal.fire(
                     'Correos enviado!',
                     'Se ha enviado la Orden de compra al proveedor !!',
                     'success'
-                )
+                );
             }
         })
     });
