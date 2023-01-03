@@ -18,6 +18,7 @@
                 }
             </style>
         </head>
+<div ng-controller="vistaCentroCostos">
        <!-- MODAL DE MENSAJES -->
 <div class="modal fade" id="modalMensajes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding-top:10%; overflow-y:visible;" >
     <div class="modal-dialog" role="document">
@@ -64,39 +65,41 @@
                     <div class="row form-group form-group-sm">
                         <div class="col-lg-12 d-lg-flex">
                             <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="text" id="inputcodcc" name="inputcodcc" class="form-control form-control-md UpperCase">
+                                <input type="text" id="inputcodcc" name="inputcodcc" ng-model="codcc" class="form-control form-control-md validanumericos">
                                 <label>Código de centro de costo</label>
                             </div>
-                            <div style="width: 25%;" class="form-floating mx-1">
-                                <select class="form-control form-group-md" id="selectmaq" name="selectmaq">
-                                    <option selected="selected" value="0">[Seleccione una opción..]</option>
-                                    <?php   
-                                        $sql        = ModeloCC::showDeptos();
-
-                                            foreach ($sql as $value) {
-                                            echo '<option value="'.$value["cve_depto"].'">'.$value["nombre_depto"].'</option>';
-                                            }
-                                        ?>
-                                </select>
-                                <label>Departamento</label>
-                            </div>
-                            <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="text" id="inputnombrecc" name="inputnombrecc" class="form-control form-control-md UpperCase">
+                            <div hidden style="width: 25%;" class="form-floating mx-1">
+                                <input type="text" id="inputnombrecc" name="inputnombrecc" ng-model="nombrecc"  class="form-control form-control-md UpperCase">
                                 <label>Nombre de centro de costo</label>
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="text" id="inputcuentacc" name="inputcuentacc" class="form-control form-control-md UpperCase">
-                                <label>Cuenta</label>
+                                <select class="form-control form-group-md" id="selectmaq" name="selectmaq" ng-model="concepto" >
+                                        <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
+                                        <?php foreach (ModeloCC::showConcepto() as $value) { ?>
+                                        <option value="<?=$value['cve_alterna']?>"><?=$value['cve_alterna']?> - <?=$value['nombre']?></option>
+                                        <?php } ?>
+                                </select>
+                                <label>Concepto</label>
                             </div>
-
-                            <span hidden id="spanusuario" name="spanusuario" class="form-control form-control-sm" style="background-color: #E9ECEF;"><?php echo $nombre." ".$apellido?></span>
-                            <!-- <input type="text" class="form-control" id="inputnombregpo" name="inputnombregpo" required="" > -->
+                            <div style="width: 25%;" class="form-floating mx-1">
+                                <select class="form-control form-group-md" id="selectmaq" name="selectmaq" ng-model="tipo" >
+                                        <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
+                                        <?php foreach (ModeloCC::showAreas() as $value) { ?>
+                                        <option value="<?=$value['cve_alterna']?>"><?=$value['cve_alterna']?> - <?=$value['nombre_area']?></option>
+                                        <?php } ?>
+                                </select>
+                                <label>Tipo</label>
+                            </div>
+<!--                             <div style="width: 25%;" class="form-floating mx-1">
+                                <input type="text" id="inputcuentacc" name="inputcuentacc" ng-model="cuentacc"  class="form-control form-control-md validanumericos">
+                                <label>Cuenta</label>
+                            </div> -->
                         </div>
                     </div>
                     <div class="row form-group form-group-sm border-top">
                         <div class="col-sm-12" align="center">
-                            <input type="submit" value="Guardar" href="#" onclick="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important">
-                            <input type="submit" value="Limpiar" href="#" onclick="limpiarCampos()" class="btn btn-warning" style="margin-bottom: -25px !important">
+                            <input type="submit" value="Guardar" href="#" ng-click="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important">
+                            <input type="submit" value="Limpiar" href="#" ng-click="limpiarCampos()" class="btn btn-warning" style="margin-bottom: -25px !important">
                         </div>
                     </div>
                 </div>
@@ -133,17 +136,17 @@
                         <table class="table table-striped table-bordered table-hover w-100 shadow" id="tablaGrupos">
                             <thead>
                                 <tr>
+                                    <th class="text-center">C&oacute;digo</th>
                                     <th class="text-center">Nombre</th>
-                                    <th class="text-center">Estatus</th>
-                                    <th class="text-center">Fecha de Alta</th>
-                                    <th class="text-center">Opciones</th>
+                                    <!-- <th class="text-center">Departamento</th> -->
+                                    <th class="text-center">Cuenta</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td></td>
                                 </tr>
                             </tbody>
@@ -172,7 +175,9 @@ include_once "../../inferior.php";
 // include_once "modales.php";
 ?>
 
-<!-- <script src="vista_grupos.js"></script> -->
+    <script src="vista_centrocostos_ajs.js"></script>
+
+    <script src="vista_centrocostos.js"></script>
 
     <script src="../../../includes/js/jquery331.min.js"></script>
 
@@ -193,6 +198,6 @@ include_once "../../inferior.php";
     <script src="../../../includes/js/data_tables_js/buttons.html5.min.js"></script>
     <script src="../../../includes/js/data_tables_js/buttons.print.min.js"></script>
 
-<!--     <script type="text/javascript">
+    <script type="text/javascript">
         consultar();
-    </script> -->
+    </script>

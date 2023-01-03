@@ -177,7 +177,7 @@ session_start();
                   </a>
                 </li>
                 <li ng-show="perfilUsu.areas_vista == 1">
-                  <a class="treeview-item" href="../../catalogo/areas/vista_areas.php"><i class="icon fa fa-circle-o"></i> Áreas
+                  <a class="treeview-item" href="../../catalogo/areas/vista_areas.php"><i class="icon fa fa-circle-o"></i> Departamento de consumo
                   </a>
                 </li>
                 <li ng-show="perfilUsu.deptos_vista == 1">
