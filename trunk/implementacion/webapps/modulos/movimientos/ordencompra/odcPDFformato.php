@@ -134,13 +134,14 @@ date_default_timezone_set('America/Mexico_City');
 		$myHtml .='<td></td>';
 		$myHtml .='<td></td>';
 		$myHtml .='<td class="text-right">';
-		$myHtml .='<strong>Subtotal<br>IVA<br>Total:</strong>';
+		// $myHtml .='<strong>Subtotal<br>IVA<br>Total:</strong>';
+		$myHtml .='<strong>Subtotal<br></strong>';
 		
 		$myHtml .='</td>';
 		$myHtml .='<td class="text-right">';
 		$myHtml .='<strong>$'.number_format($total, 2).'</strong><br>';
-		$myHtml .='<strong>$'.number_format($total * 0.16, 2).'</strong><br>';
-		$myHtml .='<strong>$'.number_format($total * 1.16, 2).'</strong>';
+		// $myHtml .='<strong>$'.number_format($total * 0.16, 2).'</strong><br>';
+		// $myHtml .='<strong>$'.number_format($total * 1.16, 2).'</strong>';
 		$myHtml .='</td>';
 		$myHtml .='</tr>';
 		$myHtml .='</tfoot>';
@@ -198,14 +199,14 @@ date_default_timezone_set('America/Mexico_City');
 		$myHtml .='<th style="width:15%;">';
 		$myHtml .='</th>';
 		$myHtml .='<th style="width:25%;text-align:center; position:relative">';
-		$firma = '../../../includees/archivos/firmas/'.$datos['usuario']->cve_usuario.'.png';
+		$firma = '../../../includees/archivos/firmas/'.$datos['usuario']->q_autoriza.'.png';
 		if (file_exists($firma)) {
 			$myHtml .= '<br><img src="'.$firma.'" style="height: 60px; position: relative;"><br>';
 		}else{
 			$myHtml .= '<br><br><br><br><br>';	
 		}
 		$myHtml .='_________________________';
-		$myHtml .='<br>Orden de compra<br>Creado por<br>'.$datos['usuario']->nombre.' '.$datos['usuario']->apellido;
+		$myHtml .='<br>Orden de compra<br>Autorizado por<br>'.$datos['usuario']->qnauto.' '.$datos['usuario']->qaauto;
 		$myHtml .='</th>';
 		$myHtml .='<th style="width:20%;">';
 		$myHtml .='</th>';
@@ -245,8 +246,9 @@ date_default_timezone_set('America/Mexico_City');
 		INNER JOIN cat_proveedores p ON odc.cve_proveedor = p.cve_proveedor
 		WHERE odc.cve_odc = ".$cve_odc;
 		$proveedor = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
-		$sql = "SELECT u.cve_usuario, u.nombre, u.apellido, odc.cve_cfdi, catcfdi.descripcion as cfdi_desc, forma_pago, metodo_pago, fecha_entrega FROM orden_compra odc 
+		$sql = "SELECT u.cve_usuario, odc.q_autoriza, us.nombre as qnauto, us.apellido as qaauto, u.nombre as ncreador, u.apellido as acreador, odc.cve_cfdi, catcfdi.descripcion as cfdi_desc, forma_pago, metodo_pago, fecha_entrega FROM orden_compra odc 
 		INNER JOIN cat_usuarios u ON u.cve_usuario = odc.cve_usuario
+		INNER JOIN cat_usuarios us ON us.cve_usuario = odc.q_autoriza 
 		LEFT JOIN cat_usocfdi catcfdi ON catcfdi.cve_cfdi = odc.cve_cfdi
 		WHERE odc.cve_odc = ".$cve_odc;
 		$usuario = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);

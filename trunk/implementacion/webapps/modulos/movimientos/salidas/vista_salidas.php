@@ -160,13 +160,13 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
                                             <input type="text" id="nextFocusHeader1" ng-model="concepto" class="form-control form-control-md UpperCase" maxlength="100" ng-keyup="$event.keyCode == 13 ? inputCharacters(1, 'h') : null">
-                                            <label>Concepto</label>
+                                            <label>Quien recibe / Quien autoriza</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
                                             <select class="form-control form-group-md" id="nextFocusHeader2" ng-model="departamento" id="departamento" name="departamento" ng-change="getMaquinas()" ng-change="inputCharacters(2, 'h')">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                                 <?php foreach (ModeloSalidas::ShowDepartamentos() as $value) { ?>
-                                                <option value="<?=$value['cve_depto']?>"><?=$value['cve_alterna']?> <?=$value['nombre_depto']?></option>
+                                                <option value="<?=$value['cve_depto']?>"><?=$value['cve_alterna']?>-<?=$value['nombre_depto']?></option>
                                                 <?php } ?>
                                             </select>
                                             <label>Departamentos</label>
@@ -200,7 +200,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                         </button>
                                         <input type="submit" value="Limpiar" href="#" ng-click="limpiarCampos()" id="btnLimpiar" class="btn btn-warning" style="margin-bottom: -25px !important">
                                         <input type="submit" value="Ver salidas" onclick ="location.href='salidas_global.php'; " class="btn btn-info" style="margin-bottom: -25px !important">
-                                        <!-- <input type="button" onclick="imprSelec('paraImprimir')" value="Imprimir"> -->
+                                        <input type="button" onclick="imprSelec('paraImprimir')" value="Imprimir">
 
                                     </div>
                                 </div>
@@ -266,7 +266,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                                         <ul class="dropdown-menu" aria-labelledby="dropDownCC" style=" position: relative; display: block" ng-show="arrayCcostos.length > 0">
                                                             <li ng-repeat="(w, obj) in arrayCcostos track by w">
                                                               <a ng-click="setCcosto(key, w)" class="dropdown-item" href="javascript:void(0)">
-                                                                <span class="p-2">{{obj.cve_alterna}} - {{obj.nombre_cc}}</span>
+                                                                <span class="p-2">{{obj.cve_alterna}} - {{obj.name}}</span>
                                                               </a>
                                                             </li>
                                                         </ul>
@@ -282,10 +282,10 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>                                
+                                </div>               
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
 
@@ -305,7 +305,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                         <img src="../../../includees/imagenes/Mayucsa.png" style="width: 80%;">
                     </center>
                 </div>
-                <div style="height: 110px;">
+                <div style="height: 100px;">
                   <div style="position:relative;">
                         <div class="" style="position: absolute; width: 33%;">
                             <div class="row" style="border-radius: 10px; border: solid;">
@@ -319,7 +319,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                         </div>
                         <div class="" style="position: absolute; margin-left: 35%; width: 65%;">
                             <div class="row" style="border-radius: 10px; border: solid;">
-                                <div class="col-md-12 p-2" style="border-bottom: solid;">
+                                <div class="col-md-12 p-2" style="border-bottom: solid; font-size: 10px;">
                                     <h3>FECHA</h3>
                                 </div>
                                 <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
@@ -331,18 +331,18 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                 </div>
 
                 <div class="col-md-12 mt-2">
-                    <div class="row" style="border-radius: 10px; border: solid;">
-                        <div class="col-md-12 p-2">
-                            <h3>MAQUINA</h3>
+                    <div class="row" style="border-radius: 15px; border: solid;">
+                        <div class="col-md-12 p-2" style="font-size: 15px">
+                            <h3>DEPARTAMENTO / MAQUINA</h3>
                         </div>
-                        <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
-                            {{maquinaSeleccionada}}
+                        <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px; font-size: 10px">
+                            {{deptoseleccionado}} / {{maquinaSeleccionada}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12 mt-2" style=" margin-top: 10px;">
                     <div class="row" style="border-radius: 10px; border: solid;">
-                        <div class="col-md-12 p-2">
+                        <div class="col-md-12 p-2" style="font-size: 15px">
                             <h3>REALIZADO POR</h3>
                         </div>
                         <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
@@ -374,7 +374,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                         <div class="col-md-12 mt-4 pb-4 pt-4" style="border-bottom:solid; margin-top: 35px; padding-bottom: 35px;">
                             
                         </div>
-                        <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+                        <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px; font-size: 10px;">
                             {{concepto}}
                         </div>
                     </div>

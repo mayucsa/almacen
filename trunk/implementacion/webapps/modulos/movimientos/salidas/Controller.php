@@ -59,10 +59,10 @@ function getDatosImprimir($dbcon, $cve_mov){
 	]);
 }
 function getCcostos($dbcon, $centroCosto, $cve_depto){
-	$sql = "SELECT cve_cc, cve_alterna, nombre_cc FROM cat_centro_costos WHERE 
-	cve_depto = ".$cve_depto." AND cve_alterna LIKE '%".$centroCosto."%'
+	$sql = "SELECT cve_cc, ccc.cve_alterna, nombre_cc, cnc.nombre as name FROM cat_centro_costos ccc INNER JOIN cat_nombre_cc cnc ON ccc.cuenta_cc = cnc.cve_alterna  WHERE 
+	ccc.cve_alterna LIKE '%".$centroCosto."%'
 	or
-	cve_depto = ".$cve_depto." AND nombre_cc LIKE '%".$centroCosto."%'
+	cnc.nombre LIKE '%".$centroCosto."%'
 	ORDER BY nombre_cc asc";
 	$return = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	dd($return);

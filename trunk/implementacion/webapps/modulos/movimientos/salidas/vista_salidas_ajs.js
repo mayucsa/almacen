@@ -235,14 +235,15 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 	}
 	$scope.setMaquina = function(){
 		$scope.maquinaSeleccionada = $('#nextFocusHeader3 option:selected').html();
+		$scope.deptoseleccionado = $('#nextFocusHeader2 option:selected').html();
 	}
 	$scope.getCcostos = function(i){
 		// console.log('getCcostos', i);
-		if ($scope.departamento == undefined || $scope.departamento == '') {
-			Swal.fire('Sin departamento','Es necesario seleccionar un departamento','warning');
-			$scope.articulos[i].centroCosto = '';
-			return;
-		}
+		// if ($scope.departamento == undefined || $scope.departamento == '') {
+		// 	Swal.fire('Sin departamento','Es necesario seleccionar un departamento','warning');
+		// 	$scope.articulos[i].centroCosto = '';
+		// 	return;
+		// }
 		$http.post('Controller.php', {
 			'task': 'getCcostos',
 			'centroCosto': $scope.articulos[i].centroCosto,
@@ -260,7 +261,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 	$scope.setCcosto = function(key, w){
 		key = $scope.keySeleccionado;
 		// console.log('setCcosto', key, w);
-		$scope.articulos[key].centroCosto = $scope.arrayCcostos[w].cve_alterna+'-'+$scope.arrayCcostos[w].nombre_cc;
+		$scope.articulos[key].centroCosto = $scope.arrayCcostos[w].cve_alterna+'-'+$scope.arrayCcostos[w].name;
 		$scope.articulos[key].cve_cc = $scope.arrayCcostos[w].cve_cc;
 		$scope.arrayCcostos = [];
 	}
