@@ -4,9 +4,9 @@ function consultar(){
         table = $('#tablaGrupos').DataTable( {
             "dom": 'Bfrtip',
             "buttons": [
-                 {"extend": 'excel',"exportOptions": { columns: [0,1,2] }, "text": '<i class="far fa-file-excel"> Exportar en Excel</i>', "title": 'Catalogo de Categorias'}, 
-                 {"extend": 'pdf',"exportOptions": { columns: [0,1,2] },  "text": '<i class="far fa-file-pdf"> Exportar en PDF</i>', "title": 'Catalogo de Categorias'}, 
-                 {"extend": 'print',"exportOptions": { columns: [0,1,2] },  "text": '<i class="fas fa-print"> Imprimir</i>', "title": 'Catalogo de Categorias'},
+                 {"extend": 'excel',"exportOptions": { columns: [0,1,2] }, "text": '<i class="far fa-file-excel"> Exportar en Excel</i>', "title": 'Catalogo de Departamentos'}, 
+                 {"extend": 'pdf',"exportOptions": { columns: [0,1,2] },  "text": '<i class="far fa-file-pdf"> Exportar en PDF</i>', "title": 'Catalogo de Departamentos'}, 
+                 {"extend": 'print',"exportOptions": { columns: [0,1,2] },  "text": '<i class="fas fa-print"> Imprimir</i>', "title": 'Catalogo de Departamentos'},
                  "pageLength",
             ],
             "processing": true,
@@ -14,7 +14,7 @@ function consultar(){
             "ajax": "serverSideDepartamentos.php",
             "lengthMenu": [[30, 50, 100], [30, 50, 100]],
             "pageLength": 30,
-            "order": [4, 'desc'],
+            "order": [3, 'desc'],
             // "destroy": true,
             "searching": true,
             // bSort: false,
@@ -23,16 +23,16 @@ function consultar(){
             "bDestroy": true,
             "columnDefs":[
                             {
-                                "targets": [1, 2, 3, 4],
+                                "targets": [1, 2, 3],
                                 "className": 'dt-body-center' /*alineacion al centro th de tbody de la table*/
                             },
                             {
-                                "targets": 4,
+                                "targets": 3,
                                 "render": function(data, type, row, meta){
                                     // const primaryKey = data;
                                     // "data": 'cve_entrada',
-                                    return  '<span class= "btn btn-warning" onclick= "obtenerDatos('+row[4]+')" title="Editar" data-toggle="modal" data-target="#modalEditar" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>' + ' ' + 
-                                            '<span class= "btn btn-danger" onclick= "obtenerDatosE('+row[4]+')" title="Baja de máquina" data-toggle="modal" data-target="#modalEliminar" data-whatever="@getbootstrap"><i class="fas fa-arrow-circle-down"></i> </span>';
+                                    return  '<span class= "btn btn-warning" onclick= "obtenerDatos('+row[3]+')" title="Editar" data-toggle="modal" data-target="#modalEditar" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>' + ' ' + 
+                                            '<span class= "btn btn-danger" onclick= "obtenerDatosE('+row[3]+')" title="Baja de máquina" data-toggle="modal" data-target="#modalEliminar" data-whatever="@getbootstrap"><i class="fas fa-arrow-circle-down"></i> </span>';
                                 }
                                 // "data": null,
                                 // "defaultContent": '<span class= "btn btn-warning" onclick= "obtenerDatos(".$value["cve_entrada"].")" data-toggle="modal" data-target="#modalMatPrimaUpdate" data-whatever="@getbootstrap"><i class="fas fa-edit"></i> </span>'
@@ -118,7 +118,7 @@ function limpiarCampos(){
 function validacionCampos() {
     var coddepto = $('#inputcoddepto').val();
     var depto = $('#inputnamedepto').val();
-    var area = $('#selectareas').val();
+    // var area = $('#selectareas').val();
     var msj = "";
   
     if (coddepto == "") {
@@ -127,9 +127,9 @@ function validacionCampos() {
     if (depto == "") {
         msj += '<li>Nombre de departamento</li>';
     }
-    if (area == 0) {
-        msj += '<li>Área</li>';
-    }
+    // if (area == 0) {
+    //     msj += '<li>Área</li>';
+    // }
     if (msj.length != 0) {
         $('#encabezadoModal').html('Validación de datos');
         $('#cuerpoModal').html('Los siguientes campos son obligatorios:<ul>'+msj+'</ul>');
@@ -140,6 +140,36 @@ function validacionCampos() {
     }
 }
 
+function existeCodigo(){
+    var codigodepto = $('#inputcoddepto').val();
+    var msj = "";
+
+    var datos   = new FormData();
+
+    datos.append('codigodepto', $('#inputcoddepto').val());
+
+        $.ajax({
+                type:"POST",
+                url:"modelo_departamentos.php?accion=verificar&codigodepto=" + codigodepto,
+                data: codigodepto,
+                processData:false,
+                contentType:false,
+        success:function(data){
+                    if (data == 'correcto') {
+                        Swal.fire({
+                                        icon: 'warning',
+                                        title: '¡Error!',
+                                        text: 'El código de Departamento ya existe',
+                                        // footer: 'Favor de ingresar un código nuevo',
+                                        confirmButtonColor: '#1A4672'
+                                    })
+                    }
+                    // else{
+                    //     insertCaptura();
+                    //     }
+                    }
+            })
+}
 function existenciaCodigo(){
     var codigodepto = $('#inputcoddepto').val();
     var msj = "";
@@ -175,11 +205,11 @@ function insertCaptura(){
     var mgs = "";
     var coddepto = $('#inputcoddepto').val();
     var depto        = $('#inputnamedepto').val();
-    var area        = $('#selectareas').val();
+    // var area        = $('#selectareas').val();
 
     datos.append('coddepto',   $('#inputcoddepto').val());
     datos.append('depto',   $('#inputnamedepto').val());
-    datos.append('area',   $('#selectareas').val());
+    // datos.append('area',   $('#selectareas').val());
     datos.append('usuario', $('#spanusuario').text());
 
     // console.log(datos.get('coddepto'));

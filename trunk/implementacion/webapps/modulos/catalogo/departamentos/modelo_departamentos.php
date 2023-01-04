@@ -20,7 +20,7 @@ if ( isset($_GET['accion']) && $_GET['accion'] == "insertar") {
 	// die (json_encode($_REQUEST));
 	$coddepto 		= $_POST['coddepto'];
 	$depto 		= $_POST['depto'];
-	$area 		= $_POST['area'];
+	$area 		= 0;
 	$usuario 	= $_POST['usuario'];
 
     $sql		= "INSERT INTO cat_departamentos (nombre_depto, cve_area, cve_alterna, creado_por,editado_por, eliminado_por, estatus_depto, fecha_registro, fecha_editado, fecha_eliminado) VALUES	(:depto, :area, :coddepto, :usuario, '', '', 'VIG', NOW(), 0, 0);";

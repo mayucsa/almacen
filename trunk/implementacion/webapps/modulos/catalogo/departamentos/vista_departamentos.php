@@ -64,7 +64,7 @@
                     <div class="row form-group form-group-sm">
                         <div class="col-lg-12 d-lg-flex">
                             <div style="width: 25%;" class="form-floating mx-1">
-                                <input type="text" id="inputcoddepto" name="inputcoddepto" class="form-control form-control-md UpperCase">
+                                <input type="text" id="inputcoddepto" name="inputcoddepto" class="form-control form-control-md UpperCase" onchange="existeCodigo()">
                                 <label>Código de departamento</label>
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
@@ -72,7 +72,7 @@
                                 <label>Nombre de departamento</label>
                             </div>
                             <div style="width: 25%;" class="form-floating mx-1">
-                                <select class="form-control form-group-md" id="selectareas" name="selectareas">
+                                <select class="form-control form-group-md" id="selectareas" name="selectareas" hidden>
                                     <option selected="selected" value="0">[Seleccione una opción..]</option>
                                     <?php   
                                         $sql        = ModeloDepto::showAreas();
@@ -82,7 +82,7 @@
                                             }
                                         ?>
                                 </select>
-                                <label>Área</label>
+                                <label hidden>Área</label>
                             </div>
 
                             <span hidden id="spanusuario" name="spanusuario" class="form-control form-control-sm" style="background-color: #E9ECEF;"><?php echo $nombre." ".$apellido?></span>
@@ -138,7 +138,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">Código</th>
-                                    <th class="text-center">&Aacute;rea que pertenece</th>
+                                    <!-- <th class="text-center">&Aacute;rea que pertenece</th> -->
                                     <th class="text-center">Departamento</th>
                                     <th class="text-center">Fecha de Alta</th>
                                     <th class="text-center">Opciones</th>
@@ -147,7 +147,7 @@
                             <tbody>
                                 <tr>
                                     <td></td>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td></td>
                                     <td></td>
                                     <td></td>
