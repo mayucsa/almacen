@@ -250,6 +250,15 @@ session_start();
                 </li>
               </ul>
             </li>
+            <!-- reportes -->
+            <li class="treeview" ng-show="perfilUsu.reportes == 1">
+              <a class="app-menu__item" href="../../reportes/generales/vista_reportes.php">
+                <i class="app-menu__icon fa fa-file-pdf"></i><span class="app-menu__label">Reportes</span>
+              </a>
+              <ul class="treeview-menu">
+
+              </ul>
+            </li>
             <!-- seguridad -->
             <li class="treeview" ng-show="perfilUsu.seguridad_principal == 1">
               <a class="app-menu__item" href="#" data-toggle="treeview">
