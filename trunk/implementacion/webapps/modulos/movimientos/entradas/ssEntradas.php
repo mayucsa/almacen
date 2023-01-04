@@ -31,6 +31,7 @@ $var    = "estatus_mov = 1";
             ['db' => '`me`.`fecha_registro`', 'dt' => 4, 'formatter' => function( $d, $row ) {
                     return date( 'Y-m-d', strtotime($d));
                 }, 'field' => 'fecha_registro'],
+            ['db' => '`user`.`apellido`', 'dt' => 5, 'field' => 'apellido'],
             ];
  
 $joinQuery = " FROM `{$table}` AS `me` 

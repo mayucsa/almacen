@@ -159,18 +159,18 @@ include_once "../../../dbconexion/conexion.php";
                                             <tbody>
                                                 <tr ng-repeat="(i,obj) in entradas track by i">
                                                     <td>{{obj[0]}}</td>
-                                                    <td>{{obj[1]}}</td>
-                                                    <td>{{obj[2]}}</td>
-                                                    <td>{{obj[3]}}</td>
-                                                    <td>{{obj[4]}}</td>
-                                                    <td>
+                                                    <td style="text-align: center;">{{obj[1]}} {{obj[5]}}</td>
+                                                    <td style="text-align: center;">{{obj[2]}}</td>
+                                                    <td style="text-align: center;">{{obj[3]}}</td>
+                                                    <td style="text-align: center;">{{obj[4]}}</td>
+                                                    <td style="text-align: center;">
                                                         <button class="btn btn-info" title="Ver" ng-click= "Verentradas(obj[0])" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap">
                                                             <i class="fa fa-eye"></i>
                                                         </button>
                                                         <button class="btn btn-warning" title="Imprimir PDF" ng-click="startImprSelec(i, 'inicial_container')">
                                                             <i class="fas fa-file-pdf"></i>
                                                         </button>
-                                                        <button class="btn btn-danger" title="Cancelar" ng-click="cancelar(i)">
+                                                        <button class="btn btn-danger" title="Cancelar" ng-show="perfilUsu.entradas_edit == 1" ng-click="cancelar(i)">
                                                             <i class="fas fa-window-close"></i>
                                                         </button>
                                                     </td>
@@ -595,7 +595,7 @@ include_once "../../inferior.php";
 
     <script type="text/javascript" src="../../../includes/datapicker/jquery-ui.min.js"></script>
 
-    <script type="text/javascript">
+<!--     <script type="text/javascript">
         consultar();
     </script>
     <script>
@@ -615,4 +615,4 @@ include_once "../../inferior.php";
         dateFormat: 'yy-mm-dd',
         showDays: false,
     });
-    </script>
+    </script> -->

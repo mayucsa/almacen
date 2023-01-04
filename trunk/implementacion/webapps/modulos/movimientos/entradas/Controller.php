@@ -125,8 +125,10 @@ function getProveedor($dbcon, $cve_odc){
 	dd($dbcon->qBuilder($dbcon->conn(), 'first', $sql));
 }
 function validaFolio($dbcon, $folio){
-	$sql = "SELECT cve_odc, cve_req, cve_art, nombre_articulo, ca.seccion, unidad_medida, cantidad_cotizada, precio_unidad, cve_req, false as chkd FROM orden_compra_detalle odcd
-	INNER JOIN cat_articulos ca on ca.cve_articulo = odcd.cve_art WHERE odcd.estatus_req_det = 1 AND odcd.cve_odc = ".$folio;
+	$sql = "SELECT odcd.cve_odc, cve_req, cve_art, nombre_articulo, ca.seccion, unidad_medida, cantidad_cotizada, precio_unidad, cve_req, false as chkd FROM orden_compra_detalle odcd
+	INNER JOIN cat_articulos ca on ca.cve_articulo = odcd.cve_art 
+	INNER JOIN orden_compra oc on oc.cve_odc = odcd.cve_odc 
+	WHERE odcd.estatus_req_det = 1 AND oc.estatus_autorizado = 1 AND odcd.cve_odc = ".$folio;
 	$detalle = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	foreach ($detalle as $i => $val) {
 		$sql = "SELECT sum(cantidad_entrada) cantidad_entrada FROM movtos_entradas_detalle mvd INNER JOIN movtos_entradas mv ON mv.cve_mov = mvd.cve_mov WHERE mv.cve_odc = ".$folio." AND cve_articulo = ".$val->cve_art;
