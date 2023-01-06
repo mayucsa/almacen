@@ -85,7 +85,8 @@ function consultar(){
                                 "render": function (data, type, row, meta) {
                                     return  '<span class= "btn btn-info" onclick= "obtenerDatos('+row["cve_odc"]+')" title="Ver detalle" data-toggle="modal" data-target="#modalVerMP" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>' + " " +
                                             '<span class= "btn btn-secondary" onclick="descargaArchivos('+row["cve_odc"]+')" title="Descargar archivo"><i class="fas fa-download"></i> </span>' + " " +
-                                            '<span class= "btn btn-success" onclick= "Autorizacion('+row["cve_odc"]+')" title="Autorizar"><i class="fas fa-check"></i> </span>';
+                                            '<span class= "btn btn-success" onclick= "Autorizacion('+row["cve_odc"]+')" title="Autorizar"><i class="fas fa-check"></i> </span>' + " " +
+                                            '<span class= "btn btn-danger" onclick= "NoAutorizado('+row["cve_odc"]+')" title="No autorizar" data-toggle="modal" data-target="#modalNoAutorizado" data-whatever="@getbootstrap"><i class="fas fa-window-close"></i> </span>';
                                 }                                
                             }
                     ],
@@ -174,6 +175,14 @@ function download(filename, textInput) {
     element.click();
     //document.body.removeChild(element);
 }
+function NoAutorizado(cve_odc) {
+    $.getJSON("modelo_reqauto.php?consultar="+cve_odc, function(registros){
+        console.log(registros);
+
+        $('#inputfolio').val(registros[0]['cve_odc']);
+
+    });
+}
 function Autorizacion(cve_odc){
     $.getJSON("modelo_reqauto.php?consultar="+cve_odc, function(registros){
         console.log(registros);
@@ -218,3 +227,85 @@ function Autorizacion(cve_odc){
 
     });
 }
+function cerrarModal(){
+    $('#modalNoAutorizado').modal('hide');
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+}
+ function noautorizado() {
+    var motivo = $('#motivo').val();
+    var msj = "";
+
+    if (motivo == "") {
+        // console.log(cantidad);
+        msj += 'Motivo <br>';
+    }
+
+    if (msj.length != 0) {
+        Swal.fire({
+                title: 'Los siguientes campos son obligatorios:',
+                html: msj,
+                icon: 'warning',
+                iconColor: '#d33',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    // Swal.fire(
+                    // 'Deleted!',
+                    // 'Your file has been deleted.',
+                    // 'success'
+                    // )
+                }
+                });
+    }else{
+        var datos   = new FormData();
+        datos.append('id', $('#inputfolio').val());
+        datos.append('motivo', $('#motivo').val());
+        datos.append('usuario', $('#spanusuario').text());
+        console.log(datos.get('id'));
+        console.log(datos.get('motivo'));
+        console.log(datos.get('usuario'));
+
+            Swal.fire({
+                title: '¿Esta seguro de no autorizar la orden de compra?',
+                html: 'Orden de compra: <b>' + datos.get('id'),
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No',
+        }).then((result) =>{
+                if (result.isConfirmed) {
+                    jsShowWindowLoad('Generando folio...');
+                        $.ajax({
+                                type:"POST",
+                                url:"modelo_reqauto.php?eliminar=1",
+                                data: datos,
+                                processData:false,
+                                contentType:false,
+                        success:function(r){
+                            // console.log(r);
+                            jsRemoveWindowLoad();
+                            consultar();
+                            cerrarModal();
+                            
+                        Swal.fire(
+                                    'No autorizado!',
+                                    'Orden de compra no autorizada !!',
+                                    'success'
+                                )
+                            
+                        }
+                    })
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                }
+            });
+    }
+ }
