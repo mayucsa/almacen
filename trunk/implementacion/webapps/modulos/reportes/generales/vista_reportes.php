@@ -112,9 +112,8 @@ include_once "../../../dbconexion/conexion.php";
             <?php include_once "../../footer.php" ?>
 
         </main>
-<?php 
-include_once "modales.php";
-?>
+        <?php include "modales.php"; ?>
+        <?php include "pdfExistencias.html"; ?>
     </div>
 
     <script src="../../../includes/js/adminlte.min.js"></script>

@@ -61,8 +61,12 @@
         <!-- SELECT cve_alterna, nombre_articulo, existencia, min, max, precio_unitario, costo_promedio FROM cat_articulos ca  -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Imprimir <i class="fas fa-print"></i></button>
-        <button type="button" class="btn btn-success">Descargar <i class="fas fa-file-excel"></i></button>
+        <button type="button" class="btn btn-primary" ng-click="getPDF('existencias')">
+          Imprimir <i class="fas fa-print"></i>
+        </button>
+        <button type="button" class="btn btn-success" ng-click="getExcel('existencias')">
+          Descargar <i class="fas fa-file-excel"></i>
+        </button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

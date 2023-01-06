@@ -1,0 +1,17 @@
+{
+    "name": "ismael/webapps",
+    "autoload": {
+        "psr-4": {
+            "Ismael\\Webapps\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ismael López Castrejón",
+            "email": "izlopcast2017@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.26"
+    }
+}

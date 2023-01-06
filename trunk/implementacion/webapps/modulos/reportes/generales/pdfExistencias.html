@@ -1,0 +1,42 @@
+<div class="container" style="display: none;">
+	<div class="row" id="pdfExistencias">
+		<table>
+			<tr>
+				<td style="text-align: right;">
+					{{fechaActual}}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="../../../includees/imagenes/Mayucsa.png" style="width: 40%">
+				</td>
+			</tr>
+		</table>
+		<div ng-repeat="(i, obj) in catArticulos track by i" style="margin-top: 50px; margin-bottom: 40px;">
+			<table style="width:100%; border-collapse: collapse;">
+				<thead>
+					<tr>
+						<th style="border: solid 1px; font-size: 10px;">cve alterna</th>
+						<th style="border: solid 1px; font-size: 10px;">Nombre</th>
+						<th style="border: solid 1px; font-size: 10px;">Existencia</th>
+						<th style="border: solid 1px; font-size: 10px;">Mínimo</th>
+						<th style="border: solid 1px; font-size: 10px;">Máximo</th>
+						<th style="border: solid 1px; font-size: 10px;">Precio unitario</th>
+						<th style="border: solid 1px; font-size: 10px;">Costo promedio</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(k, raw) in obj track by k">
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.cve_alterna}}</th>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.nombre_articulo}}</th>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.existencia}}</th>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.min}}</th>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.max}}</th>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.precio_unitario}}</th>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.costo_promedio}}</th>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+	</div>
+</div>
