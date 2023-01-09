@@ -9,7 +9,7 @@ $consulta = "   SELECT O.cve_odc AS cve_odc, P.nombre_proveedor AS proveedor, FO
                 FROM orden_compra O
                 INNER JOIN orden_compra_detalle D ON (O.cve_odc = D.cve_odc)
                 INNER JOIN cat_proveedores P ON (O.cve_proveedor = P.cve_proveedor)
-                WHERE O.estatus_autorizado = 0 AND O.estatus_odc = 1 AND O.q_autoriza = ".$_SESSION['id']."
+                WHERE O.estatus_autorizado = 0 AND O.estatus_odc = 1 AND O.q_autoriza = 1
                 GROUP BY O.cve_odc";
 $resultado =  $conexion->prepare($consulta);
 $resultado->execute();

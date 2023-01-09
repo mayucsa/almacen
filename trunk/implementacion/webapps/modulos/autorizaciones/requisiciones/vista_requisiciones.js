@@ -176,6 +176,8 @@ function download(filename, textInput) {
     //document.body.removeChild(element);
 }
 function NoAutorizado(cve_odc) {
+    document.getElementById('flexCheckIndeterminate').checked = false;
+    $('#motivo').val('');
     $.getJSON("modelo_reqauto.php?consultar="+cve_odc, function(registros){
         console.log(registros);
 
@@ -211,15 +213,15 @@ function Autorizacion(cve_odc){
                     data: registros[0]['cve_odc'],
                     processData:false,
                     contentType:false,
-                success:function(data){
-                    consultar();
-                    jsRemoveWindowLoad();
-                    console.log(data);
-                    Swal.fire(
-                                'Autorizacion!',
-                                'Usted ha autorizado la orden de compra con el folio #'+ registros[0]['cve_odc'] +' !!',
-                                'success'
-                            )
+                    success:function(data){
+                        consultar();
+                        jsRemoveWindowLoad();
+                        console.log(data);
+                        Swal.fire(
+                            'Autorizacion!',
+                            'Usted ha autorizado la orden de compra con el folio #'+ registros[0]['cve_odc'] +' !!',
+                            'success'
+                        )
                     }
                 })
             }
@@ -241,71 +243,74 @@ function cerrarModal(){
         msj += 'Motivo <br>';
     }
 
-    if (msj.length != 0) {
+    if (msj.length > 0) {
         Swal.fire({
-                title: 'Los siguientes campos son obligatorios:',
-                html: msj,
-                icon: 'warning',
-                iconColor: '#d33',
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ok!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    // Swal.fire(
-                    // 'Deleted!',
-                    // 'Your file has been deleted.',
-                    // 'success'
-                    // )
-                }
-                });
+            title: 'Los siguientes campos son obligatorios:',
+            html: msj,
+            icon: 'warning',
+            iconColor: '#d33',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                // Swal.fire(
+                // 'Deleted!',
+                // 'Your file has been deleted.',
+                // 'success'
+                // )
+            }
+        });
     }else{
         var datos   = new FormData();
         datos.append('id', $('#inputfolio').val());
         datos.append('motivo', $('#motivo').val());
         datos.append('usuario', $('#spanusuario').text());
+        datos.append('sinReCotizar', document.getElementById('flexCheckIndeterminate').checked);
         console.log(datos.get('id'));
-        console.log(datos.get('motivo'));
-        console.log(datos.get('usuario'));
-
-            Swal.fire({
-                title: '¿Esta seguro de no autorizar la orden de compra?',
-                html: 'Orden de compra: <b>' + datos.get('id'),
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si',
-                cancelButtonText: 'No',
+        Swal.fire({
+            title: '¿Esta seguro de no autorizar la orden de compra?',
+            html: 'Orden de compra: <b>' + datos.get('id'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No',
         }).then((result) =>{
-                if (result.isConfirmed) {
-                    jsShowWindowLoad('Generando folio...');
-                        $.ajax({
-                                type:"POST",
-                                url:"modelo_reqauto.php?eliminar=1",
-                                data: datos,
-                                processData:false,
-                                contentType:false,
-                        success:function(r){
-                            // console.log(r);
-                            jsRemoveWindowLoad();
+            if (result.isConfirmed) {
+                jsShowWindowLoad('Generando folio...');
+                $.ajax({
+                    type:"POST",
+                    url:"modelo_reqauto.php?eliminar=1",
+                    data: datos,
+                    processData:false,
+                    contentType:false,
+                    success:function(r){
+                        console.log(r);
+                        jsRemoveWindowLoad();
+                        if (r == 'ok') {
                             consultar();
                             cerrarModal();
-                            
-                        Swal.fire(
-                                    'No autorizado!',
-                                    'Orden de compra no autorizada !!',
-                                    'success'
-                                )
-                            
+                            Swal.fire(
+                                'No autorizado!',
+                                'Orden de compra no autorizada !!',
+                                'success'
+                            )
+                        }else{
+                            Swal.fire(
+                                'Error!',
+                                'Error en controlador!',
+                                'error'
+                            )
                         }
-                    })
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                    ) {
+                        
+                    }
+                })
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
 
-                }
-            });
+            }
+        });
     }
  }

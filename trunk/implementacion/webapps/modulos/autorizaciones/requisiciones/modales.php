@@ -65,7 +65,7 @@
                   <div style="width: 100%;" >
                       <!-- <input type="text" class="form-control form-control-md" id="inputcomentario" name="inputcomentario" disabled> -->
                       <label>Motivo:</label>
-                      <textarea style="width: 100%;" name="motivo" id="motivo"></textarea>
+                      <textarea style="width: 100%;" maxlength="250" name="motivo" id="motivo"></textarea>
                   </div>
               </div>
           </div>
