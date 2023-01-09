@@ -101,7 +101,7 @@ set_time_limit(0); ?>
             <ul class="dropdown-menu settings-menu dropdown-menu-right">
               <!-- <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li> -->
               <!-- <li><a class="dropdown-item" href="../../password/vista_password.php"><i class="fa fa-user fa-lg" style="font-size:12px"></i>Cambiar contraseña</a></li> -->
-              <li><a class="dropdown-item" href="../../logout.php">
+              <li><a class="dropdown-item" href="javascript:void(0)" ng-click="cerrarsesion()">
                     <i class="fa fa-sign-out fa-lg"></i><font>Cerrar Sesi&oacute;n</font>
                   </a>
               </li>
