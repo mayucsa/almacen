@@ -8,6 +8,15 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 	$scope.articulos = [];
 	$scope.auxArticulos = [];
 	$scope.arrayMaquinas = [];
+
+	$scope.sinacceso = function(){
+    Swal.fire({
+        // confirmButtonColor: '#3085d6',
+        title: 'Usuario Sin Privilegios',
+        html: 'Pongase en contacto con el Administrador',
+        confirmButtonColor: '#1A4672'
+        });
+	}
 	// Funciones
 	$scope.getArticulos = function(){
 		if ($scope.codarticulo == '' || $scope.codarticulo == undefined) {

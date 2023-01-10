@@ -71,11 +71,63 @@ include_once "../../../dbconexion/conexion.php";
     <div ng-controller="vistaSalidasGlobal">
 
         <!-- MODAL VER ENTRADAS -->
+        <div id="modalDevoluciones" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Devoluciones</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <div class=" row form-group form-group-sm">
+                    <div class="col-lg-12 d-lg-flex">
+                      <div style="width: 25%;" class="form-floating mx-1">
+                        <input type="text" class="form-control" id="inputnamed" name="inputnamed" disabled>
+                        <label>Folio de salida:</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class=" row form-group form-group-sm">
+                    <div class="col-lg-12 d-lg-flex">
+                      <div style="width: 25%;" class="form-floating mx-1">
+                        <input type="text" class="form-control" id="folio_valed" name="folio_valed" disabled>
+                        <label>Folio vale:</label>
+                      </div>
+                      <div style="width: 25%;" class="form-floating mx-1">
+                        <input type="text" class="form-control" id="conceptod" name="conceptod" disabled>
+                        <label>Concepto:</label>
+                      </div>
+                      <div style="width: 25%;" class="form-floating mx-1">
+                        <input type="text" class="form-control" id="deptod" name="deptod" disabled>
+                        <label>Departamento:</label>
+                      </div>
+                      <div style="width: 25%;" class="form-floating mx-1">
+                        <input type="text" class="form-control" id="maquinad" name="maquinad" disabled>
+                        <label>M&aacute;quina:</label>
+                      </div>
+                  </div>
+              </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover w-100 shadow" id="tablaModalDev">
+
+                    </table>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- MODAL VER ENTRADAS -->
         <div id="modalVer" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Salidas</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Cancelación de Salidas</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -139,7 +191,7 @@ include_once "../../../dbconexion/conexion.php";
                     <div class="tile" id="captura_entrada">
                         <div class="card card-info">
                             <div class="card-header">
-                                 <h3 class="card-title">Salidas globales</h3>
+                                 <h3 class="card-title">SALIDAS GLOBALES</h3>
                                  <div class="card-tools">
                                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                          <i class="fas fa-minus"></i>
@@ -149,7 +201,7 @@ include_once "../../../dbconexion/conexion.php";
                             <div class="card-body">
                                 <div class="row form-group form-group-sm">
                                     <div class="col-lg-12 d-lg-flex ">
-                                        <table class="table table-striped table-bordered table-hover table-responsive">
+                                        <table class="table table-striped table-bordered table-hover table-responsive" id="tableSalidasGlobales">
                                             <thead>
                                                 <tr>
                                                     <th>Folio</th>
@@ -163,20 +215,23 @@ include_once "../../../dbconexion/conexion.php";
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="(i,obj) in salidas track by i">
-                                                    <td>{{obj[0]}}</td>
-                                                    <td>{{obj[1]}}</td>
-                                                    <td>{{obj[2]}}</td>
-                                                    <td>{{obj[3]}}</td>
-                                                    <td>{{obj[4]}}</td>
-                                                    <td>{{obj[5]}}</td>
-                                                    <td nowrap="nowrap">
+                                                    <td class="text-center">{{obj[0]}}</td>
+                                                    <td class="text-center">{{obj[1]}}</td>
+                                                    <td class="text-center">{{obj[2]}}</td>
+                                                    <td class="text-center">{{obj[3]}}</td>
+                                                    <td class="text-center">{{obj[4]}}</td>
+                                                    <td class="text-center">{{obj[5]}}</td>
+                                                    <td class="text-center" nowrap="nowrap">
                                                         <button class="btn btn-info btn-sm" title="Ver" ng-click= "Versalidas(obj[0])" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap">
                                                             <i class="fa fa-eye"></i>
                                                         </button>
                                                         <button class="btn btn-warning btn-sm" title="Imprimir PDF" ng-click="startImprSelec(i, 'paraImprimir')">
                                                             <i class="fas fa-file-pdf"></i>
                                                         </button>
-                                                        <button class="btn btn-danger btn-sm" title="Cancelar" ng-click="cancelar(i)">
+                                                        <button class="btn btn-info btn-sm" ng-show="perfilUsu.salidas_edit == 1" title="Devoluciones" ng-click= "Verdevoluciones(obj[0])" data-toggle="modal" data-target="#modalDevoluciones" data-whatever="@getbootstrap">
+                                                            <i class="fas fa-undo-alt"></i>
+                                                        </button>
+                                                        <button class="btn btn-danger btn-sm" ng-show="perfilUsu.salidas_edit == 1" title="Cancelar" ng-click="cancelar(i)">
                                                             <i class="fas fa-window-close"></i>
                                                         </button>
                                                     </td>
