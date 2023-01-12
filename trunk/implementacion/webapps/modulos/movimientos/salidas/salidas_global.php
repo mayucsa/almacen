@@ -111,8 +111,37 @@ include_once "../../../dbconexion/conexion.php";
               </div>
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover w-100 shadow" id="tablaModalDev">
-
+                    <table class="table table-striped table-bordered table-hover w-100 shadow" id="">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Cve articulo</th>
+                                <th class="text-center">Descripcion</th>
+                                <th class="text-center">Cantidad</th>
+                                <th class="text-center">Unidad medida</th>
+                                <th class="text-center">Centro de costo</th>
+                                <th class="text-center">Cantidad a devolver</th>
+                                <th class="text-center">Comentario</th>
+                                <th class="text-center">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="(i, obj) in tBodyModalDev track by i">
+                                <td class="text-center">{{obj.cve_articulo}}</td>
+                                <td class="text-center">{{obj.nombre_articulo}}</td>
+                                <td class="text-center">{{obj.cantidad_salida}}</td>
+                                <td class="text-center">{{obj.unidad_medida}}</td>
+                                <td class="text-center">{{obj.cve_cc}}</td>
+                                <td class="text-center">
+                                    <input type="text" ng-model="obj.cantidadDevolver" class="form-control form-control-md validanumericos" ng-keyup="validaCantidadDevolucion(i)">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" ng-model="obj.comentario" maxlength="250" class="form-control form-control-md UpperCase">
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" ng-click="validaDevolucion(i)" class="btn btn-info">Devolver</button>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
               </div>

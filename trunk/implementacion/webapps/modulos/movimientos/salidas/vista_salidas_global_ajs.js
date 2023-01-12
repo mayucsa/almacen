@@ -1,4 +1,5 @@
 app.controller('vistaSalidasGlobal', function (BASEURL, ID, $scope, $http){
+	$scope.tBodyModalDev = [];
 	$http.post('ssSalidas.php', {}).then(function (result) {
 		$scope.salidas = result.data.data;
 		console.log('ssSalidas', result.data.data);
@@ -61,40 +62,119 @@ app.controller('vistaSalidasGlobal', function (BASEURL, ID, $scope, $http){
 	    });
 	}
 	$scope.Verdevoluciones = function (cve_mov) {
-		$("#tablaModalDev").html('');
+		$scope.tBodyModalDev = [];
+		$('#inputnamed').val('');
+		$('#folio_valed').val('');
+		$('#conceptod').val('');
+		$('#deptod').val('');
+		$('#maquinad').val('');
+		// $("#tablaModalDev").html('');
 	    $.getJSON("modelo_salidas.php?consultar="+cve_mov, function(registros){
-	        console.log(registros);
+	        console.log('Verdevoluciones', registros);
 
 	        $('#inputnamed').val(registros[0]['cve_mov']);
 	        $('#folio_valed').val(registros[0]['folio_vale']);
 	        $('#conceptod').val(registros[0]['concepto']);
 	        $('#deptod').val(registros[0]['nombre_depto']);
 	        $('#maquinad').val(registros[0]['nombre_maq']);
-
-	        $("#tablaModalDev").html( '<thead> <tr>     <th class="text-center">Cve articulo</th>'+
-	                                                '<th class="text-center">Descripcion</th>'+
-	                                                '<th class="text-center">Cantidad</th>'+
-	                                                '<th class="text-center">Unidad medida</th>'+
-	                                                '<th class="text-center">Centro de costo</th>'+
-	                                                '<th class="text-center">Cantidad a devolver</th>'+
-	                                                '<th class="text-center">Comentario</th>'+
-	                                                '<th class="text-center">Accion</th>'+
-	                                    '</thead>');
-	        for (i = 0; i < registros.length; i++){
-	            // txt += $('#inputcantidad').val(registros[i]['Cantidad']);
-	            // $('#inputmp').text(registros[i]['MateriaPrima']) + $('#inputcantidad').val(registros[i]['Cantidad']);
-	             $("#tablaModalDev").append('<tr>' + 
-	                '<td class="text-center" style="dislay: none;">' + registros[i].cve_articulo + '</td>'+
-	                '<td class="text-center" style="dislay: none;">' + registros[i].nombre_articulo + '</td>'+
-	                '<td class="text-center" style="dislay: none;">' + registros[i].cantidad_salida + '</td>'+
-	                '<td class="text-center" style="dislay: none;">' + registros[i].unidad_medida + '</td>'+
-	                '<td class="text-center" style="dislay: none;">' + registros[i].cve_cc +  '</td>' +
-	                '<td class="text-center" style="dislay: none;">' + '<input type="text" class="form-control form-control-md validanumericos">' +  '</td>' +
-	                '<td class="text-center" style="dislay: none;">' + '<input type="text" class="form-control form-control-md UpperCase">' +  '</td>' +
-	                '<td class="text-center" style="dislay: none;">' + '<button type="button" class="btn btn-info">Devolver</button>' +  '</td>'
-	                +'</tr>');
-	        }
+	        $scope.$apply(function(){
+	        	$scope.tBodyModalDev = registros;
+	        }, 500)
+	        console.log('$scope.tBodyModalDev', $scope.tBodyModalDev);
+	        // $("#tablaModalDev").html( '<thead> <tr>     <th class="text-center">Cve articulo</th>'+
+	        //                                         '<th class="text-center">Descripcion</th>'+
+	        //                                         '<th class="text-center">Cantidad</th>'+
+	        //                                         '<th class="text-center">Unidad medida</th>'+
+	        //                                         '<th class="text-center">Centro de costo</th>'+
+	        //                                         '<th class="text-center">Cantidad a devolver</th>'+
+	        //                                         '<th class="text-center">Comentario</th>'+
+	        //                                         '<th class="text-center">Accion</th>'+
+	        //                             '</thead>');
+	        // for (i = 0; i < registros.length; i++){
+	        //     // txt += $('#inputcantidad').val(registros[i]['Cantidad']);
+	        //     // $('#inputmp').text(registros[i]['MateriaPrima']) + $('#inputcantidad').val(registros[i]['Cantidad']);
+	        //      $("#tablaModalDev").append('<tr>' + 
+	        //         '<td class="text-center" style="dislay: none;">' + registros[i].cve_articulo + '</td>'+
+	        //         '<td class="text-center" style="dislay: none;">' + registros[i].nombre_articulo + '</td>'+
+	        //         '<td class="text-center" style="dislay: none;">' + registros[i].cantidad_salida + '</td>'+
+	        //         '<td class="text-center" style="dislay: none;">' + registros[i].unidad_medida + '</td>'+
+	        //         '<td class="text-center" style="dislay: none;">' + registros[i].cve_cc +  '</td>' +
+	        //         '<td class="text-center" style="dislay: none;">' + '<input type="text" class="form-control form-control-md validanumericos">' +  '</td>' +
+	        //         '<td class="text-center" style="dislay: none;">' + '<input type="text" class="form-control form-control-md UpperCase">' +  '</td>' +
+	        //         '<td class="text-center" style="dislay: none;">' + '<button type="button" class="btn btn-info">Devolver</button>' +  '</td>'
+	        //         +'</tr>');
+	        // }
 	    });
+	}
+	$scope.setNumerico = function(numero){
+		if (numero == undefined) return;
+		var aux = '';
+		for (var x = 0; x < numero.length; x++) {
+			if (!isNaN(numero[x])) {
+				aux = aux +''+numero[x];
+			}else{
+				if (numero[x] == '.') {
+					if ((numero.substring(0, x+1)).split('.').length == 2) {
+						aux = aux +''+numero[x];
+					}
+				}
+			}
+		}
+		return aux;
+	}
+	$scope.validaCantidadDevolucion = function(i){
+		const datos = $scope.tBodyModalDev[i];
+		$scope.tBodyModalDev[i].cantidadDevolver = $scope.setNumerico(datos.cantidadDevolver);
+		if (datos.cantidad_salida < datos.cantidadDevolver) {
+			Swal.fire('Cantidad excedida','La cantidad a devolver debe ser igual o menor a la cantidad que se le dio salida','warning');
+			$scope.tBodyModalDev[i].cantidadDevolver = datos.cantidad_salida;
+		}
+	}
+	$scope.validaDevolucion = function(i){
+		if ($scope.tBodyModalDev[i].comentario != '' && $scope.tBodyModalDev[i].comentario != undefined 
+			&& $scope.tBodyModalDev[i].cantidadDevolver > 0 && $scope.tBodyModalDev[i].cantidadDevolver != undefined) {
+			Swal.fire({
+			  title: 'Estas a punto de generar una devolución',
+			  text: '¿Es correcta la información agregada?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: 'green',
+			  cancelButtonColor: 'orange',
+			  confirmButtonText: 'Aceptar',
+			  cancelButtonText: 'Revisar'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$scope.devolverArticulos(i);
+				}
+			});
+		}else{
+			Swal.fire('Campos requeridos','Es necesario ingresar cantidad a devolver y comentario.','warning');
+		}
+	}
+	$scope.devolverArticulos = function(i){
+		jsShowWindowLoad('Generando devolución...');
+		$http.post('Controller.php', {
+			'task': 'devolucion',
+			'datos': $scope.tBodyModalDev[i]
+		}).then(function (result) {
+			jsRemoveWindowLoad();
+			result = result.data;
+			console.log('devolucion', result);
+			if (result.code == 200) {
+				Swal.fire(
+					'¡Éxito!',
+					'Se ha generado la devolución. \n <b>Folio devolución: '+result.cve_ctrl_dev+'</b>', 
+					'success'
+				);
+				$scope.Verdevoluciones($scope.tBodyModalDev[i].cve_mov);
+			}else{
+				Swal.fire('Error','Error en el controlador, revisar consola.','warning');
+			}
+		}, function(error){
+			jsRemoveWindowLoad();
+			console.log('error', error);
+			Swal.fire('Error','Error en el controlador, revisar consola.','error');
+		});	
 	}
 	$scope.cancelar = function(i){
 		Swal.fire({

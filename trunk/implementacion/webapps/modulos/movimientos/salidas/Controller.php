@@ -1,4 +1,5 @@
 <?php 
+session_start();
 date_default_timezone_set('America/Mexico_City');
 function dd($var){
     if (is_array($var) || is_object($var)) {
@@ -161,6 +162,27 @@ function guardarMovimiento($dbcon, $Datos){
 	
 
 }
+function devolucion($dbcon, $datos){
+	$sql ="UPDATE movtos_salidas_detalle SET cantidad_salida = cantidad_salida - ".$datos->cantidadDevolver." WHERE cve_mov = ".$datos->cve_mov." AND cve_mov_det = ".$datos->cve_mov_det;
+	if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+		dd(['code'=>400, 'msj'=>'error al actualizar movtos_salidas_detalle.', 'sql'=>$sql]);
+	}
+	$sql = "UPDATE cat_articulos SET existencia = existencia + ".$datos->cantidadDevolver." where cve_articulo = ".$datos->cve_articulo;
+	if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+		dd(['code'=>400, 'msj'=>'error al actualizar cat_articulos.', 'sql'=>$sql]);
+	}
+	$fecha = date('Y-m-d H:i:s');
+	$sql = "INSERT INTO ctrl_devoluciones_almacen(cve_art, cantidad_salida, cantidad_devolucion, comentario, realizado_por, estatus_dev, fecha_devolucion) VALUES(
+		".$datos->cve_articulo.", ".$datos->cantidad_salida.", ".$datos->cantidadDevolver.", '".$datos->comentario."',
+		".$_SESSION['id'].", 1, '".$fecha."'
+	)";
+	if (!$dbcon->qBuilder($dbcon->conn(), 'do', $sql)) {
+		dd(['code'=>400, 'msj'=>'error al insertar en ctrl_devoluciones_almacen.', 'sql'=>$sql]);
+	}
+	$sql = "SELECT cve_ctrl_dev FROM ctrl_devoluciones_almacen WHERE realizado_por = ".$_SESSION['id']." AND comentario = '".$datos->comentario."' AND cve_art = ".$datos->cve_articulo." AND cantidad_devolucion = ".$datos->cantidadDevolver;
+	$cve_ctrl_dev = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
+	dd(['code' => 200, 'cve_ctrl_dev' => $cve_ctrl_dev->cve_ctrl_dev]);
+}
 
 include_once "../../../dbconexion/conn.php";
 $dbcon	= 	new MysqlConn;
@@ -190,6 +212,9 @@ switch ($tarea){
 		break;
 	case 'cancelar':
 		cancelar($dbcon, $objDatos->cve_mov, $objDatos->ID);
+		break;
+	case 'devolucion':
+		devolucion($dbcon, $objDatos->datos);
 		break;
 }
 
