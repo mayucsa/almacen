@@ -98,9 +98,10 @@ include_once "../../../dbconexion/conexion.php";
                                     Reportes Generales
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalKDX" data-whatever="@getbootstrap">Kardex</a>
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalExisteArt" data-whatever="@getbootstrap">Existencia actual</a>
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalMovtosES" data-whatever="@getbootstrap">Movimientos entradas/salidas</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalKDX" data-whatever="@getbootstrap">Kardex</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalExisteArt" data-whatever="@getbootstrap">Existencia actual</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalMovtosES" data-whatever="@getbootstrap">Movimientos entradas/salidas</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalMovtosReqsAuto" data-whatever="@getbootstrap" ng-click="resetFechas()">Requisiciones automáticas</a>
                                     </div>
                                 </div>                              
                             </div>
@@ -114,6 +115,7 @@ include_once "../../../dbconexion/conexion.php";
         </main>
         <?php include "modales.php"; ?>
         <?php include "pdfExistencias.html"; ?>
+        <?php include "reporteReqAuto.html"; ?>
     </div>
 
     <script src="../../../includes/js/adminlte.min.js"></script>
@@ -157,17 +159,17 @@ include_once "../../inferior.php";
         const tomorrow = new Date()
         tomorrow.setDate(tomorrow.getDate() + 1)
         $('.date-picker').datepicker({
-        closeText: 'Cerrar',
-        prevText: '<Ant',
-        nextText: 'Sig>',
-        currentText: 'Hoy',
-        monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        minDate: tomorrow,
-        // changeDay: true,
-        changeMonth: true,
-        changeYear: true,
-        showButtonPanel: true,
-        dateFormat: 'yy-mm-dd',
-        showDays: false,
-    });
+            closeText: 'Cerrar',
+            prevText: '<Ant',
+            nextText: 'Sig>',
+            currentText: 'Hoy',
+            monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            // minDate: tomorrow,
+            // changeDay: true,
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'yy-mm-dd',
+            showDays: false,
+        });
     </script>

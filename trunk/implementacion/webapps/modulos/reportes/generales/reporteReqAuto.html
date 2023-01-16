@@ -1,0 +1,45 @@
+<div class="container" style="display: none;">
+	<div class="row" id="RequisicionesAuto">
+		<table>
+			<tr>
+				<td colspan="2" style="text-align: right;">
+					{{fechaActual}}
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 30%">
+					<img src="../../../includees/imagenes/Mayucsa.png" style="width: 80%">
+				</td>
+				<td style="width:70%; text-align: center; padding-top: 10px;">
+					<h4>REPORTE REQUISICIONES AUTOMÁTICAS <br>fecha - fecha</h4>
+				</td>
+			</tr>
+		</table>
+		<div ng-repeat="(i, obj) in requAutomaticas track by i" style="margin-top: 50px; margin-bottom: 40px;">
+			<table style="width:100%; border-collapse: collapse;">
+				<thead>
+					<tr>
+						<th style="border: solid 1px; font-size: 10px;">Clave</th>
+						<th style="border: solid 1px; font-size: 10px;">Tipo</th>
+						<th style="border: solid 1px; font-size: 10px;">Clave artículo</th>
+						<th style="border: solid 1px; font-size: 10px;">Descripción artículo</th>
+						<th style="border: solid 1px; font-size: 10px;">Cantidad</th>
+						<th style="border: solid 1px; font-size: 10px;">Cantidad cotizado</th>
+						<th style="border: solid 1px; font-size: 10px;">Fecha registro</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(k, raw) in obj track by k">
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.cve_req}}</td>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.tipo}}</td>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.cve_alterna}}</td>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.nombre_articulo}}</td>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.cantidad}}</td>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.cantidad_cotizado}}</td>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.fecha_registro}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+	</div>
+</div>

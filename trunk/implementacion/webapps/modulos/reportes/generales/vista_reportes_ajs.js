@@ -2,8 +2,8 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 	$scope.articulos = [];
 	var fechaActual = new Date();
 	$scope.fechaActual = fechaActual.toLocaleDateString('en-ZA');
-	$scope.fechainicio = $scope.fechaActual;
-	$scope.fechafin = $scope.fechaActual;
+	$scope.fechainicioRA = $scope.fechaActual;
+	$scope.fechafinRA = $scope.fechaActual;
 	$scope.getArticulos = function(i){
 		// console.log('getCcostos', i);
 		// if ($scope.departamento == undefined || $scope.departamento == '') {
@@ -50,6 +50,25 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 				jsRemoveWindowLoad();
 			});
 		}
+		if (tipo == 'RequisicionesAuto') {
+			jsShowWindowLoad('Generando...');
+			$http.post('Controller.php', {
+				'task': 'RequisicionesAuto',
+				'fechainicio': $('#fechainicioRA').val(),
+				'fechafin': $('#fechafinRA').val()
+			}).then(function (response){
+				response = response.data;
+				console.log('RequisicionesAuto', response);
+				$scope.requAutomaticas = response;
+				setTimeout(function(){
+					imprSelec('RequisicionesAuto');
+					jsRemoveWindowLoad();
+				}, 700);
+			},function(error){
+				console.log('error', error);
+				jsRemoveWindowLoad();
+			});
+		}
 	}
 	$scope.getExcel = function(tipo){
 		if (tipo == 'existencias') {
@@ -68,6 +87,12 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 			});
 		}
 	}
+	$scope.resetFechas = function(){
+		$scope.fechainicio = $scope.fechaActual;
+		$('#fechainicioRA').val($scope.fechainicio);
+		$scope.fechafin = $scope.fechaActual;
+		$('#fechafinRA').val($scope.fechafin);
+	}
 });
 function imprSelec(id) {
 	var div = document.getElementById(id);
@@ -77,4 +102,3 @@ function imprSelec(id) {
     ventimp.print( );
     ventimp.close();
 }
-

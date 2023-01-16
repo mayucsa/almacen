@@ -84,7 +84,28 @@ function getExcel($dbcon, $tipo){
 		dd($filename);
 	}
 }
-
+function RequisicionesAuto($dbcon, $fechainicio, $fechafin){
+	$sql = "SELECT rd.cve_req, tipo, ca.cve_alterna, ca.nombre_articulo , rd.cantidad, cantidad_cotizado, rd.fecha_registro 
+	FROM requisicion_detalle rd 
+	INNER JOIN requisicion r ON r.cve_req = rd.cve_req 
+	INNER JOIN cat_articulos ca ON ca.cve_articulo = rd.cve_art 
+	WHERE tipo = 'A' AND r.fecha_registro BETWEEN '".$fechainicio."' AND '".$fechafin." 23:59:59'";
+	// dd($sql);
+	$articulos = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
+	$resultado = [];
+	$aux = 0;
+	foreach ($articulos as $i => $val) {
+		if($i == 55){
+			$aux++;
+		}
+		if(($i - 55 ) % 65 == 0){
+			$aux++;
+		}
+		$val->fecha_registro = explode(' ', $val->fecha_registro)[0];
+		$resultado[$aux][$i] = $val;
+	}
+	dd($resultado);
+}
 include_once "../../../dbconexion/conn.php";
 $dbcon	= 	new MysqlConn;
 $conn 	= 	$dbcon->conn();
@@ -104,6 +125,9 @@ switch ($tarea){
 		break;
 	case 'getExcel':
 		getExcel($dbcon, $objDatos->tipo);
+		break;
+	case 'RequisicionesAuto':
+		RequisicionesAuto($dbcon, $objDatos->fechainicio, $objDatos->fechafin);
 		break;
 }
 

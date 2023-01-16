@@ -120,3 +120,35 @@
     </div>
   </div>
 </div>
+<!-- Reporte Requisiciones Automáticas -->
+<div id="modalMovtosReqsAuto" class="modal fade" tabindex="-1" aria-labelledby="modalMovtosReqsAutoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="modalMovtosReqsAutoLabel">Requisiciones Automáticas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row form-group form-group-sm">
+          <div class="col-lg-12 d-lg-flex">
+            <div style="width: 50%;" class="form-floating mx-1">
+              <input class="date-picker form-control" ng-model="fechainicioRA" id="fechainicioRA">
+              <label>Fecha inicio</label>
+            </div>
+            <div style="width: 50%;" class="form-floating mx-1">
+              <input class="date-picker form-control" ng-model="fechafinRA" id="fechafinRA">
+              <label>Fecha fin</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-primary">Imprimir <i class="fas fa-print"></i></button> -->
+        <button type="button" class="btn btn-success" ng-click="getPDF('RequisicionesAuto')">Descargar <i class="fas fa-file-pdf"></i></button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
