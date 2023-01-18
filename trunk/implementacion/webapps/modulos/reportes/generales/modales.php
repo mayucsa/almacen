@@ -146,7 +146,8 @@
       </div>
       <div class="modal-footer">
         <!-- <button type="button" class="btn btn-primary">Imprimir <i class="fas fa-print"></i></button> -->
-        <button type="button" class="btn btn-success" ng-click="getPDF('RequisicionesAuto')">Descargar <i class="fas fa-file-pdf"></i></button>
+        <button type="button" class="btn btn-primary" ng-click="getPDF('RequisicionesAuto')">Imprimir <i class="fas fas fa-print"></i></button>
+        <button type="button" class="btn btn-success" ng-click="getExcel('RequisicionesAuto')">Descargar <i class="fas fa-file-excel"></i></button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

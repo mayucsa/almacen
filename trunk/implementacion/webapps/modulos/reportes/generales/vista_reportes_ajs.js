@@ -71,11 +71,31 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 		}
 	}
 	$scope.getExcel = function(tipo){
-		if (tipo == 'existencias') {
+		if ( tipo == 'existencias' ) {
 			jsShowWindowLoad('Generando...');
 			$http.post('Controller.php', {
 				'task': 'getExcel',
-				'tipo': tipo
+				'tipo': tipo,
+				'datos': ''
+			}).then(function (response){
+				response = response.data;
+				console.log('catArticulos Excel', response);
+				jsRemoveWindowLoad();
+				location.href=response;
+			},function(error){
+				console.log('error', error);
+				jsRemoveWindowLoad();
+			});
+		}
+		if ( tipo == 'RequisicionesAuto' ) {
+			jsShowWindowLoad('Generando...');
+			$http.post('Controller.php', {
+				'task': 'getExcel',
+				'tipo': tipo,
+				'datos': {
+					'f_ini':$('#fechainicioRA').val(), 
+					'f_fin':$('#fechafinRA').val()
+				}
 			}).then(function (response){
 				response = response.data;
 				console.log('catArticulos Excel', response);
