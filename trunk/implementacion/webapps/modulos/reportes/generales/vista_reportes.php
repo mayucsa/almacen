@@ -101,7 +101,7 @@ include_once "../../../dbconexion/conexion.php";
                                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalKDX" data-whatever="@getbootstrap">Kardex</a>
                                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalExisteArt" data-whatever="@getbootstrap">Existencia actual</a>
                                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalMovtosES" data-whatever="@getbootstrap">Movimientos entradas/salidas</a>
-                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalMovtosReqsAuto" data-whatever="@getbootstrap" ng-click="resetFechas()">Requisiciones automáticas</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalMovtosReqsAuto" data-whatever="@getbootstrap" ng-click="resetFechas()">Requisiciones</a>
                                     </div>
                                 </div>                              
                             </div>

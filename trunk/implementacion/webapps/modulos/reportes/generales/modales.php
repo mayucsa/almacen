@@ -133,11 +133,35 @@
       <div class="modal-body">
         <div class="row form-group form-group-sm">
           <div class="col-lg-12 d-lg-flex">
-            <div style="width: 50%;" class="form-floating mx-1">
+            <div style="width: 100%;">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="checkbox" aria-label="Checkbox for following text input" checked>
+                  </div>
+                </div>
+                <input type="text" placeholder="Normales" class="form-control" aria-label="Text input with checkbox" disabled>
+              </div>
+            </div>
+            <div style="width: 100%;">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="checkbox" aria-label="Checkbox for following text input" checked>
+                  </div>
+                </div>
+                <input type="text" placeholder="Automáticas" class="form-control" aria-label="Text input with checkbox" disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group form-group-sm">
+          <div class="col-lg-12 d-lg-flex">
+            <div style="width: 100%;" class="form-floating mx-1">
               <input class="date-picker form-control" ng-model="fechainicioRA" id="fechainicioRA">
               <label>Fecha inicio</label>
             </div>
-            <div style="width: 50%;" class="form-floating mx-1">
+            <div style="width: 100%;" class="form-floating mx-1">
               <input class="date-picker form-control" ng-model="fechafinRA" id="fechafinRA">
               <label>Fecha fin</label>
             </div>
