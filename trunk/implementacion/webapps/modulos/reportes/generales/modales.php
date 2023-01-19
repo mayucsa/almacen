@@ -74,7 +74,7 @@
 </div>
 <!-- Reporte de movimientos entradas y salidas-->
 <div id="modalMovtosES" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">
         <h5 class="modal-title" id="exampleModalLabel">Reporte de movimientos</h5>
@@ -85,29 +85,38 @@
       <div class="modal-body">
         <div class="row form-group form-group-sm">
           <div class="col-lg-12 d-lg-flex">
-            <div style="width: 25%;">
+            <div style="width: 100%;">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <div class="input-group-text">
-                    <input type="checkbox" aria-label="Checkbox for following text input">
+                    <input type="checkbox" aria-label="Checkbox for following text input" checked>
                   </div>
                 </div>
                 <input type="text" placeholder="Entradas" class="form-control" aria-label="Text input with checkbox" disabled>
+              </div>
+            </div>
+
+            <div style="width: 100%;">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="checkbox" aria-label="Checkbox for following text input" checked>
+                  </div>
+                </div>
+                <input type="text" placeholder="Salidas" class="form-control" aria-label="Text input with checkbox" disabled>
               </div>
             </div>
           </div>
         </div>
         <div class="row form-group form-group-sm">
           <div class="col-lg-12 d-lg-flex">
-            <div style="width: 25%;">
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <input type="checkbox" aria-label="Checkbox for following text input">
-                  </div>
-                </div>
-                <input type="text" placeholder="Salidas" class="form-control" aria-label="Text input with checkbox" disabled>
-              </div>
+            <div style="width: 100%;" class="form-floating mx-1">
+              <input class="date-picker form-control" ng-model="fechainicioMov" id="fechainicioMov">
+              <label>Fecha inicio</label>
+            </div>
+            <div style="width: 100%;" class="form-floating mx-1">
+              <input class="date-picker form-control" ng-model="fechafinMov" id="fechafinMov">
+              <label>Fecha fin</label>
             </div>
           </div>
         </div>
@@ -125,7 +134,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="modalMovtosReqsAutoLabel">Requisiciones Automáticas</h5>
+        <h5 class="modal-title" id="modalMovtosReqsAutoLabel">Requisiciones</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -4,6 +4,8 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 	$scope.fechaActual = fechaActual.toLocaleDateString('en-ZA');
 	$scope.fechainicioRA = $scope.fechaActual;
 	$scope.fechafinRA = $scope.fechaActual;
+	$scope.fechainicioMov = $scope.fechaActual;
+	$scope.fechafinMov = $scope.fechaActual;
 	$scope.getArticulos = function(i){
 		// console.log('getCcostos', i);
 		// if ($scope.departamento == undefined || $scope.departamento == '') {
@@ -112,6 +114,12 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 		$('#fechainicioRA').val($scope.fechainicio);
 		$scope.fechafin = $scope.fechaActual;
 		$('#fechafinRA').val($scope.fechafin);
+	}
+	$scope.resetFechasM = function(){
+		$scope.fechainicio = $scope.fechaActual;
+		$('#fechainicioMov').val($scope.fechainicio);
+		$scope.fechafin = $scope.fechaActual;
+		$('#fechafinMov').val($scope.fechafin);
 	}
 });
 function imprSelec(id) {
