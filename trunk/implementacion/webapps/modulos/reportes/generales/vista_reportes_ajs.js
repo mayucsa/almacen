@@ -6,6 +6,10 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 	$scope.fechafinRA = $scope.fechaActual;
 	$scope.fechainicioMov = $scope.fechaActual;
 	$scope.fechafinMov = $scope.fechaActual;
+	$scope.tipoRANorm = true;
+	$scope.tipoRAAuto = true;
+	$scope.entradas = true;
+	$scope.salidas = true;
 	$scope.getArticulos = function(i){
 		// console.log('getCcostos', i);
 		// if ($scope.departamento == undefined || $scope.departamento == '') {
@@ -18,7 +22,7 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 			'arti': $scope.articulos[i].arti,
 		}).then(function (response){
 			response = response.data;
-			console.log(response);
+			
 			$scope.keySeleccionado = i;
 			$scope.arrayCcostos = response;
 			
@@ -41,7 +45,6 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 				'task': 'catArticulos'
 			}).then(function (response){
 				response = response.data;
-				console.log('catArticulos', response);
 				$scope.catArticulos = response;
 				setTimeout(function(){
 					imprSelec('pdfExistencias');
@@ -52,18 +55,47 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 				jsRemoveWindowLoad();
 			});
 		}
-		if (tipo == 'RequisicionesAuto') {
+		if (tipo == 'Requisiciones') {
+			if (!$scope.tipoRANorm && !$scope.tipoRAAuto) {
+				Swal.fire('','Es necesario seleccionar normales, automáticas o ambas','warning');
+				return;
+			}
 			jsShowWindowLoad('Generando...');
 			$http.post('Controller.php', {
-				'task': 'RequisicionesAuto',
+				'task': 'Requisiciones',
 				'fechainicio': $('#fechainicioRA').val(),
-				'fechafin': $('#fechafinRA').val()
+				'fechafin': $('#fechafinRA').val(),
+				'tipoRANorm': $scope.tipoRANorm,
+				'tipoRAAuto': $scope.tipoRAAuto
 			}).then(function (response){
 				response = response.data;
-				console.log('RequisicionesAuto', response);
 				$scope.requAutomaticas = response;
 				setTimeout(function(){
-					imprSelec('RequisicionesAuto');
+					imprSelec('Requisiciones');
+					jsRemoveWindowLoad();
+				}, 700);
+			},function(error){
+				console.log('error', error);
+				jsRemoveWindowLoad();
+			});
+		}
+		if (tipo == 'entradasSalidas') {
+			if (!$scope.entradas && !$scope.salidas) {
+				Swal.fire('','Es necesario seleccionar entradas, salidas o ambas','warning');
+				return;
+			}
+			jsShowWindowLoad('Generando...');
+			$http.post('Controller.php', {
+				'task': 'entradasSalidas',
+				'f_ini': $('#fechainicioMov').val(),
+				'f_fin': $('#fechafinMov').val(),
+				'entradas': $scope.entradas,
+				'salidas': $scope.salidas
+			}).then(function (response){
+				response = response.data;
+				$scope.entradasSalidas = response;
+				setTimeout(function(){
+					imprSelec('entradasSalidas');
 					jsRemoveWindowLoad();
 				}, 700);
 			},function(error){
@@ -81,7 +113,6 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 				'datos': ''
 			}).then(function (response){
 				response = response.data;
-				console.log('catArticulos Excel', response);
 				jsRemoveWindowLoad();
 				location.href=response;
 			},function(error){
@@ -89,18 +120,47 @@ app.controller('vistaReportes', function(BASEURL, ID, $scope, $http){
 				jsRemoveWindowLoad();
 			});
 		}
-		if ( tipo == 'RequisicionesAuto' ) {
+		if ( tipo == 'Requisiciones' ) {
+			if (!$scope.tipoRANorm && !$scope.tipoRAAuto) {
+				Swal.fire('','Es necesario seleccionar normales, automáticas o ambas','warning');
+				return;
+			}
 			jsShowWindowLoad('Generando...');
 			$http.post('Controller.php', {
 				'task': 'getExcel',
 				'tipo': tipo,
 				'datos': {
 					'f_ini':$('#fechainicioRA').val(), 
-					'f_fin':$('#fechafinRA').val()
+					'f_fin':$('#fechafinRA').val(),
+					'tipoRANorm': $scope.tipoRANorm,
+					'tipoRAAuto': $scope.tipoRAAuto
 				}
 			}).then(function (response){
 				response = response.data;
-				console.log('catArticulos Excel', response);
+				jsRemoveWindowLoad();
+				location.href=response;
+			},function(error){
+				console.log('error', error);
+				jsRemoveWindowLoad();
+			});
+		}
+		if ( tipo == 'entradasSalidas') {
+			if (!$scope.entradas && !$scope.salidas) {
+				Swal.fire('','Es necesario seleccionar entradas, salidas o ambas','warning');
+				return;
+			}
+			jsShowWindowLoad('Generando...');
+			$http.post('Controller.php', {
+				'task': 'getExcel',
+				'tipo': tipo,
+				'datos': {
+					'f_ini':$('#fechainicioMov').val(), 
+					'f_fin':$('#fechafinMov').val(),
+					'entradas': $scope.entradas,
+					'salidas': $scope.salidas
+				}
+			}).then(function (response){
+				response = response.data;
 				jsRemoveWindowLoad();
 				location.href=response;
 			},function(error){

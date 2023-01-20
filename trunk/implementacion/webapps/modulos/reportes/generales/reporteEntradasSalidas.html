@@ -1,5 +1,5 @@
 <div class="container" style="display: none;">
-	<div class="row" id="Requisiciones">
+	<div class="row" id="entradasSalidas">
 		<table>
 			<tr>
 				<td colspan="2" style="text-align: right;">
@@ -11,31 +11,29 @@
 					<img src="../../../includees/imagenes/Mayucsa.png" style="width: 80%">
 				</td>
 				<td style="width:70%; text-align: center; padding-top: 10px;">
-					<h4>REPORTE REQUISICIONES <br>{{fechainicioRA}} - {{fechafinRA}}</h4>
+					<h4>REPORTE DE MOVIMIENTOS <br>{{fechainicioMov}} - {{fechafinMov}}</h4>
 				</td>
 			</tr>
 		</table>
-		<div ng-repeat="(i, obj) in requAutomaticas track by i" style="margin-top: 50px; margin-bottom: 40px;">
+		<div ng-repeat="(i, obj) in entradasSalidas track by i" style="margin-top: 50px; margin-bottom: 40px;">
 			<table style="width:100%; border-collapse: collapse;">
 				<thead>
 					<tr>
-						<th style="border: solid 1px; font-size: 10px;">Clave</th>
 						<th style="border: solid 1px; font-size: 10px;">Tipo</th>
+						<th style="border: solid 1px; font-size: 10px;">Folio</th>
 						<th style="border: solid 1px; font-size: 10px;">Clave artículo</th>
 						<th style="border: solid 1px; font-size: 10px;">Descripción artículo</th>
-						<th style="border: solid 1px; font-size: 10px;">Cantidad</th>
-						<th style="border: solid 1px; font-size: 10px;">Cantidad cotizado</th>
-						<th style="border: solid 1px; font-size: 10px;">Fecha registro</th>
+						<th style="border: solid 1px; font-size: 10px;">cantidad</th>
+						<th style="border: solid 1px; font-size: 10px;">fecha registro</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="(k, raw) in obj track by k">
-						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.cve_req}}</td>
 						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.tipo}}</td>
+						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.cve_mov}}</td>
 						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.cve_alterna}}</td>
 						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.nombre_articulo}}</td>
 						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.cantidad}}</td>
-						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.cantidad_cotizado}}</td>
 						<td style="border: solid 1px; font-size: 10px; text-align: center;">{{raw.fecha_registro}}</td>
 					</tr>
 				</tbody>

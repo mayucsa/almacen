@@ -89,7 +89,7 @@
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <div class="input-group-text">
-                    <input type="checkbox" aria-label="Checkbox for following text input" checked>
+                    <input type="checkbox" ng-model="entradas" aria-label="Checkbox for following text input" checked>
                   </div>
                 </div>
                 <input type="text" placeholder="Entradas" class="form-control" aria-label="Text input with checkbox" disabled>
@@ -100,7 +100,7 @@
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <div class="input-group-text">
-                    <input type="checkbox" aria-label="Checkbox for following text input" checked>
+                    <input type="checkbox" ng-model="salidas" aria-label="Checkbox for following text input" checked>
                   </div>
                 </div>
                 <input type="text" placeholder="Salidas" class="form-control" aria-label="Text input with checkbox" disabled>
@@ -122,19 +122,19 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Imprimir <i class="fas fa-print"></i></button>
-        <button type="button" class="btn btn-success">Descargar <i class="fas fa-file-excel"></i></button>
+        <button type="button" class="btn btn-primary" ng-click="getPDF('entradasSalidas')">Imprimir <i class="fas fa-print"></i></button>
+        <button type="button" class="btn btn-success" ng-click="getExcel('entradasSalidas')">Descargar <i class="fas fa-file-excel"></i></button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
 <!-- Reporte Requisiciones Automáticas -->
-<div id="modalMovtosReqsAuto" class="modal fade" tabindex="-1" aria-labelledby="modalMovtosReqsAutoLabel" aria-hidden="true">
+<div id="modalMovtosReqs" class="modal fade" tabindex="-1" aria-labelledby="modalMovtosReqsAutoLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="modalMovtosReqsAutoLabel">Requisiciones</h5>
+        <h5 class="modal-title" id="modalMovtosReqsLabel">Requisiciones</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -146,7 +146,7 @@
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <div class="input-group-text">
-                    <input type="checkbox" aria-label="Checkbox for following text input" checked>
+                    <input type="checkbox" ng-model="tipoRANorm" aria-label="Checkbox for following text input" checked>
                   </div>
                 </div>
                 <input type="text" placeholder="Normales" class="form-control" aria-label="Text input with checkbox" disabled>
@@ -156,7 +156,7 @@
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <div class="input-group-text">
-                    <input type="checkbox" aria-label="Checkbox for following text input" checked>
+                    <input type="checkbox" ng-model="tipoRAAuto" aria-label="Checkbox for following text input" checked>
                   </div>
                 </div>
                 <input type="text" placeholder="Automáticas" class="form-control" aria-label="Text input with checkbox" disabled>
@@ -179,8 +179,8 @@
       </div>
       <div class="modal-footer">
         <!-- <button type="button" class="btn btn-primary">Imprimir <i class="fas fa-print"></i></button> -->
-        <button type="button" class="btn btn-primary" ng-click="getPDF('RequisicionesAuto')">Imprimir <i class="fas fas fa-print"></i></button>
-        <button type="button" class="btn btn-success" ng-click="getExcel('RequisicionesAuto')">Descargar <i class="fas fa-file-excel"></i></button>
+        <button type="button" class="btn btn-primary" ng-click="getPDF('Requisiciones')">Imprimir <i class="fas fas fa-print"></i></button>
+        <button type="button" class="btn btn-success" ng-click="getExcel('Requisiciones')">Descargar <i class="fas fa-file-excel"></i></button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
