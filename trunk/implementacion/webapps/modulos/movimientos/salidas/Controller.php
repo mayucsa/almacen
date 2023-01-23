@@ -8,6 +8,13 @@ function dd($var){
         die($var);
     }
 }
+function validaempleado($dbcon, $concepto){
+	$sql = "SELECT codigoempleado, nombre, apellidopaterno, apellidomaterno, puesto, departamento, estadoempleado
+			FROM cat_usuario_nomina
+			WHERE codigoempleado = ".$concepto." ";
+	$detalle = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
+	dd($detalle);
+}
 function cancelar($dbcon, $cve_mov, $usuario){
 	// insertar en movtos_entradas
 	$sql = "UPDATE movtos_salidas SET estatus_mov = 0 WHERE cve_mov = ".$cve_mov;
@@ -42,10 +49,11 @@ function cancelar($dbcon, $cve_mov, $usuario){
 	dd(['code'=>200,'msj'=>'Cancelación correcta', 'folio'=>$getFolio->cve_dlt]);
 }
 function getDatosImprimir($dbcon, $cve_mov){
-	$sql = "SELECT ms.cve_mov, ms.fecha_registro, ms.cve_maq, cm.nombre_maq, ms.concepto, ms.creado_por, CONCAT(cu.nombre, ' ', cu.apellido) as creadoPor
+	$sql = "SELECT ms.cve_mov, ms.fecha_registro, ms.cve_maq, cm.nombre_maq, ms.concepto, cun.nombre, ms.creado_por, CONCAT(cu.nombre, ' ', cu.apellido) as creadoPor
 	FROM movtos_salidas ms
 	INNER JOIN cat_maquinas cm ON cm.cve_maq = ms.cve_maq
 	INNER JOIN cat_usuarios cu ON cu.cve_usuario = ms.creado_por
+	INNER JOIN cat_usuario_nomina cun ON cun.codigoempleado = ms.concepto 
 	WHERE ms.cve_mov = ".$cve_mov;
 	
 	$SALIDA = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
@@ -60,11 +68,18 @@ function getDatosImprimir($dbcon, $cve_mov){
 	]);
 }
 function getCcostos($dbcon, $centroCosto, $cve_depto){
-	$sql = "SELECT cve_cc, ccc.cve_alterna, nombre_cc, cnc.nombre as name FROM cat_centro_costos ccc INNER JOIN cat_nombre_cc cnc ON ccc.cuenta_cc = cnc.cve_alterna  WHERE 
-	ccc.cve_alterna LIKE '%".$centroCosto."%'
-	or
-	cnc.nombre LIKE '%".$centroCosto."%'
-	ORDER BY nombre_cc asc";
+	$sql = "SELECT cve_ncc, cve_alterna, nombre
+			FROM cat_nombre_cc cnc
+			 WHERE cnc.cve_alterna LIKE '%".$centroCosto."%' or	cnc.nombre LIKE '%".$centroCosto."%' AND estatus = 1
+			 ORDER BY nombre asc";
+	$return = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
+	dd($return);
+}
+function getTGastos($dbcon, $gastos){
+	$sql = "SELECT cve_area, cve_alterna, nombre_area
+			FROM cat_areas ca
+			 WHERE cve_alterna LIKE '%".$gastos."%' or	nombre_area LIKE '%".$gastos."%' AND estatus_area = 'VIG'
+			 ORDER BY nombre_area asc";
 	$return = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	dd($return);
 }
@@ -131,14 +146,19 @@ function guardarMovimiento($dbcon, $Datos){
 					dd(['code'=>300, 'msj'=>'error al insertar requisición automática.', 'sql'=>$sql]);
 				}
 			}
+			$cBuilder = "SELECT costo_unitario FROM cat_articulos WHERE cve_articulo = ".$val->cve_articulo." ";
+			$cBuilder = $dbcon->qBuilder($conn, 'first', $cBuilder);
+
 			$sql = "INSERT INTO movtos_salidas_detalle 
-			(cve_mov, cve_articulo, cve_cc, existencia, cantidad_salida, estatus_mov, fecha_registro)
+			(cve_mov, cve_articulo, cve_ncc, cve_area, existencia, cantidad_salida, costo_unitario, estatus_mov, fecha_registro)
 			VALUES(
 				".$getId->cve_mov.",
 				".$val->cve_articulo.",
-				".$val->cve_cc.",
+				".$val->cve_ncc.",
+				".$val->cve_area.",
 				".$val->existencia.",
 				".$val->cantidad.",
+				".$cBuilder->costo_unitario.",
 				1, '".$fecha."'
 			)";
 			if (!$dbcon->qBuilder($dbcon->conn(),'do',$sql)) {
@@ -159,8 +179,6 @@ function guardarMovimiento($dbcon, $Datos){
 	} else {
 		dd(['code'=>300, 'msj'=>'error al crear folio.', 'sql'=>$sql]);
 	}
-	
-
 }
 function devolucion($dbcon, $datos){
 	$sql ="UPDATE movtos_salidas_detalle SET cantidad_salida = cantidad_salida - ".$datos->cantidadDevolver." WHERE cve_mov = ".$datos->cve_mov." AND cve_mov_det = ".$datos->cve_mov_det;
@@ -207,6 +225,9 @@ switch ($tarea){
 	case 'getCcostos':
 		getCcostos($dbcon, $objDatos->centroCosto, $objDatos->cve_depto);
 		break;
+	case 'getTGastos':
+		getTGastos($dbcon, $objDatos->gastos);
+		break;
 	case 'getDatosImprimir':
 		getDatosImprimir($dbcon, $objDatos->cve_mov);
 		break;
@@ -215,6 +236,9 @@ switch ($tarea){
 		break;
 	case 'devolucion':
 		devolucion($dbcon, $objDatos->datos);
+		break;
+	case 'validaempleado':
+		validaempleado($dbcon, $objDatos->concepto);
 		break;
 }
 

@@ -24,6 +24,17 @@ class ModeloSalidas{
 			 $vquery->close();
 			 $vquery = null;
 	}
+	function ShowCuentas(){
+		$sql = "	SELECT  	*
+					FROM cat_nombre_cc
+					WHERE estatus = 1 ";
+
+			 $vquery = Conexion::conectar()->prepare($sql);
+          $vquery->execute();
+			 return $vquery->fetchAll();
+			 $vquery->close();
+			 $vquery = null;
+	}
 
 }
 

@@ -159,8 +159,8 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                             <label>Folio de Vale</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input type="text" id="nextFocusHeader1" ng-model="concepto" class="form-control form-control-md UpperCase" maxlength="100" ng-keyup="$event.keyCode == 13 ? inputCharacters(1, 'h') : null">
-                                            <label>Quien recibe / Quien autoriza</label>
+                                            <input type="text" id="nextFocusHeader1" ng-model="concepto" class="form-control form-control-md UpperCase" maxlength="100" ng-keyup="$event.keyCode == 13 ? inputCharacters(1, 'h') : null" ng-blur="validaempleado(concepto)">
+                                            <label>Empleado solicitante</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
                                             <select class="form-control form-group-md" id="nextFocusHeader2" ng-model="departamento" id="departamento" name="departamento" ng-change="getMaquinas()" ng-change="inputCharacters(2, 'h')">
@@ -249,6 +249,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                                     <th>Existencia</th>
                                                     <th>Cantidad a salir</th>
                                                     <th>Centro de costo</th>
+                                                    <th>Gasto</th>
                                                     <th>Quitar</th>
                                                 </tr>
                                             </thead>
@@ -266,10 +267,32 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                                         <ul class="dropdown-menu" aria-labelledby="dropDownCC" style=" position: relative; display: block" ng-show="arrayCcostos.length > 0">
                                                             <li ng-repeat="(w, obj) in arrayCcostos track by w">
                                                               <a ng-click="setCcosto(key, w)" class="dropdown-item" href="javascript:void(0)">
-                                                                <span class="p-2">{{obj.cve_alterna}} - {{obj.name}}</span>
+                                                                <span class="p-2">{{obj.cve_alterna}} - {{obj.nombre}}</span>
                                                               </a>
                                                             </li>
                                                         </ul>
+                                                        <!-- <select class="form-control form-group-md" ng-model="departamento">
+                                                            <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
+                                                            <php foreach (ModeloSalidas::ShowCuentas() as $value) { ?>
+                                                            <option value="<=$value['cve_ncc']?>"><=$value['cve_alterna']?>-<=$value['nombre']?></option>
+                                                            <php } ?>
+                                                        </select> -->
+                                                    </td>
+                                                    <td style="width:auto;">
+                                                        <input type="text" class="form-control" ng-model="obj.gasto" id="dropDownCC" role="button" data-bs-toggle="dropdown" aria-expanded="false" ng-keyup="getTGastos(key)">
+                                                        <ul class="dropdown-menu" aria-labelledby="dropDownCC" style=" position: relative; display: block" ng-show="arrayTgastos.length > 0">
+                                                            <li ng-repeat="(w, obj) in arrayTgastos track by w">
+                                                              <a ng-click="setTgastos(key, w)" class="dropdown-item" href="javascript:void(0)">
+                                                                <span class="p-2">{{obj.cve_alterna}} - {{obj.nombre_area}}</span>
+                                                              </a>
+                                                            </li>
+                                                        </ul>
+                                                        <!-- <select class="form-control form-group-md" id="nextFocusHeader2" ng-model="departamento" id="departamento" name="departamento" ng-change="getMaquinas()" ng-change="inputCharacters(2, 'h')">
+                                                            <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
+                                                            <php foreach (ModeloSalidas::ShowDepartamentos() as $value) { ?>
+                                                            <option value="<=$value['cve_depto']?>"><=$value['cve_alterna']?>-<=$value['nombre_depto']?></option>
+                                                            <php } ?>
+                                                        </select>-->
                                                     </td>
                                                     <td>
                                                         <div class="div">

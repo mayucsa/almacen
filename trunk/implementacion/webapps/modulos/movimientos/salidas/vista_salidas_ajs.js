@@ -180,10 +180,21 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		}
 		for (var i = 0; i < $scope.articulos.length; i++) {
 			// console.log('$scope.articulos[i].cve_cc '+i, $scope.articulos[i]);
-			if ($scope.articulos[i].cve_cc == undefined || $scope.articulos[i].cve_cc == '') {
+			if ($scope.articulos[i].cve_ncc == undefined || $scope.articulos[i].cve_ncc == '') {
 				Swal.fire(
 				  'Sin centro de costo seleccionado',
 				  'Es necesario seleccionar centro de costo por artículo.',
+				  'warning'
+				);
+				return;
+			}
+		}
+		for (var i = 0; i < $scope.articulos.length; i++) {
+			// console.log('$scope.articulos[i].cve_cc '+i, $scope.articulos[i]);
+			if ($scope.articulos[i].cve_area == undefined || $scope.articulos[i].cve_area == '') {
+				Swal.fire(
+				  'Sin tipo de gasto seleccionado',
+				  'Es necesario seleccionar el tipo de gasto por artículo.',
 				  'warning'
 				);
 				return;
@@ -270,8 +281,8 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 	$scope.setCcosto = function(key, w){
 		key = $scope.keySeleccionado;
 		// console.log('setCcosto', key, w);
-		$scope.articulos[key].centroCosto = $scope.arrayCcostos[w].cve_alterna+'-'+$scope.arrayCcostos[w].name;
-		$scope.articulos[key].cve_cc = $scope.arrayCcostos[w].cve_cc;
+		$scope.articulos[key].centroCosto = $scope.arrayCcostos[w].cve_alterna+'-'+$scope.arrayCcostos[w].nombre;
+		$scope.articulos[key].cve_ncc = $scope.arrayCcostos[w].cve_ncc;
 		$scope.arrayCcostos = [];
 	}
 
@@ -292,6 +303,72 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 			$('#nextFocus'+i).focus();
 		}
 	}
+
+	$scope.getTGastos = function(i){
+		// console.log('getCcostos', i);
+		// if ($scope.departamento == undefined || $scope.departamento == '') {
+		// 	Swal.fire('Sin departamento','Es necesario seleccionar un departamento','warning');
+		// 	$scope.articulos[i].centroCosto = '';
+		// 	return;
+		// }
+		$http.post('Controller.php', {
+			'task': 'getTGastos',
+			'gastos': $scope.articulos[i].gasto,
+			// 'cve_depto': $scope.departamento
+		}).then(function (response){
+			response = response.data;
+			// console.log(response);
+			$scope.keySeleccionado = i;
+			$scope.arrayTgastos = response;
+			
+		},function(error){
+			console.log('error', error);
+		});
+	}
+
+	$scope.setTgastos = function(key, w){
+		key = $scope.keySeleccionado;
+		// console.log('setCcosto', key, w);
+		$scope.articulos[key].gasto = $scope.arrayTgastos[w].cve_alterna+'-'+$scope.arrayTgastos[w].nombre_area;
+		$scope.articulos[key].cve_area = $scope.arrayTgastos[w].cve_area;
+		$scope.arrayTgastos = [];
+	}
+	$scope.validaempleado = function(concepto){
+		if (concepto == '' || concepto == undefined) {
+			return;
+		}
+		jsShowWindowLoad('Validando empleado...');
+		// console.log(concepto);
+		$http.post('Controller.php', {
+			'task': 'validaempleado',
+			'concepto': concepto,
+		}).then(function(response){
+			jsRemoveWindowLoad();
+			// response = response.data;
+			console.log('Empleados: ',response.data);
+			if (response.data.length == 0) {
+				Swal.fire('Sin información','No existe información asociada con el <b>empleado '+ concepto +'</b>. ','error');
+				$scope.concepto = '';
+			}else{
+				switch(response.data[0].estadoempleado){
+					case 'A':
+						Swal.fire('Correcto','Confirma el nombre del empleado empleado <br> <b>'+
+						 response.data[0].nombre + ' ' + 
+						 response.data[0].apellidopaterno + ' ' +
+						 response.data[0].apellidomaterno + '</b>. ','success');
+						break;
+					case 'B':
+						Swal.fire('Alerta','El código de <b>empleado '+ concepto +'</b> ha sido dado de baja, favor de no surtir material','warning');
+						$scope.concepto = '';
+						break;
+					default:
+						Swal.fire('Sin información','No existe información asociada con el <b>empleado '+ concepto +'</b>. ','error');
+						$scope.concepto = '';
+				}
+			}
+		})
+	}
+
 })
 function imprSelec(id) {
 	var div = document.getElementById(id);
