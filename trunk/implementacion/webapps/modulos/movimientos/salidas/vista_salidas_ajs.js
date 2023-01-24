@@ -1,6 +1,6 @@
 app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 	$scope.foliovale = '';
-	$scope.concepto = '';
+	$scope.empleado = '';
 	$scope.departamento = '';
 	$scope.maquinas = '';
 	$scope.horometro = '';
@@ -8,7 +8,8 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 	$scope.articulos = [];
 	$scope.auxArticulos = [];
 	$scope.arrayMaquinas = [];
-
+	$scope.codarticulo = '';
+	$scope.findArticulos = [];
 	$scope.sinacceso = function(){
     Swal.fire({
         // confirmButtonColor: '#3085d6',
@@ -146,10 +147,10 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 			);
 			return;
 		}
-		if ($scope.concepto == '' || $scope.concepto == null) {
+		if ($scope.empleado == '' || $scope.empleado == null) {
 			Swal.fire(
 			  'Campo faltante',
-			  'Es necesario ingresar un concepto',
+			  'Es necesario ingresar un empleado solicitante',
 			  'warning'
 			);
 			return;
@@ -215,7 +216,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 				$http.post('Controller.php', {
 					'task': 'guardarMovimiento',
 					'foliovale': $scope.foliovale,
-					'concepto': $scope.concepto,
+					'empleado': $scope.empleado,
 					'departamento': $scope.departamento,
 					'maquinas': $scope.maquinas,
 					'horometro': $scope.horometro,
@@ -264,6 +265,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		// 	$scope.articulos[i].centroCosto = '';
 		// 	return;
 		// }
+		$scope.seleccionado = i;
 		$http.post('Controller.php', {
 			'task': 'getCcostos',
 			'centroCosto': $scope.articulos[i].centroCosto,
@@ -311,6 +313,7 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		// 	$scope.articulos[i].centroCosto = '';
 		// 	return;
 		// }
+		$scope.seleccionado = i;
 		$http.post('Controller.php', {
 			'task': 'getTGastos',
 			'gastos': $scope.articulos[i].gasto,
@@ -333,37 +336,40 @@ app.controller('vistaSalidas', function (BASEURL, ID, $scope, $http){
 		$scope.articulos[key].cve_area = $scope.arrayTgastos[w].cve_area;
 		$scope.arrayTgastos = [];
 	}
-	$scope.validaempleado = function(concepto){
-		if (concepto == '' || concepto == undefined) {
+	$scope.validaempleado = function(empleado){
+		if (empleado == '' || empleado == undefined) {
 			return;
 		}
 		jsShowWindowLoad('Validando empleado...');
 		// console.log(concepto);
 		$http.post('Controller.php', {
 			'task': 'validaempleado',
-			'concepto': concepto,
+			'empleado': empleado,
 		}).then(function(response){
 			jsRemoveWindowLoad();
 			// response = response.data;
 			console.log('Empleados: ',response.data);
 			if (response.data.length == 0) {
-				Swal.fire('Sin información','No existe información asociada con el <b>empleado '+ concepto +'</b>. ','error');
-				$scope.concepto = '';
+				Swal.fire('Sin información','No existe información asociada con el <b>empleado '+ empleado +'</b>. ','error');
+				$scope.empleado = '';
 			}else{
 				switch(response.data[0].estadoempleado){
 					case 'A':
+						$scope.nombre_empleado = response.data[0].nombre +
+						' ' + response.data[0].apellidopaterno +
+						' ' + response.data[0].apellidomaterno
 						Swal.fire('Correcto','Confirma el nombre del empleado empleado <br> <b>'+
 						 response.data[0].nombre + ' ' + 
 						 response.data[0].apellidopaterno + ' ' +
 						 response.data[0].apellidomaterno + '</b>. ','success');
 						break;
 					case 'B':
-						Swal.fire('Alerta','El código de <b>empleado '+ concepto +'</b> ha sido dado de baja, favor de no surtir material','warning');
-						$scope.concepto = '';
+						Swal.fire('Alerta','El código de <b>empleado '+ empleado +'</b> ha sido dado de baja, favor de no surtir material','warning');
+						$scope.empleado = '';
 						break;
 					default:
-						Swal.fire('Sin información','No existe información asociada con el <b>empleado '+ concepto +'</b>. ','error');
-						$scope.concepto = '';
+						Swal.fire('Sin información','No existe información asociada con el <b>empleado '+ empleado +'</b>. ','error');
+						$scope.empleado = '';
 				}
 			}
 		})

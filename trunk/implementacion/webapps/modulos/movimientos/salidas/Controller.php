@@ -8,10 +8,10 @@ function dd($var){
         die($var);
     }
 }
-function validaempleado($dbcon, $concepto){
+function validaempleado($dbcon, $empleado){
 	$sql = "SELECT codigoempleado, nombre, apellidopaterno, apellidomaterno, puesto, departamento, estadoempleado
 			FROM cat_usuario_nomina
-			WHERE codigoempleado = ".$concepto." ";
+			WHERE codigoempleado = ".$empleado." ";
 	$detalle = $dbcon->qBuilder($dbcon->conn(), 'all', $sql);
 	dd($detalle);
 }
@@ -107,6 +107,9 @@ function guardarMovimiento($dbcon, $Datos){
 	$status = '1';
 	$fecha = date('Y-m-d H:i:s');
 	$conn = $dbcon->conn();
+	// 
+	$Datos->concepto = $Datos->empleado;
+	// 
 	$sql = " INSERT INTO movtos_salidas (tipo_mov, creado_por, folio_vale, concepto, cve_depto, cve_maq, horometro, comentario, estatus_mov, fecha_registro) VALUES ('".$tipo_mov."', ".$Datos->id.", ".$Datos->foliovale.", '".$Datos->concepto."', ".$Datos->departamento.", ".$Datos->maquinas.", ".intval($Datos->horometro).", '".$Datos->comentarios."', '".$status."', '".$fecha."' ) ";
 	$qBuilder = $dbcon->qBuilder($conn, 'do', $sql);
 
@@ -238,7 +241,7 @@ switch ($tarea){
 		devolucion($dbcon, $objDatos->datos);
 		break;
 	case 'validaempleado':
-		validaempleado($dbcon, $objDatos->concepto);
+		validaempleado($dbcon, $objDatos->empleado);
 		break;
 }
 

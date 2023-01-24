@@ -155,11 +155,11 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                 <div class="row form-group form-group-sm">
                                     <div class="col-lg-12 d-lg-flex">
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input type="text" id="nextFocusHeader0" ng-model="foliovale" class="form-control form-control-md validanumericos" maxlength="100" ng-keyup="$event.keyCode == 13 ? inputCharacters(0, 'h') : null">
+                                            <input type="text" id="nextFocusHeader0" ng-model="foliovale" class="form-control form-control-md validanumericos" maxlength="9" ng-keyup="$event.keyCode == 13 ? inputCharacters(0, 'h') : null">
                                             <label>Folio de Vale</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
-                                            <input type="text" id="nextFocusHeader1" ng-model="concepto" class="form-control form-control-md UpperCase" maxlength="100" ng-keyup="$event.keyCode == 13 ? inputCharacters(1, 'h') : null" ng-blur="validaempleado(concepto)">
+                                            <input type="text" id="nextFocusHeader1" ng-model="empleado" class="form-control form-control-md UpperCase" maxlength="100" ng-keyup="$event.keyCode == 13 ? inputCharacters(1, 'h') : null" ng-blur="validaempleado(empleado)">
                                             <label>Empleado solicitante</label>
                                         </div>
                                         <div style="width: 25%;" class="form-floating mx-1">
@@ -229,7 +229,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                         <!-- <button class= "btn btn-info btn-sm" ng-click="setModalArticulos()" title="Articulos">
                                             <i class="fas fa-eye"></i>
                                         </button> -->
-                                        <ul class="dropdown-menu" aria-labelledby="dropDownSearch" style="width: 40%; display: block" ng-show="findArticulos.length > 0">
+                                        <ul class="dropdown-menu" aria-labelledby="dropDownSearch" style="width: 40%; display: block" ng-show="findArticulos.length > 0 && codarticulo != ''">
                                             <li ng-repeat="(i, obj) in findArticulos track by i">
                                               <a class="dropdown-item" href="javascript:void(0)" ng-click="setArticulo(i)">
                                                 <span class="p-2">{{obj.cve_alterna}} - {{obj.nombre_articulo}}</span>
@@ -264,7 +264,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                                     </td>
                                                     <td style="width:auto;">
                                                         <input type="text" class="form-control" ng-model="obj.centroCosto" id="dropDownCC" role="button" data-bs-toggle="dropdown" aria-expanded="false" ng-keyup="getCcostos(key)">
-                                                        <ul class="dropdown-menu" aria-labelledby="dropDownCC" style=" position: relative; display: block" ng-show="arrayCcostos.length > 0">
+                                                        <ul class="dropdown-menu" aria-labelledby="dropDownCC" style=" position: relative; display: block" ng-show="arrayCcostos.length > 0 && seleccionado == key">
                                                             <li ng-repeat="(w, obj) in arrayCcostos track by w">
                                                               <a ng-click="setCcosto(key, w)" class="dropdown-item" href="javascript:void(0)">
                                                                 <span class="p-2">{{obj.cve_alterna}} - {{obj.nombre}}</span>
@@ -280,7 +280,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                                                     </td>
                                                     <td style="width:auto;">
                                                         <input type="text" class="form-control" ng-model="obj.gasto" id="dropDownCC" role="button" data-bs-toggle="dropdown" aria-expanded="false" ng-keyup="getTGastos(key)">
-                                                        <ul class="dropdown-menu" aria-labelledby="dropDownCC" style=" position: relative; display: block" ng-show="arrayTgastos.length > 0">
+                                                        <ul class="dropdown-menu" aria-labelledby="dropDownCC" style=" position: relative; display: block" ng-show="arrayTgastos.length > 0 && seleccionado == key">
                                                             <li ng-repeat="(w, obj) in arrayTgastos track by w">
                                                               <a ng-click="setTgastos(key, w)" class="dropdown-item" href="javascript:void(0)">
                                                                 <span class="p-2">{{obj.cve_alterna}} - {{obj.nombre_area}}</span>
@@ -398,7 +398,7 @@ foreach (unserialize($_SESSION['usuario']) as $key => $value) {
                             
                         </div>
                         <div class="col-md-12 p-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px; font-size: 10px;">
-                            {{concepto}}
+                            {{nombre_empleado}}
                         </div>
                     </div>
                 </div>
