@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
     include_once "../../../modulos/seguridad/login/datos_usuario.php";
 
     if (empty($_SESSION['usuario'])) {
@@ -278,9 +278,9 @@ session_start();
             </li>
             <!-- cierre sesión -->
             <li>
-              <a class="app-menu__item" href="../../../logout.php">
+              <a class="app-menu__item" href="">
                 <i class="app-menu__icon fas fa-sign-out-alt"></i>
-                <span class="app-menu__label">Cerrar sesi&oacute;n</span>
+                <span class="app-menu__label" ng-click="cerrarsesion()">Cerrar sesi&oacute;n</span>
               </a>
             </li>
           </ul>

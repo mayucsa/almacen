@@ -174,6 +174,37 @@ include_once "modelo_requisicion.php";
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row form-group form-group-sm">
+                                    <div class="col-lg-12 d-lg-flex">
+                                         <div style="width: 100%;" class="form-floating mx-1">
+                                            <select class="form-control form-group-md" ng-model="depto" id="selectdepto" name="selectdepto" disabled>
+                                                <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
+                                                <?php foreach (ModeloReq::showDepto() as $value) { ?>
+                                                <option value="<?=$value['cve_depto']?>"><?=$value['cve_alterna']?> - <?=$value['nombre_depto']?></option>
+                                                <?php } ?>
+                                            </select>
+                                            <label>Departamento</label>
+                                        </div>
+                                        <div style="width: 100%;" class="form-floating mx-1">
+                                            <select class="form-control form-group-md" ng-model="cc" id="selectcc" name="selectcc" disabled>
+                                                <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
+                                                <?php foreach (ModeloReq::showCC() as $value) { ?>
+                                                <option value="<?=$value['cve_ncc']?>"><?=$value['cve_alterna']?> - <?=$value['nombre']?></option>
+                                                <?php } ?>
+                                            </select>
+                                            <label>Centro de costo</label>
+                                        </div>
+                                        <div style="width: 100%;" class="form-floating mx-1">
+                                            <select class="form-control form-group-md" ng-model="tgasto" id="selecttgasto" name="selecttgasto" disabled>
+                                                <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
+                                                <?php foreach (ModeloReq::showTgasto() as $value) { ?>
+                                                <option value="<?=$value['cve_area']?>"><?=$value['cve_alterna']?> - <?=$value['abreviacion']?> - <?=$value['nombre_area']?></option>
+                                                <?php } ?>
+                                            </select>
+                                            <label>Tipo de gasto</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row form-group form-group-sm border-top">
                                     <div class="col-sm-12" align="center">
                                         <input type="submit" value="Guardar" href="#" ng-click="validacionCampos()" class="btn btn-primary" style="margin-bottom: -25px !important">

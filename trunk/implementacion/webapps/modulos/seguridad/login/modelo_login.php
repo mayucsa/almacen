@@ -35,25 +35,26 @@ class Modelo_login{
 		return $resultado;
 	}
 
-    // function consulta_usuario_persona($usuario, $contrasenia) {
-    //     try {
-    //         $dbcon = new Conexion;
-    //         $con = $dbcon->conectar();
-    //         $sql = "SELECT lower(vs.nombre) nl, lower(vs.paterno) pl, vs.* from view_usuarios vs where vs.nombre_usuario='$usuario' and vs.contrasenia='$contrasenia'";
-
-    //         $vquery = $con->prepare($sql);
-    //         $vquery->execute();
-
-    //         if ($vquery) {
-    //             return $vquery;
-    //         } else {
-    //             return false;
-    //         }
-    //     } catch (excepcion $e) {
-    //         echo $e->getMenssage();
-    //         return false;
-    //     }
-    // }
+    function consulta_vigencia_persona($usuario) {
+        $resultado = false;
+        try {
+            $dbcon = new MysqlConn;
+            $con = $dbcon->conn();
+            $sql = "SELECT  *
+                    FROM    cat_usuarios
+                    WHERE   nombre_usuario = '".$usuario."' AND estatus_usuario = 1";
+            $vig = $dbcon->qBuilder($con, 'first', $sql);
+            // dd($sql);
+            // echo ('$vig');
+            if ($vig) {
+                $resultado = true;
+            }
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+        return $resultado;
+    }
+    
     function consulta_usuario_persona($usuario, $contrasenia) {
         try {
             $dbcon = new MysqlConn;

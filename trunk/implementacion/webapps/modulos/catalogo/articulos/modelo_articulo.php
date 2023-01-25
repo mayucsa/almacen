@@ -49,7 +49,7 @@ if ( isset($_GET['accion']) && $_GET['accion'] == "insertar") {
 	$empaque 		= $_POST['empaque'];
 	$usuario 		= $_POST['usuario'];
 
-    $sql		= "INSERT INTO cat_articulos(cve_alterna, nombre_articulo, nombre_articulo_largo, cve_ctg, cve_grupo, descripcion, observaciones,  unidad_medida, precio_unitario, costo_promedio, existencia, seccion, casillero, nivel, max, min, empaque, creado_por, eliminado_por, estatus_articulo, fecha_registro, fecha_eliminado) VALUES(:codigo, :nombre, :nombrelargo, :categoria, :grupo, :descripcion, :observacion, :unidadmedida, :precio, :costo, :existencia, :seccion, :casillero, :nivel, :max, :min, :empaque, :usuario, '', 'VIG', NOW(), 0);";
+    $sql		= "INSERT INTO cat_articulos(cve_alterna, nombre_articulo, nombre_articulo_largo, cve_ctg, cve_grupo, descripcion, observaciones,  unidad_medida, costo_unitario, costo_total, existencia, seccion, casillero, nivel, max, min, empaque, creado_por, eliminado_por, estatus_articulo, fecha_registro, fecha_eliminado) VALUES(:codigo, :nombre, :nombrelargo, :categoria, :grupo, :descripcion, :observacion, :unidadmedida, :precio, :costo, :existencia, :seccion, :casillero, :nivel, :max, :min, :empaque, :usuario, '', 'VIG', NOW(), 0);";
 
    $vquery = Conexion::conectar()->prepare($sql);
 
