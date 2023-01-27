@@ -7,6 +7,10 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 	$scope.autoriza = '';
 	$scope.comentario = '';
 	$scope.modalMisRequ = false;
+	$scope.inhabilitados = false;
+	$scope.depto = '';
+	$scope.cc = '';
+	$scope.tgasto = '';
 	$scope.misRequisitos = [];
 	// 
 	$http.post('Controller.php', {
@@ -37,6 +41,17 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 	}
 	$scope.agregarProducto = function(i){
 		if ($scope.arrayAgregados.indexOf($scope.arrayProductos[i].cve_alterna) < 0) {
+			if ($scope.arrayProductos[i].cve_ctg === '7') {
+				$scope.inhabilitados = true;
+				$scope.depto = '';
+				$scope.cc = '';
+				$scope.tgasto = '';
+			}else{
+				$scope.inhabilitados = false;
+				$scope.depto = '';
+				$scope.cc = '';
+				$scope.tgasto = '';
+			}
 			$scope.productosAgregados.push({
 				'cve_alterna': $scope.arrayProductos[i].cve_alterna,
 				'nombre_articulo': $scope.arrayProductos[i].nombre_articulo,
@@ -145,7 +160,10 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 				'autoriza': $scope.autoriza,
 				'comentario': $scope.comentario,
 				'id': ID,
-				'articulos': $scope.productosAgregados
+				'articulos': $scope.productosAgregados,
+				'cve_depto': $scope.depto,
+				'cve_ncc': $scope.cc,
+				'cve_area': $scope.tgasto
 			}).then(function (response) {
 				response = response.data;
 				// console.log('response', response);
@@ -192,7 +210,7 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 			'unidad_medida': $scope.unidad_medida,
 		}).then(function (response) {
 			$scope.arrayProductos = response.data;
-			// console.log('generales...',response.data);
+			console.log('generales...',response.data);
 		}, function(error){
 			console.log('error', error);
 		});

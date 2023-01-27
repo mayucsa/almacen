@@ -70,7 +70,9 @@ function guardarRequisicion($dbcon, $Datos){
 	$fecha = date('Y-m-d H:i:s');
 	$tipo = 'N';
 	$conn = $dbcon->conn();
-	$sql = "INSERT INTO requisicion (cve_usuario, q_autoriza, comentarios, tipo, estatus_req, fecha_registro)	VALUES ( ".$Datos->id.", ".$Datos->autoriza.", '".$Datos->comentario."', '".$tipo."', '".$status."', '".$fecha."')";
+	$sql = "INSERT INTO requisicion (cve_usuario, q_autoriza, comentarios, tipo, estatus_req, fecha_registro, 
+		cve_depto, cve_ncc, cve_area)	VALUES ( ".$Datos->id.", ".$Datos->autoriza.", '".$Datos->comentario."', '".$tipo."', '".$status."', '".$fecha."', 
+		".intval($Datos->cve_depto).", ".intval($Datos->cve_ncc).", ".intval($Datos->cve_area).")";
 	$qBuilder = $dbcon->qBuilder($conn, 'do', $sql);
 	if ($qBuilder) {
 		$getId = "SELECT max(cve_req) cve_req FROM requisicion WHERE 
@@ -113,7 +115,7 @@ function getMaquinas($dbcon){
 	dd($maquinas);
 }
 function getArticulos($dbcon, $cve_alterna, $nombre_articulo, $unidad_medida){
-	$sql = "SELECT cve_alterna, nombre_articulo, cve_articulo, unidad_medida  FROM cat_articulos WHERE estatus_articulo = 'VIG' ";
+	$sql = "SELECT cve_alterna, nombre_articulo, cve_articulo, unidad_medida, cve_ctg  FROM cat_articulos WHERE estatus_articulo = 'VIG' ";
 	if ($cve_alterna != '') {
 		$sql .= " AND cve_alterna LIKE '%".$cve_alterna."%'";
 	}
