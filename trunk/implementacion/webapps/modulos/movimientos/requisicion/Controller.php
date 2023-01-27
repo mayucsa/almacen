@@ -72,7 +72,7 @@ function guardarRequisicion($dbcon, $Datos){
 	$conn = $dbcon->conn();
 	$sql = "INSERT INTO requisicion (cve_usuario, q_autoriza, comentarios, tipo, estatus_req, fecha_registro, 
 		cve_depto, cve_ncc, cve_area)	VALUES ( ".$Datos->id.", ".$Datos->autoriza.", '".$Datos->comentario."', '".$tipo."', '".$status."', '".$fecha."', 
-		".intval($Datos->cve_depto).", ".intval($Datos->cve_ncc).", ".intval($Datos->cve_area).")";
+		'".($Datos->cve_depto)."', '".($Datos->cve_ncc)."', '".($Datos->cve_area)."') ";
 	$qBuilder = $dbcon->qBuilder($conn, 'do', $sql);
 	if ($qBuilder) {
 		$getId = "SELECT max(cve_req) cve_req FROM requisicion WHERE 

@@ -114,6 +114,32 @@ app.controller('vistaRequisicion', function(BASEURL, ID, $scope, $http){
 			);
 			return;
 		}
+		if ($scope.inhabilitados == true) {
+			if ($scope.depto == '' || $scope.depto == null) {
+					Swal.fire(
+				  'Campo faltante',
+				  'Es necesario seleccionar un departamento',
+				  'warning'
+				);
+				return;
+			}
+			if ($scope.cc == '' || $scope.cc == null) {
+					Swal.fire(
+				  'Campo faltante',
+				  'Es necesario seleccionar un centro de costo',
+				  'warning'
+				);
+				return;
+			}
+			if ($scope.tgasto == '' || $scope.tgasto == null) {
+					Swal.fire(
+				  'Campo faltante',
+				  'Es necesario seleccionar el tipo de gasto',
+				  'warning'
+				);
+				return;
+			}
+		}
 		if ($scope.productosAgregados.length == 0) {
 			Swal.fire(
 			  'Sin articulos',

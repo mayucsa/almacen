@@ -180,7 +180,7 @@ include_once "modelo_requisicion.php";
                                             <select class="form-control form-group-md" ng-model="depto" id="selectdepto" name="selectdepto">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                                 <?php foreach (ModeloReq::showDepto() as $value) { ?>
-                                                <option value="<?=$value['cve_depto']?>"><?=$value['cve_alterna']?> - <?=$value['nombre_depto']?></option>
+                                                <option value="<?=$value['cve_alterna']?>"><?=$value['cve_alterna']?> - <?=$value['nombre_depto']?></option>
                                                 <?php } ?>
                                             </select>
                                             <label>Departamento</label>
@@ -189,7 +189,7 @@ include_once "modelo_requisicion.php";
                                             <select class="form-control form-group-md" ng-model="cc" id="selectcc" name="selectcc">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                                 <?php foreach (ModeloReq::showCC() as $value) { ?>
-                                                <option value="<?=$value['cve_ncc']?>"><?=$value['cve_alterna']?> - <?=$value['nombre']?></option>
+                                                <option value="<?=$value['cve_alterna']?>"><?=$value['cve_alterna']?> - <?=$value['nombre']?></option>
                                                 <?php } ?>
                                             </select>
                                             <label>Centro de costo</label>
@@ -198,7 +198,7 @@ include_once "modelo_requisicion.php";
                                             <select class="form-control form-group-md" ng-model="tgasto" id="selecttgasto" name="selecttgasto">
                                                 <option selected="selected" value="" disabled>[Seleccione una opción..]</option>
                                                 <?php foreach (ModeloReq::showTgasto() as $value) { ?>
-                                                <option value="<?=$value['cve_area']?>"><?=$value['cve_alterna']?> - <?=$value['abreviacion']?> - <?=$value['nombre_area']?></option>
+                                                <option value="<?=$value['cve_alterna']?>"><?=$value['cve_alterna']?> - <?=$value['abreviacion']?> - <?=$value['nombre_area']?></option>
                                                 <?php } ?>
                                             </select>
                                             <label>Tipo de gasto</label>
