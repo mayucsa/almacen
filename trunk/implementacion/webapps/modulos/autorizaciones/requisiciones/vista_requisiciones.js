@@ -185,6 +185,23 @@ function NoAutorizado(cve_odc) {
 
     });
 }
+function enviarCorreoAutorizacion(folio){
+    $.ajax({
+        type:"POST",
+        url:"../../movimientos/requisicion/Controller.php?task=envioCorreo&folio="+folio+"&aprobacion=ok",
+        processData:false,
+        contentType:false,
+        success:function(data){
+            consultar();
+            jsRemoveWindowLoad();
+            if (data == 200) {
+                console.log('enviarCorreoAutorizacion', 'Envío correcto.');
+            }else{
+                console.log('Error enviarCorreoAutorizacion', data);
+            }
+        }
+    })
+}
 function Autorizacion(cve_odc){
     $.getJSON("modelo_reqauto.php?consultar="+cve_odc, function(registros){
         console.log(registros);
@@ -214,6 +231,7 @@ function Autorizacion(cve_odc){
                     processData:false,
                     contentType:false,
                     success:function(data){
+                        enviarCorreoAutorizacion(registros[0]['cve_odc']);
                         consultar();
                         jsRemoveWindowLoad();
                         console.log(data);

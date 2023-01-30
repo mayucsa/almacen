@@ -1,4 +1,5 @@
 <?php
+session_start();
 date_default_timezone_set('America/Mexico_City');
 function dd($var){
     if (is_array($var) || is_object($var)) {
@@ -25,13 +26,31 @@ function getMisRequisiciones($dbcon, $cve_usuario){
 	}
 	dd($misRequisiciones);
 }
-function envioCorreo($dbcon, $folio){
+function envioCorreo($dbcon, $folio, $aprobacion = ''){
 	include_once "../../../correo/EnvioSMTP.php";
 	$envioSMTP = new EnvioSMTP;
-	$sql = "SELECT u.nombre_usuario, u.nombre, u.apellido FROM requisicion r INNER JOIN cat_usuarios u ON u.cve_usuario = r.cve_usuario WHERE cve_req = ".$folio;
-	$requisicion = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
-	$title = 'Nueva requisición';
-	$Subject = 'Nueva requisición generada';
+	if ($aprobacion == '') {
+		$sql = "SELECT u.nombre_usuario, u.nombre, u.apellido FROM requisicion r INNER JOIN cat_usuarios u ON u.cve_usuario = r.cve_usuario WHERE cve_req = ".$folio;
+		$requisicion = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
+		$title = 'Nueva requisición';
+		$Subject = 'Nueva requisición generada';
+		$cuerpo = '<h1>Se ha creado una nueva requisición.</h1>';
+		$cuerpo .= '<br><hr style="width:30%;">'; 
+		$cuerpo .= '<br><p>Requisición #'.$folio.'</p>
+			<br><p>Creado por '.$requisicion->nombre.' '.$requisicion->apellido.'</p>
+		';
+		$final = 'Generar cotizaciones';
+	}else{
+		$sql = "SELECT u.nombre_usuario, u.nombre, u.apellido FROM cat_usuarios u WHERE cve_usuario = ".$_SESSION['id'];
+		$requisicion = $dbcon->qBuilder($dbcon->conn(), 'first', $sql);
+		$title = 'Autorización';
+		$Subject = 'Requisición Autorizada';
+		$cuerpo = '<h1>AUTORIZADO</h1>';
+		$cuerpo .= '<br><hr style="width:30%;">';
+		$cuerpo .= '<br><p>El gerente  '.$requisicion->nombre.' '.$requisicion->apellido.' ha autorizado la orden de compra con folio <b>'.$folio.'</b>.</p>
+		';
+		$final = 'envio de orden de compra al proveedor';
+	}
 	$Body = '<!doctype html>';
 	$Body .= '<html lang="es" >';
 	$Body .= '<head>';
@@ -45,11 +64,8 @@ function envioCorreo($dbcon, $folio){
 	$Body .= '<br><br>';
 	$Body .= '<div class="container" style="border-radius: 15px; background-color: white; margin-top:2vH;margin-bottom:2vH; width:70%; margin-left:15%; text-align:center;">';
 	$Body .= '<center>';
-	$Body .= '<h1>Se ha creado una nueva requisición.</h1>';
-	$Body .= '<br><hr style="width:30%;">';
-	$Body .= '<br><p>Requisición #'.$folio.'</p>';
-	$Body .= '<br><p>Creado por '.$requisicion->nombre.' '.$requisicion->apellido.'</p>';
-	$Body .= '<br><p>Acceda al sistema (SAM) para Generar cotizaciones.</p>';
+	$Body .= $cuerpo;
+	$Body .= '<br><p>Acceda al sistema (SAM) para '.$final.'.</p>';
 	$Body .= '</center>';
 	$Body .= '</div>';
 	$Body .= '<br><br>';
@@ -57,7 +73,7 @@ function envioCorreo($dbcon, $folio){
 	$Body .= '</html>';
 	$claveRol2 = "SELECT correo FrOM cat_usuarios WHERE cve_rol = 2";
 	$correos = $dbcon->qBuilder($dbcon->conn(), 'all', $claveRol2);
-	// $correos = ['a.chan@mayucsa.com.mx'];
+	// $correos = ['ilopez@lcdevelopers.com.mx'];
 	$email = $envioSMTP->correo($title, $Subject, $Body, $correos);
 	if ($email) {
 		dd(['code'=>200]);
@@ -150,7 +166,11 @@ switch ($tarea) {
 		guardarRequisicion($dbcon, $objDatos);
 		break;
 	case 'envioCorreo':
-		envioCorreo($dbcon, $objDatos->folio);
+		if (isset($objDatos)) {
+			envioCorreo($dbcon, $objDatos->folio);
+		}else{
+			envioCorreo($dbcon, $_GET['folio'], $_GET['aprobacion']);
+		}
 		break;
 	case 'getMisRequisiciones':
 		getMisRequisiciones($dbcon, $objDatos->cve_usuario);
