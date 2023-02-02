@@ -68,7 +68,7 @@ include_once "../../../dbconexion/conexion.php";
 <div ng-controller="vistaMisRequisiciones">
 
     <!-- MODAL DE CONFIRMACIÓN -->
-    <div class="row" style="position: fixed; z-index: 9; background-color: white; width: 70%; margin-left: 20%;  border-radius: 15px; padding: 5vH; border: solid;" ng-show="modalMisRequ == true">
+    <div class="row" style="position: fixed; z-index: 9; background-color: white; width: 70%; margin-left: 20%;  border-radius: 5px; padding: 5vH; border: solid 2px;" ng-show="modalMisRequ == true">
         <div class="col-lg-12 col-md-12" style="max-height: 50vH; overflow-y: auto;">
             <h3>Editar requisición</h3>
             <div class="row form-group form-group-sm">
@@ -78,41 +78,48 @@ include_once "../../../dbconexion/conexion.php";
                         <label>Folio</label>
                     </div>
                     <div style="width: 50%;" class="form-floating mx-1">
-                        <input type="text" ng-model="articulo" id="inputarticulo" name="inputarticulo" class="form-control form-control-md validanumericos">
+                        <input type="text" ng-model="codarticulo" class="form-control form-control-md UpperCase" ng-change="getArticulos()" id="dropDownSearch" role="button" data-bs-toggle="dropdown" aria-expanded="false" ng-click="clickInputArticulos()">
                         <label>articulo</label>
+                        <ul class="dropdown-menu" aria-labelledby="dropDownSearch" style="display: block;" ng-show="findArticulos.length > 0 && codarticulo != ''">
+                            <li ng-repeat="(i, obj) in findArticulos track by i">
+                              <a class="dropdown-item" href="javascript:void(0)" ng-click="setArticulo(i)">
+                                <span class="p-2" style="width:80%;">{{obj.cve_alterna}} - {{obj.nombre_articulo}}</span>
+                              </a>
+                            </li>
+                        </ul>
                     </div>
                     <button class="btn btn-success btn-sm">Agregar</button>
                 </div>
             </div>
-                          <div class="row">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover w-100 shadow" id="tablamisRequisDet">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">Cve articulo</th>
-                                                <th class="text-center">Articulo</th>
-                                                <th class="text-center">Cantidad</th>
-                                                <th class="text-center">Quitar</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="(i, obj) in ssMiReqDet track by i">
-                                                <td class="text-center">{{obj.cve_alterna}}</td>
-                                                <td class="text-center">{{obj.nombre_articulo}}</td>
-                                                <td class="text-center">
-                                                    <input type="text" ng-model="obj.cantidad" class="form-control form-control-md validanumericos">
-                                                </td>
-                                                <td class="text-center">
-                                                    <span class= "btn btn-danger btn-sm" title="Quitar"><i class="fas fa-trash-alt"></i> </span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover w-100 shadow" id="tablamisRequisDet">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Cve articulo</th>
+                                <th class="text-center">Articulo</th>
+                                <th class="text-center">Cantidad</th>
+                                <th class="text-center">Quitar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="(i, obj) in ssMiReqDet track by i">
+                                <td class="text-center">{{obj.cve_alterna}}</td>
+                                <td class="text-center">{{obj.nombre_articulo}}</td>
+                                <td class="text-center">
+                                    <input type="text" ng-model="obj.cantidad" class="form-control form-control-md validanumericos" ng-keyup="obj.cantidad = setNumerico(obj.cantidad)">
+                                </td>
+                                <td class="text-center">
+                                    <span class= "btn btn-danger btn-sm" ng-click="quitar(i)" title="Quitar"><i class="fas fa-trash-alt"></i> </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-12 col-md-12 text-right">
-            <button class="btn btn-primary" ng-click="editar()">Actualizar requisición</button>
+        <div class="col-lg-12 col-md-12 text-right pt-4">
+            <button class="btn btn-primary" ng-click="actualizarRequ()" ng-show="ssMiReqDet.length > 0">Actualizar requisición</button>
             <button class="btn btn-danger" ng-click="setModalMisRequ()">Cerrar</button>
         </div>
     </div>
@@ -159,9 +166,9 @@ include_once "../../../dbconexion/conexion.php";
                                                 <td class="text-center">{{obj.comentarios}}</td>
                                                 <td class="text-center">{{obj.fecha_registro}}</td>
                                                 <td class="text-center">
-                                                        <span ng-show="obj.estatus_req >= 1" class= "btn btn-info btn-sm" ng-click= "ver(obj.cve_req)" title="Ver requisicion" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>
-                                                        <span ng-show="obj.estatus_req == 1" class= "btn btn-warning btn-sm" ng-click="setModalMisRequ(obj.cve_req)" title="Editar"><i class="fas fa-edit"></i> </span>
-                                                        <span ng-show="obj.estatus_req == 1" class= "btn btn-danger btn-sm" ng-click="cancelar(obj.cve_req)" title="Cancelar"><i class="fas fa-trash-alt"></i> </span>
+                                                    <span ng-show="obj.estatus_req >= 1" class= "btn btn-info btn-sm" ng-click= "ver(obj.cve_req)" title="Ver requisicion" data-toggle="modal" data-target="#modalVer" data-whatever="@getbootstrap"><i class="fas fa-eye"></i> </span>
+                                                    <span ng-show="obj.estatus_req == 1" class= "btn btn-warning btn-sm" ng-click="setModalMisRequ(obj.cve_req)" title="Editar"><i class="fas fa-edit"></i> </span>
+                                                    <span ng-show="obj.estatus_req == 1" class= "btn btn-danger btn-sm" ng-click="cancelar(obj.cve_req)" title="Cancelar"><i class="fas fa-trash-alt"></i> </span>
                                                 </td>
                                             </tr>
                                         </tbody>

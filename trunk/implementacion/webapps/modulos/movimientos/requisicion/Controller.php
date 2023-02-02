@@ -116,7 +116,6 @@ function guardarRequisicion($dbcon, $Datos){
 			)";
 			$qBuilder = $dbcon->qBuilder($conn, 'do', $sql);
 			if (!$qBuilder) {
-				dd($sql);
 				dd(['code'=>300, 'msj'=>'error al cargar detalle cve_articulo: '.$val->cve_articulo, 'sql'=>$sql]);
 			}
 		}

@@ -1,6 +1,6 @@
 app.controller('vistaMisRequisiciones', function(BASEURL, ID, $scope, $http) {
 	$scope.modalMisRequ = false;
-
+	$scope.codarticulo = undefined;
 	$http.post('Controller.php', {
 		'task': 'ssMisRequis',
 		'id': ID,
@@ -34,7 +34,104 @@ app.controller('vistaMisRequisiciones', function(BASEURL, ID, $scope, $http) {
 	},function(error){
 		console.log('error', error);
 	});
-
+	$scope.actualizarRequ = function(){
+		for (var i = 0; i < $scope.ssMiReqDet.length; i++) {
+			if (parseFloat($scope.ssMiReqDet[i].cantidad) <= 0) {
+				Swal.fire('Cantidad incorrecta', 'La cantidad de los artículos debe ser mayor a cero', 'warning');
+				return;
+			}
+		}
+		Swal.fire({
+			title: 'Actualizar requisición',
+			html: '¿Realmente desea actualizar la requisión con <b>folio '+ $scope.folio +'</b>?',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: 'green',
+			confirmButtonText: 'Aceptar',
+			cancelButtonColor: 'red',
+			cancelButtonText: 'Cancelar'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				jsShowWindowLoad('Actualizando...');
+				$http.post('Controller.php', {
+					'task': 'actualizar',
+					'folio': $scope.folio,
+					'articulos': $scope.ssMiReqDet
+				}).then(function (response){
+					console.log('response', response.data);
+					jsRemoveWindowLoad();
+					if (response.data.code === 200) {
+						Swal.fire({
+							title: 'Actualizado',
+							icon: 'success',
+							showCancelButton: false,
+							confirmButtonColor: 'green',
+							confirmButtonText: 'Aceptar',
+						}).then((result) => {
+							location.reload();
+						});
+					}else{
+						Swal.fire('Error', '', 'warning');
+					}
+				}, function(er){
+					console.log('error', er.data);
+					jsRemoveWindowLoad();
+				});
+			}
+		});
+	}
+	$scope.quitar = function(i){
+		$scope.ssMiReqDet.splice(i, 1);
+	}
+	$scope.setArticulo = function(w, scaneo = 0){
+		if (scaneo == 1) {
+			$scope.findArticulos = $scope.setArticulos;
+		}
+		var aux = 0;
+		for (var i = 0; i < $scope.ssMiReqDet.length; i++) {
+			if ($scope.ssMiReqDet[i].cve_alterna == $scope.findArticulos[w].cve_alterna) {
+				aux++;
+				w = i;
+			}
+		}
+		if ( aux > 0 ) {
+			$scope.ssMiReqDet[w].cantidad ++;
+		}else{
+			$scope.findArticulos[w].cantidad = 1;
+			$scope.ssMiReqDet.push( $scope.findArticulos[w] );
+		}
+		$scope.findArticulos = [];
+		$scope.codarticulo = '';
+	}
+	$scope.getArticulos = function(){
+		if ($scope.codarticulo == '' || $scope.codarticulo == undefined) {
+			$scope.findArticulos = [];
+			return;
+		}
+		$http.post('Controller.php', {
+			'task': 'getArticulos',
+			'codarticulo': $scope.codarticulo
+		}).then(function (response){
+			response = response.data;
+				console.log('response.datos', response.datos);
+			if (response.tipo == 1) {
+				$scope.setArticulos = response.datos;
+				$scope.setArticulo(0, 1);
+				return;
+			}
+			if (response.tipo == 0) {
+				Swal.fire('Sin existencia',
+					'El artículo '+response.datos+' No tiene existencias',
+					'warning'
+				);
+				return
+			}
+			$scope.findArticulos = response.datos;
+			
+		},function(error){
+			console.log('error', error);
+		});
+	}
 	$scope.setModalMisRequ = function(cve_req){
 		if ($scope.modalMisRequ == true) {
 			$scope.modalMisRequ = false;
@@ -43,15 +140,34 @@ app.controller('vistaMisRequisiciones', function(BASEURL, ID, $scope, $http) {
 			$scope.editarRequi(cve_req);
 		}
 	}
+	$scope.setNumerico = function(numero){
+		if (numero == undefined) return;
+		var aux = '';
+		for (var x = 0; x < numero.length; x++) {
+			if (!isNaN(numero[x])) {
+				aux = aux +''+numero[x];
+			}else{
+				if (numero[x] == '.') {
+					if ((numero.substring(0, x+1)).split('.').length == 2) {
+						aux = aux +''+numero[x];
+					}
+				}
+			}
+		}
+		return aux;
+	}
 	$scope.editarRequi = function(cve_req){
+		$scope.ssMiReqDet = [];
 		$http.post('Controller.php', {
 			'task': 'datosRequi',
 			'cvereq': cve_req,
 		}).then(function(response){
 			response = response.data;
 			console.log('ssMisRequis', response);
-			$scope.folio = response[0].cve_req;
-			$scope.ssMiReqDet = response;
+			if (response.length > 0) {
+				$scope.folio = response[0].cve_req;
+				$scope.ssMiReqDet = response;
+			}
 		})
 	}
 
