@@ -7,6 +7,18 @@ $(document).ready(function (index){
     });
 });
 
+function muestrapass(){
+    if (document.getElementById('p_password').type == 'text') {
+        document.getElementById('p_password').type = 'password';
+        $('#hidePass').show();
+        $('#showPass').hide();
+    }else{
+        document.getElementById('p_password').type = 'text'
+        $('#hidePass').hide();
+        $('#showPass').show();
+    }
+}
+
 function iniciarSesion() {
 	var usuario = $('#p_usuario').val();
 	var password = $('#p_password').val();
